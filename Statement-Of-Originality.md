@@ -4,8 +4,8 @@ By signing your name and UID each member of the group acknowledges that all the 
 
 ---
 
-- Group Member 1 Name:
-- Group Member 1 UID:
+- Group Member 1 Name: Zhangheng Xu
+- Group Member 1 UID: u6818456
 
 ---
 
