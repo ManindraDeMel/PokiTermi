@@ -5,6 +5,10 @@ public class Coordinate implements CoordinateInterface{
     int col;
     boolean isAccessible=false;
 
+    public boolean isAccessible() {
+        return isAccessible;
+    }
+
     public static int tableRows = 15;
     public static int tableColumns = 15;
     public Coordinate(int row,int col){
