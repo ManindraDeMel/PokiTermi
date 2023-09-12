@@ -8,7 +8,9 @@ public class Cursor extends Coordinate {
     //player in map
 
     public Cursor(int row, int col) {
+
         super(row, col);
+        setSymbol('@');
     }
 
     public void moveUp() {
@@ -34,9 +36,5 @@ public class Cursor extends Coordinate {
             setCol(getCol() + 1);
         }
     }
-    @Override
-    public void display() {
-        super.display();
-        System.out.print("@");
-    }
+
 }

@@ -1,10 +1,17 @@
-
+import Game.MapTest;
 
 public class Main {
 
-    public static void main(String[] args) {
+    static MapTest mapTest = new MapTest();
+    public static void main(String[] args)  {
 
-        MapTest.mapTest();
+
+        try{
+            MapTest.runMapTest();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
     }
 
 

@@ -1,9 +1,33 @@
 package GameObject.MapEntity.Coordinate;
+import Game.MapTest;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.terminal.Terminal;
+
+import java.io.IOException;
 
 public class Coordinate implements CoordinateInterface{
-    int row;
-    int col;
-    boolean isAccessible=false;
+    private int row;
+    private int col;
+    private boolean isAccessible=false;
+    private Character symbol='?';
+
+    private TextColor color;
+
+    public TextColor getColor() {
+        return color;
+    }
+
+    public void setColor(TextColor color) {
+        this.color = color;
+    }
+
+    public Character getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(Character symbol) {
+        this.symbol = symbol;
+    }
 
     public boolean isAccessible() {
         return isAccessible;
@@ -36,7 +60,16 @@ public class Coordinate implements CoordinateInterface{
         this.col = col;
     }
 
-    public void display(){
+    public void display() {
+        Terminal terminal = MapTest.getTerminal(); // Assuming you have a static getter for the terminal in Game.MapTest
 
+        try {
+            terminal.setCursorPosition(this.getCol(), this.getRow());
+            terminal.setForegroundColor(this.color);
+            terminal.putCharacter(this.symbol);
+            terminal.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

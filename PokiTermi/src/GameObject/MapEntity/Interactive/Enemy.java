@@ -2,6 +2,7 @@ package GameObject.MapEntity.Interactive;
 
 import GameObject.MapEntity.Coordinate.Coordinate;
 import GameObject.MapEntity.Coordinate.CoordinateInterface;
+import com.googlecode.lanterna.TextColor;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,8 @@ public class Enemy extends Coordinate {
     }
     public Enemy(int row, int col) {
         super(row, col);
+        setSymbol('@');
+        setColor(TextColor.ANSI.RED);
     }
 
 
@@ -19,7 +22,7 @@ public class Enemy extends Coordinate {
     @Override
     public void display() {
         super.display();
-        System.out.println("\u001B[31m" + "@" + "\u001B[0m");
+
     }
 
 

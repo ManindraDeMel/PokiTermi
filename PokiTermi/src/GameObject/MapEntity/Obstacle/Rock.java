@@ -1,16 +1,12 @@
 package GameObject.MapEntity.Obstacle;
 
 import GameObject.MapEntity.Coordinate.Coordinate;
+import com.googlecode.lanterna.TextColor;
 
-public class Rock extends Coordinate{
-
+public class Rock extends Coordinate {
     public Rock(int row, int col) {
         super(row, col);
-    }
-
-    @Override
-    public void display() {
-        super.display();
-        System.out.print("O");
+        setSymbol('O');
+        setColor(TextColor.ANSI.WHITE);
     }
 }
