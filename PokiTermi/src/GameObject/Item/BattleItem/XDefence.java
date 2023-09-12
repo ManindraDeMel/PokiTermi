@@ -2,10 +2,10 @@ package GameObject.Item.BattleItem;
 
 import GameObject.Item.Item;
 
-public class XDefense extends Item {
+public class XDefence extends Item {
     private int boostAmount;
 
-    public XDefense() {
+    public XDefence() {
         super();
         super.setName("X Defense");
         this.boostAmount = 1; // Boosts Defense by 1 stage

@@ -1,15 +1,19 @@
 package GameObject.Item;
 
-public abstract class  Item {
+public class  Item {
     private String name;
     private String description;
 
     public Item() {
     }
-    public abstract void use();
+    public void use(){
+
+    }
 
 
-    public abstract void display();
+    public void display(){
+
+    }
 
     public void despose(){
 
