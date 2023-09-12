@@ -39,11 +39,11 @@ public class MapTest {
                     }
                     break;
                 case "S":
-                    if(cursor.getRow()<=tableColumns-1&&tableData[cursor.getRow()+1][cursor.getCol()]==null){
+                    if(cursor.getRow()<=tableRows-1&&tableData[cursor.getRow()+1][cursor.getCol()]==null){
                         tableData[cursor.getRow()][cursor.getCol()]=null;
                         cursor.moveDown();
                         tableData[cursor.getRow()][cursor.getCol()]=cursor;
-                    }else if(cursor.getRow()<=tableColumns-1&&tableData[cursor.getRow()+1][cursor.getCol()].isAccessible()){
+                    }else if(cursor.getRow()<=tableRows-1&&tableData[cursor.getRow()+1][cursor.getCol()].isAccessible()){
                         tableData[cursor.getRow()][cursor.getCol()]=null;
                         cursor.moveDown();
                         tableData[cursor.getRow()][cursor.getCol()]=cursor;
@@ -52,22 +52,27 @@ public class MapTest {
 
 
                 case "A":
-                    if(cursor.getCol()==1||!tableData[cursor.getRow()][cursor.getCol()-1].isAccessible()){
-
-                    }else {
+                    if(cursor.getCol()>=1&&tableData[cursor.getRow()][cursor.getCol()-1]==null){
+                        tableData[cursor.getRow()][cursor.getCol()]=null;
+                        cursor.moveLeft();
+                        tableData[cursor.getRow()][cursor.getCol()]=cursor;
+                    }else if(cursor.getCol()>=1&&tableData[cursor.getRow()][cursor.getCol()-1].isAccessible()){
                         tableData[cursor.getRow()][cursor.getCol()]=null;
                         cursor.moveLeft();
                         tableData[cursor.getRow()][cursor.getCol()]=cursor;
                     }
                     break;
                 case "D":
-                    if(cursor.getCol()==tableColumns-1||!tableData[cursor.getRow()][cursor.getCol()+1].isAccessible()){
-
-                    }else {
+                    if(cursor.getCol()<=tableColumns-1&&tableData[cursor.getRow()][cursor.getCol()+1]==null){
+                        tableData[cursor.getRow()][cursor.getCol()]=null;
+                        cursor.moveRight();
+                        tableData[cursor.getRow()][cursor.getCol()]=cursor;
+                    }else if(cursor.getCol()<=tableColumns-1&&tableData[cursor.getRow()][cursor.getCol()+1].isAccessible()){
                         tableData[cursor.getRow()][cursor.getCol()]=null;
                         cursor.moveRight();
                         tableData[cursor.getRow()][cursor.getCol()]=cursor;
                     }
+
                     break;
 
                 case "Q":  // Add a way to quit the loop
