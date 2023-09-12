@@ -52,7 +52,7 @@ public class MapTest {
         while (true){
             clearScreen();
             displayMap();
-            KeyStroke keyStroke = terminal.pollInput();
+            KeyStroke keyStroke = terminal.readInput();
             if(keyStroke != null){
                 switch (keyStroke.getCharacter()) {
                     case 'W':
