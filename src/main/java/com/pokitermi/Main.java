@@ -1,3 +1,5 @@
+package com.pokitermi;
+
 import Game.MapTest;
 
 public class Main {
