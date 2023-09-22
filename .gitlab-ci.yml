@@ -1,0 +1,12 @@
+stages:
+  - build
+
+build:
+  image: docker:latest
+  tags:
+    - comp2120
+  services:
+    - docker:dind
+  script:
+    - docker build -t comp2120-assignment .
+    - docker run comp2120-assignment
