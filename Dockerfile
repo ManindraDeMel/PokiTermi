@@ -4,7 +4,7 @@ FROM maven:3.8.4-openjdk-17 AS build
 WORKDIR /app
 # Copy pom.xml and source code to the container
 COPY pom.xml .
-COPY PokiTermi/src ./src
+COPY src ./src
 # Build the project inside the container
 RUN mvn clean package
 

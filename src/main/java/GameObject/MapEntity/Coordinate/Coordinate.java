@@ -1,7 +1,8 @@
 package GameObject.MapEntity.Coordinate;
-import Game.MapTest;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.terminal.Terminal;
+
+import Game.MapTest;
 
 import java.io.IOException;
 
