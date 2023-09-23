@@ -48,7 +48,7 @@ public class Chest extends Coordinate {
         ItemType selectedItemType = (ItemType) itemList.get(randomIndex);
 
         // Create an instance of Item based on the selected ItemType
-        Item foundItem = new PokeBall(1, PokeBallType.GREATBALL); // Assuming you have a constructor in Item class that takes ItemType
+        Item foundItem = new PokeBall("GreatBall", 1, PokeBallType.GREATBALL); // Assuming you have a constructor in Item class that takes ItemType
 
         // Add information at the same position with lookAround text
         String message = "You opened the chest and found a/an " + selectedItemType.name() + "!";
