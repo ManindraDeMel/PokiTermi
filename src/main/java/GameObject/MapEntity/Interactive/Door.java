@@ -10,13 +10,18 @@ public class Door extends Coordinate {
 
     public Door(int row, int col, int destinationLevel) {
         super(row, col);
-        setAccessible(true);
-        setSymbol('@');
+
+        setSymbol('D');
         setColor(TextColor.ANSI.WHITE_BRIGHT);
         this.destinationLevel = destinationLevel;
     }
 
     public int getDestinationLevel() {
         return destinationLevel;
+    }
+    @Override
+    public void display() {
+        super.display();
+
     }
 }

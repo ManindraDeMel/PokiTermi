@@ -6,6 +6,9 @@ import GameObject.MapEntity.Interactive.Door;
 import GameObject.MapEntity.Interactive.Enemy;
 import GameObject.MapEntity.Interactive.NPC;
 import GameObject.MapEntity.Obstacle.Border;
+import GameObject.MapEntity.Obstacle.Rock;
+import GameObject.MapEntity.Obstacle.Tree;
+import GameObject.MapEntity.Obstacle.Water;
 
 import java.util.Random;
 
@@ -14,7 +17,10 @@ public class LevelMap {
     private Coordinate[][] tableData = new Coordinate[Coordinate.tableRows][Coordinate.tableColumns];
     private int chestNumber = 10;
     private int enemyNumber = 10;
-    private int NPCNumber = 10;
+    private int npcNumber = 10;
+    private int rockNumber = 30;
+    private int treeNumber = 30;
+    private int waterNumber = 30;
     private int currentLevel = 0;
     private Random random = new Random();
 
@@ -44,9 +50,22 @@ public class LevelMap {
         }
 
         // Generate NPCs
-        for (int i = 0; i < NPCNumber; i++) {
+        for (int i = 0; i < npcNumber; i++) {
             placeEntityRandomly(new NPC(random.nextInt(Coordinate.tableRows), random.nextInt(Coordinate.tableColumns)));
         }
+
+        for (int i = 0; i < rockNumber; i++) {
+            placeEntityRandomly(new Rock(random.nextInt(Coordinate.tableRows), random.nextInt(Coordinate.tableColumns)));
+        }
+
+        for (int i = 0; i < treeNumber; i++) {
+            placeEntityRandomly(new Tree(random.nextInt(Coordinate.tableRows), random.nextInt(Coordinate.tableColumns)));
+        }
+
+        for (int i = 0; i < waterNumber; i++) {
+            placeEntityRandomly(new Water(random.nextInt(Coordinate.tableRows), random.nextInt(Coordinate.tableColumns)));
+        }
+
 
         // Generate doors based on the level
         switch (level) {

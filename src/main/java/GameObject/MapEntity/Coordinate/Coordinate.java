@@ -34,8 +34,8 @@ public class Coordinate implements CoordinateInterface{
         return isAccessible;
     }
 
-    public static int tableRows = 15;
-    public static int tableColumns = 15;
+    public static int tableRows = 20;
+    public static int tableColumns = 20;
     public Coordinate(int row,int col){
         this.row=row;
         this.col=col;
