@@ -2,6 +2,7 @@ package Game;
 
 import GameObject.Item.Item;
 import GameObject.MapEntity.Coordinate.Coordinate;
+import GameObject.MapEntity.Interactive.Door;
 import GameObject.MapEntity.PlayerMapCursor;
 import GameObject.MapEntity.Interactive.Chest;
 import GameObject.MapEntity.Interactive.Enemy;
@@ -21,17 +22,20 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class MapTest {
     public static int tableRows = Coordinate.tableRows;
     public static int tableColumns = Coordinate.tableColumns;
     public static Coordinate[][] tableData = new Coordinate[tableRows][tableColumns];
 
-    public static PlayerMapCursor playerMapCursor = new PlayerMapCursor(5,5);
+    public static PlayerMapCursor playerMapCursor ;
 
     public static SwingTerminalFontConfiguration fontConfig = SwingTerminalFontConfiguration.getDefaultOfSize(20);
     public static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setTerminalEmulatorFontConfiguration(fontConfig);;
     public static Terminal terminal;
+    private static Random random = new Random();
 
     public static Player player=new Player();
 
@@ -53,12 +57,18 @@ public class MapTest {
 
     public static void runMapTest() throws IOException {
 
-        tableData = tableLoader();
+        //tableData = tableLoader();
         player.setName("Tester");
-        addPlayer();
+
 
         //lanterna
 
+        ArrayList<Coordinate[][]> levelMaps=new ArrayList<>();
+        levelMaps.add(new LevelMap(1).getMap());
+        levelMaps.add(new LevelMap(2).getMap());
+        levelMaps.add(new LevelMap(3).getMap());
+        tableData = levelMaps.get(0);
+        addPlayer();
 
 
 
@@ -121,6 +131,10 @@ public class MapTest {
 
             }
 
+
+
+
+
             // Check if the new position is accessible
             if (entity == null || entity.isAccessible()) {
                 tableData[playerMapCursor.getRow()][playerMapCursor.getCol()] = null;
@@ -135,7 +149,7 @@ public class MapTest {
     public static Coordinate[][] tableLoader(){
 
 
-        try (BufferedReader br = new BufferedReader(new FileReader("PokiTermi/src/Map.conf"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/Map.conf"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" ");
@@ -180,7 +194,12 @@ public class MapTest {
     }
 
     public static void addPlayer(){
-
+        int row, col;
+        do {
+            row = random.nextInt(Coordinate.tableRows);
+            col = random.nextInt(Coordinate.tableColumns);
+        } while (tableData[row][col] != null); // Keep looking for an empty spot
+        playerMapCursor = new PlayerMapCursor(row,col);
         tableData[playerMapCursor.getRow()][playerMapCursor.getCol()]= playerMapCursor;
     }
 
@@ -236,6 +255,8 @@ public class MapTest {
                 return "You find a Chest at " + direction + ".\n";
             } else if (coord instanceof NPC) {
                 return "You find an NPC at " + direction + ".\n";
+            } else if (coord instanceof Door) {
+                return "You find an Door to Level to "+((Door) coord).getDestinationLevel()+" at " + direction + ".\n";
             }
         }
         terminal.setForegroundColor(TextColor.ANSI.DEFAULT); // Reset color
