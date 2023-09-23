@@ -135,7 +135,7 @@ public class MapTest {
     public static Coordinate[][] tableLoader(){
 
 
-        try (BufferedReader br = new BufferedReader(new FileReader("PokiTermi/src/Map.conf"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/Map.conf"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" ");
