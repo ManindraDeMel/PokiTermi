@@ -73,4 +73,8 @@ public class Coordinate implements CoordinateInterface{
             e.printStackTrace();
         }
     }
+
+    public void setAccessible(boolean accessible) {
+        isAccessible = accessible;
+    }
 }
