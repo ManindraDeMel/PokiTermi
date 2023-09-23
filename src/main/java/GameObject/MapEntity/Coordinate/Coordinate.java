@@ -1,7 +1,8 @@
 package GameObject.MapEntity.Coordinate;
-import Game.MapTest;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.terminal.Terminal;
+
+import Game.MapTest;
 
 import java.io.IOException;
 
@@ -33,8 +34,8 @@ public class Coordinate implements CoordinateInterface{
         return isAccessible;
     }
 
-    public static int tableRows = 15;
-    public static int tableColumns = 15;
+    public static int tableRows = 20;
+    public static int tableColumns = 20;
     public Coordinate(int row,int col){
         this.row=row;
         this.col=col;
@@ -71,5 +72,9 @@ public class Coordinate implements CoordinateInterface{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setAccessible(boolean accessible) {
+        isAccessible = accessible;
     }
 }
