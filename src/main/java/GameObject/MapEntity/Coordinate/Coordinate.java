@@ -63,7 +63,9 @@ public class Coordinate implements CoordinateInterface{
 
     public void display() {
         Terminal terminal = MapTest.getTerminal(); // Assuming you have a static getter for the terminal in Game.MapTest
-
+        if (this.color == null) {
+            this.color = TextColor.ANSI.DEFAULT;
+        }
         try {
             terminal.setCursorPosition(this.getCol(), this.getRow());
             terminal.setForegroundColor(this.color);
