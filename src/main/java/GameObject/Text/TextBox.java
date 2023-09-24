@@ -89,15 +89,35 @@ public class TextBox {
         terminal.setCursorPosition(x + width - 1, y + height - 1);
         terminal.putCharacter('╝'); // Bottom-right corner
 
-        // Render the text
+        // Split the text into lines
         String[] lines = text.split("\n");
-        int maxLines = Math.min(lines.length, height - 2); // Leave space for borders
-        for (int i = 0; i < maxLines; i++) {
-            terminal.setCursorPosition(x + 1, y + i + 1);
-            terminal.putString(lines[i]);
+
+        // Render the text, handling line wrapping
+        for (int i = 0; i < Math.min(lines.length, height - 2); i++) {
+            String line = lines[i];
+            int currentX = x + 1;
+            int currentY = y + i + 1;
+            for (char c : line.toCharArray()) {
+                if (currentX < x + width - 1) {
+                    terminal.setCursorPosition(currentX, currentY);
+                    terminal.putCharacter(c);
+                    currentX++;
+                } else {
+                    // Wrap to the next line if the current line is full
+                    currentX = x + 1;
+                    currentY++;
+                    if (currentY >= y + height - 1) {
+                        // The text box is full, no more text can be displayed
+                        break;
+                    }
+                    terminal.setCursorPosition(currentX, currentY);
+                    terminal.putCharacter(c);
+                    currentX++;
+                }
+            }
         }
 
         terminal.flush();
 
-    }
+}
 }
