@@ -34,8 +34,8 @@ public class Coordinate implements CoordinateInterface{
         return isAccessible;
     }
 
-    public static int tableRows = 15;
-    public static int tableColumns = 15;
+    public static int tableRows = 20;
+    public static int tableColumns = 20;
     public Coordinate(int row,int col){
         this.row=row;
         this.col=col;
@@ -63,7 +63,9 @@ public class Coordinate implements CoordinateInterface{
 
     public void display() {
         Terminal terminal = MapTest.getTerminal(); // Assuming you have a static getter for the terminal in Game.MapTest
-
+        if (this.color == null) {
+            this.color = TextColor.ANSI.DEFAULT;
+        }
         try {
             terminal.setCursorPosition(this.getCol(), this.getRow());
             terminal.setForegroundColor(this.color);
@@ -72,5 +74,9 @@ public class Coordinate implements CoordinateInterface{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setAccessible(boolean accessible) {
+        isAccessible = accessible;
     }
 }

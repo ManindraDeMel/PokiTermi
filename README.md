@@ -17,3 +17,7 @@
 **[https://comp.anu.edu.au/courses/comp2120/assignments/assignment3/#activity3](https://comp.anu.edu.au/courses/comp2120/assignments/assignment3/#activity3)**
 
 **[https://comp.anu.edu.au/courses/comp2120/assignments/assignment3/#activity4](https://comp.anu.edu.au/courses/comp2120/assignments/assignment3/#activity4)**
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
