@@ -12,7 +12,7 @@ build:
   script:
     - docker build -t $IMAGE_NAME:latest .
   only:
-    - master
+    - main
     - CI-CD
   tags:
     - private-runner
@@ -23,7 +23,7 @@ push:
     - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
     - docker push $IMAGE_NAME:latest
   only:
-    - master
+    - main
     - CI-CD
   tags:
     - private-runner
