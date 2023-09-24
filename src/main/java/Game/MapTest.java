@@ -43,8 +43,8 @@ public class MapTest {
     // Define the position (x, y) and dimensions (width, height) of the text box
     static int textBoxX = 25;        // X-coordinate
     static int textBoxY = 1;        // Y-coordinate
-    static int textBoxWidth = 30;   // Width of the text box
-    static int textBoxHeight = 10;  // Height of the text box
+    static int textBoxWidth = 25;   // Width of the text box
+    static int textBoxHeight = 3;  // Height of the text box
 
     // Create an instance of the TextBox class within MapTest
     static TextBox textBox = new TextBox(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
@@ -80,7 +80,6 @@ public class MapTest {
         levelMaps.add(new LevelMap(3).getMap());
         tableData = levelMaps.get(0);
         addPlayer();
-
 
 
 
