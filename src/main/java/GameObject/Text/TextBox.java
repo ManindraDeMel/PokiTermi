@@ -1,5 +1,9 @@
 package GameObject.Text;
 
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
@@ -49,35 +53,51 @@ public class TextBox {
      * @author Zhangheng Xu
      */
     public void render(Terminal terminal) throws IOException {
-        // Draw the border
-        char horizontalBorderChar = '-';
-        char verticalBorderChar = '|';
-        char cornerChar = '+';
+        TextGraphics textGraphics = terminal.newTextGraphics();
 
-
-        for (int row = y; row < y + height; row++) {
-            for (int col = x; col < x + width; col++) {
-                if (row == y || row == y + height - 1) {
-                    if (col == x || col == x + width - 1) {
-                        terminal.setCursorPosition(col, row);
-                        terminal.putCharacter(cornerChar);
-                    } else {
-                        terminal.setCursorPosition(col, row);
-                        terminal.putCharacter(horizontalBorderChar);
-                    }
-                } else if (col == x || col == x + width - 1) {
-                    terminal.setCursorPosition(col, row);
-                    terminal.putCharacter(verticalBorderChar);
-                }
-            }
+        // Draw the top border
+        for (int i = x; i < x + width; i++) {
+            terminal.setCursorPosition(i, y);
+            terminal.putCharacter('═'); // Horizontal border character
         }
+
+        // Draw the bottom border
+        for (int i = x; i < x + width; i++) {
+            terminal.setCursorPosition(i, y + height - 1);
+            terminal.putCharacter('═'); // Horizontal border character
+        }
+
+        // Draw the left border
+        for (int i = y + 1; i < y + height - 1; i++) {
+            terminal.setCursorPosition(x, i);
+            terminal.putCharacter('║'); // Vertical border character
+        }
+
+        // Draw the right border
+        for (int i = y + 1; i < y + height - 1; i++) {
+            terminal.setCursorPosition(x + width - 1, i);
+            terminal.putCharacter('║'); // Vertical border character
+        }
+
+        // Draw the corners
+        terminal.setCursorPosition(x, y);
+        terminal.putCharacter('╔'); // Top-left corner
+        terminal.setCursorPosition(x + width - 1, y);
+        terminal.putCharacter('╗'); // Top-right corner
+        terminal.setCursorPosition(x, y + height - 1);
+        terminal.putCharacter('╚'); // Bottom-left corner
+        terminal.setCursorPosition(x + width - 1, y + height - 1);
+        terminal.putCharacter('╝'); // Bottom-right corner
 
         // Render the text
         String[] lines = text.split("\n");
-        for (int i = 0; i < lines.length && i < height - 2; i++) {
-            String line = lines[i];
-            terminal.setCursorPosition(x + 1, y + i + 1); // Offset by 1 to leave space for the border
-            terminal.putString(line);
+        int maxLines = Math.min(lines.length, height - 2); // Leave space for borders
+        for (int i = 0; i < maxLines; i++) {
+            terminal.setCursorPosition(x + 1, y + i + 1);
+            terminal.putString(lines[i]);
         }
+
+        terminal.flush();
+
     }
 }
