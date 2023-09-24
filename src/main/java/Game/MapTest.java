@@ -12,6 +12,7 @@ import GameObject.MapEntity.Obstacle.Rock;
 import GameObject.MapEntity.Obstacle.Tree;
 import GameObject.MapEntity.Obstacle.Water;
 import GameObject.Player.Player;
+import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -38,6 +39,16 @@ public class MapTest {
     private static Random random = new Random();
 
     public static Player player=new Player();
+
+    // Define the position (x, y) and dimensions (width, height) of the text box
+    static int textBoxX = 25;        // X-coordinate
+    static int textBoxY = 1;        // Y-coordinate
+    static int textBoxWidth = 30;   // Width of the text box
+    static int textBoxHeight = 10;  // Height of the text box
+
+    // Create an instance of the TextBox class within MapTest
+    static TextBox textBox = new TextBox(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+
 
 
     //where cursor print explaination text
@@ -79,6 +90,12 @@ public class MapTest {
             displayMap();
             showItemAround();
 
+            // Set the text for the textBox
+            String textBoxText = "Welcome to PokiTermi!";
+            textBox.setText(textBoxText);
+
+            // Render the textBox
+            textBox.render(terminal);
 
             KeyStroke keyStroke = terminal.readInput();
             if(keyStroke != null){
@@ -262,7 +279,6 @@ public class MapTest {
         terminal.setForegroundColor(TextColor.ANSI.DEFAULT); // Reset color
         return "";
     }
-
 
 
 
