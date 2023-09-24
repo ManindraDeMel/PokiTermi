@@ -49,23 +49,35 @@ public class TextBox {
      * @author Zhangheng Xu
      */
     public void render(Terminal terminal) throws IOException {
-        // Clear the text box area
+        // Draw the border
+        char horizontalBorderChar = '-';
+        char verticalBorderChar = '|';
+        char cornerChar = '+';
+
+
         for (int row = y; row < y + height; row++) {
             for (int col = x; col < x + width; col++) {
-                terminal.setCursorPosition(col, row);
-                terminal.putCharacter(' ');
+                if (row == y || row == y + height - 1) {
+                    if (col == x || col == x + width - 1) {
+                        terminal.setCursorPosition(col, row);
+                        terminal.putCharacter(cornerChar);
+                    } else {
+                        terminal.setCursorPosition(col, row);
+                        terminal.putCharacter(horizontalBorderChar);
+                    }
+                } else if (col == x || col == x + width - 1) {
+                    terminal.setCursorPosition(col, row);
+                    terminal.putCharacter(verticalBorderChar);
+                }
             }
         }
 
         // Render the text
         String[] lines = text.split("\n");
-        for (int i = 0; i < lines.length && i < height; i++) {
+        for (int i = 0; i < lines.length && i < height - 2; i++) {
             String line = lines[i];
-            terminal.setCursorPosition(x, y + i);
+            terminal.setCursorPosition(x + 1, y + i + 1); // Offset by 1 to leave space for the border
             terminal.putString(line);
         }
-
-        // Flush the terminal to display changes
-        terminal.flush();
     }
 }
