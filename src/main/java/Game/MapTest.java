@@ -40,14 +40,14 @@ public class MapTest {
 
     public static Player player=new Player();
 
-    // Define the position (x, y) and dimensions (width, height) of the text box
-    static int textBoxX = 25;        // X-coordinate
-    static int textBoxY = 1;        // Y-coordinate
-    static int textBoxWidth = 25;   // Width of the text box
-    static int textBoxHeight = 3;  // Height of the text box
+    // Define the position (x, y) and dimensions (width, height) of the title box
+    static int titleBoxX = 25;        // X-coordinate
+    static int titleBoxY = 0;        // Y-coordinate
+    static int titleBoxWidth = 25;   // Width of the text box
+    static int titleBoxHeight = 10;  // Height of the text box
 
-    // Create an instance of the TextBox class within MapTest
-    static TextBox textBox = new TextBox(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+    // Create an instance of the TextBox class
+    static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
 
 
 
@@ -90,11 +90,11 @@ public class MapTest {
             showItemAround();
 
             // Set the text for the textBox
-            String textBoxText = "Welcome to PokiTermi!";
-            textBox.setText(textBoxText);
+            String textBoxText = "PokiTermiiiiiiiiiiiiiiiiiiiaaaaaaaaiiiiiiiiiiiiiiiiiiiiii";
+            titleBox.setText(textBoxText);
 
             // Render the textBox
-            textBox.render(terminal);
+            titleBox.render(terminal);
 
             KeyStroke keyStroke = terminal.readInput();
             if(keyStroke != null){
