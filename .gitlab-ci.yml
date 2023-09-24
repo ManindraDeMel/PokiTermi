@@ -1,6 +1,11 @@
+image: docker:20.10.7
+
 stages:
   - build
   - push
+
+variables:
+  DOCKER_HOST: unix:///var/run/docker.sock
 
 build:
   stage: build
@@ -8,11 +13,17 @@ build:
     - docker build -t $IMAGE_NAME:latest .
   only:
     - master
+    - CI-CD
+  tags:
+    - private-runner
 
 push:
   stage: push
   script:
-    - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD -e $DOCKER_HUB_EMAIL
+    - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
     - docker push $IMAGE_NAME:latest
   only:
     - master
+    - CI-CD
+  tags:
+    - private-runner
