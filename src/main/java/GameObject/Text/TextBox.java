@@ -1,9 +1,5 @@
 package GameObject.Text;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
@@ -53,71 +49,23 @@ public class TextBox {
      * @author Zhangheng Xu
      */
     public void render(Terminal terminal) throws IOException {
-        TextGraphics textGraphics = terminal.newTextGraphics();
-
-        // Draw the top border
-        for (int i = x; i < x + width; i++) {
-            terminal.setCursorPosition(i, y);
-            terminal.putCharacter('═'); // Horizontal border character
-        }
-
-        // Draw the bottom border
-        for (int i = x; i < x + width; i++) {
-            terminal.setCursorPosition(i, y + height - 1);
-            terminal.putCharacter('═'); // Horizontal border character
-        }
-
-        // Draw the left border
-        for (int i = y + 1; i < y + height - 1; i++) {
-            terminal.setCursorPosition(x, i);
-            terminal.putCharacter('║'); // Vertical border character
-        }
-
-        // Draw the right border
-        for (int i = y + 1; i < y + height - 1; i++) {
-            terminal.setCursorPosition(x + width - 1, i);
-            terminal.putCharacter('║'); // Vertical border character
-        }
-
-        // Draw the corners
-        terminal.setCursorPosition(x, y);
-        terminal.putCharacter('╔'); // Top-left corner
-        terminal.setCursorPosition(x + width - 1, y);
-        terminal.putCharacter('╗'); // Top-right corner
-        terminal.setCursorPosition(x, y + height - 1);
-        terminal.putCharacter('╚'); // Bottom-left corner
-        terminal.setCursorPosition(x + width - 1, y + height - 1);
-        terminal.putCharacter('╝'); // Bottom-right corner
-
-        // Split the text into lines
-        String[] lines = text.split("\n");
-
-        // Render the text, handling line wrapping
-        for (int i = 0; i < Math.min(lines.length, height - 2); i++) {
-            String line = lines[i];
-            int currentX = x + 1;
-            int currentY = y + i + 1;
-            for (char c : line.toCharArray()) {
-                if (currentX < x + width - 1) {
-                    terminal.setCursorPosition(currentX, currentY);
-                    terminal.putCharacter(c);
-                    currentX++;
-                } else {
-                    // Wrap to the next line if the current line is full
-                    currentX = x + 1;
-                    currentY++;
-                    if (currentY >= y + height - 1) {
-                        // The text box is full, no more text can be displayed
-                        break;
-                    }
-                    terminal.setCursorPosition(currentX, currentY);
-                    terminal.putCharacter(c);
-                    currentX++;
-                }
+        // Clear the text box area
+        for (int row = y; row < y + height; row++) {
+            for (int col = x; col < x + width; col++) {
+                terminal.setCursorPosition(col, row);
+                terminal.putCharacter(' ');
             }
         }
 
-        terminal.flush();
+        // Render the text
+        String[] lines = text.split("\n");
+        for (int i = 0; i < lines.length && i < height; i++) {
+            String line = lines[i];
+            terminal.setCursorPosition(x, y + i);
+            terminal.putString(line);
+        }
 
-}
+        // Flush the terminal to display changes
+        terminal.flush();
+    }
 }
