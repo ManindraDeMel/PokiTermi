@@ -33,8 +33,8 @@ public class MapTest {
 
     public static PlayerMapCursor playerMapCursor ;
 
-    public static SwingTerminalFontConfiguration fontConfig = SwingTerminalFontConfiguration.getDefaultOfSize(20);
-    public static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setTerminalEmulatorFontConfiguration(fontConfig);;
+    public static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
+
     public static Terminal terminal;
     private static Random random = new Random();
 
