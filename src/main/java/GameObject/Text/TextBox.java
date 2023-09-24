@@ -1,8 +1,5 @@
 package GameObject.Text;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.Terminal;
 
@@ -53,7 +50,6 @@ public class TextBox {
      * @author Zhangheng Xu
      */
     public void render(Terminal terminal) throws IOException {
-        TextGraphics textGraphics = terminal.newTextGraphics();
 
         // Draw the top border
         for (int i = x; i < x + width; i++) {
