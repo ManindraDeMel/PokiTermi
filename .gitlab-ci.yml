@@ -8,6 +8,9 @@ build:
     - docker build -t $IMAGE_NAME:latest .
   only:
     - master
+    - CI-CD
+  tags:
+    - comp2120-runner
 
 push:
   stage: push
@@ -16,3 +19,6 @@ push:
     - docker push $IMAGE_NAME:latest
   only:
     - master
+    - CI-CD
+  tags:
+    - comp2120-runner
