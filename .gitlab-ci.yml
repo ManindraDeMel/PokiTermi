@@ -10,7 +10,7 @@ build:
     - master
     - CI-CD
   tags:
-    - comp2120-runner
+    - comp2120
 
 push:
   stage: push
@@ -21,4 +21,4 @@ push:
     - master
     - CI-CD
   tags:
-    - comp2120-runner
+    - comp2120
