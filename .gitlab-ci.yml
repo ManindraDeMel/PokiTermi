@@ -1,18 +1,18 @@
-image: docker:latest
-
-services:
-  - docker:dind
-
-variables:
-  DOCKER_DRIVER: overlay2
-
-before_script:
-  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+stages:
+  - build
+  - push
 
 build:
   stage: build
   script:
-    - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-  tags:
-    - comp2120
+    - docker build -t $IMAGE_NAME:latest .
+  only:
+    - master
+
+push:
+  stage: push
+  script:
+    - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD -e $DOCKER_HUB_EMAIL
+    - docker push $IMAGE_NAME:latest
+  only:
+    - master
