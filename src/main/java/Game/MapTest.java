@@ -33,21 +33,21 @@ public class MapTest {
 
     public static PlayerMapCursor playerMapCursor ;
 
-    public static SwingTerminalFontConfiguration fontConfig = SwingTerminalFontConfiguration.getDefaultOfSize(20);
-    public static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setTerminalEmulatorFontConfiguration(fontConfig);;
+    public static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
+
     public static Terminal terminal;
     private static Random random = new Random();
 
     public static Player player=new Player();
 
-    // Define the position (x, y) and dimensions (width, height) of the text box
-    static int textBoxX = 25;        // X-coordinate
-    static int textBoxY = 1;        // Y-coordinate
-    static int textBoxWidth = 30;   // Width of the text box
-    static int textBoxHeight = 10;  // Height of the text box
+    // Define the position (x, y) and dimensions (width, height) of the title box
+    static int titleBoxX = 25;        // X-coordinate
+    static int titleBoxY = 0;        // Y-coordinate
+    static int titleBoxWidth = 25;   // Width of the text box
+    static int titleBoxHeight = 10;  // Height of the text box
 
-    // Create an instance of the TextBox class within MapTest
-    static TextBox textBox = new TextBox(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+    // Create an instance of the TextBox class
+    static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
 
 
 
@@ -84,18 +84,17 @@ public class MapTest {
 
 
 
-
         while (true){
             clearScreen();
             displayMap();
             showItemAround();
 
             // Set the text for the textBox
-            String textBoxText = "Welcome to PokiTermi!";
-            textBox.setText(textBoxText);
+            String textBoxText = "PokiTermiiiiiiiiiiiiiiiiiiiaaaaaaaaiiiiiiiiiiiiiiiiiiiiii";
+            titleBox.setText(textBoxText);
 
             // Render the textBox
-            textBox.render(terminal);
+            titleBox.render(terminal);
 
             KeyStroke keyStroke = terminal.readInput();
             if(keyStroke != null){
