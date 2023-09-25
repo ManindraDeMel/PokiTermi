@@ -8,6 +8,7 @@ import com.googlecode.lanterna.TextCharacter;
 import java.io.IOException;
 
 public class BattleResultTextBox {
+
     private final int x;
     private final int y;
     private final int width;
@@ -15,6 +16,15 @@ public class BattleResultTextBox {
     private String resultText;
     private boolean isVisible = false;
 
+    /**
+     * Creates a new BattleResultTextBox.
+     *
+     * @param x      The X-coordinate of the top-left corner of the text box.
+     * @param y      The Y-coordinate of the top-left corner of the text box.
+     * @param width  The width of the text box.
+     * @param height The height of the text box.
+     * @author Zhangheng Xu
+     */
     public BattleResultTextBox(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -23,34 +33,73 @@ public class BattleResultTextBox {
         this.resultText = "";
     }
 
+    /**
+     * Sets the result text to be displayed in the text box and makes it visible.
+     *
+     * @param resultText The result text to display.
+     * @author Zhangheng Xu
+     */
     public void setResultText(String resultText) {
         this.resultText = resultText;
         isVisible = true;
     }
 
+    /**
+     * Checks if the text box is visible.
+     *
+     * @return true if the text box is visible, false otherwise.
+     * @author Zhangheng Xu
+     */
     public boolean isVisible() {
         return isVisible;
     }
 
+    /**
+     * Hides the text box.
+     */
     public void hide() {
         isVisible = false;
     }
 
+    /**
+     * Renders the battle result text box on the terminal.
+     *
+     * @param terminal The terminal on which to render the text box.
+     * @throws IOException If an I/O error occurs during rendering.
+     * @author Zhangheng Xu
+     */
     public void render(Terminal terminal) throws IOException {
         if (!isVisible) return;
 
-        // Create a TextCharacter to represent the border
-        TextCharacter borderChar = new TextCharacter('█', TextColor.ANSI.BLACK, TextColor.ANSI.WHITE, SGR.BOLD);
+        drawBorder(terminal);
+        renderResultText(terminal);
+    }
 
-        // Draw the border
+    /**
+     * Draws the border of the text box with a specified character.
+     *
+     * @param terminal The terminal on which to draw the border.
+     * @throws IOException If an I/O error occurs during drawing.
+     * @author Zhangheng Xu
+     */
+    private void drawBorder(Terminal terminal) throws IOException {
+
         for (int row = y; row < y + height; row++) {
             for (int col = x; col < x + width; col++) {
                 terminal.setCursorPosition(col, row);
-                terminal.putCharacter(borderChar.getCharacter());
+                terminal.putCharacter('█');
             }
         }
+    }
 
-        // Render the result text in the center
+    /**
+     * Renders the result text in the center of the text box.
+     *
+     * @param terminal The terminal on which to render the text.
+     * @throws IOException If an I/O error occurs during rendering.
+     * @author Zhangheng Xu
+     */
+    private void renderResultText(Terminal terminal) throws IOException {
         int textX = x + width / 2 - resultText.length() / 2;
         int textY = y + height / 2;
 
