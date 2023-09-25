@@ -18,9 +18,9 @@ public class LevelMap {
     private int chestNumber = 10;
     private int enemyNumber = 10;
     private int npcNumber = 10;
-    private int rockNumber = 30;
-    private int treeNumber = 30;
-    private int waterNumber = 30;
+    private int rockNumber = 10;
+    private int treeNumber = 10;
+    private int waterNumber = 10;
     private int currentLevel = 0;
     private Random random = new Random();
 
