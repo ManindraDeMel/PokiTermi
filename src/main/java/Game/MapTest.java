@@ -1,6 +1,11 @@
 package Game;
 
+import GameObject.Item.BattleItem.BattleItem;
+import GameObject.Item.BattleItem.BattleItemType;
 import GameObject.Item.Item;
+import GameObject.Item.PokeBall.PokeBall;
+import GameObject.Item.PokeBall.PokeBallType;
+import GameObject.Item.Potion.Potion;
 import GameObject.MapEntity.Coordinate.Coordinate;
 import GameObject.MapEntity.Interactive.Door;
 import GameObject.MapEntity.PlayerMapCursor;
@@ -12,6 +17,9 @@ import GameObject.MapEntity.Obstacle.Rock;
 import GameObject.MapEntity.Obstacle.Tree;
 import GameObject.MapEntity.Obstacle.Water;
 import GameObject.Player.Player;
+import GameObject.Pokemon.ActionResult;
+import GameObject.Pokemon.Battle;
+import GameObject.Pokemon.Pokemon;
 import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -24,7 +32,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class MapTest {
     public static int tableRows = Coordinate.tableRows;
@@ -124,6 +134,65 @@ public class MapTest {
 
     }
 
+    /**
+     * Private method to collect battle-related questions from the user and return them as a List of Strings.
+     *
+     * @author Yusen Nian
+     * @return A List containing battle-related questions:
+     *         - Element 0: Pokemon index
+     *         - Element 1: Battle item ('a' for attack, 'd' for defense, 'n' for none)
+     *         - Element 2: Pokeball ('b' for normal, 'g' for great, 'n' for none)
+     *         - Element 3: Potion ('y' for yes, 'n' for no)
+     */
+    private static List<String> battleQuestions(){
+        //An arraylist which should include 4 elements;0:pokemon index, 1:battle item, 2:pokeball, 3:potion.
+        List<String> battleQuestions = new ArrayList<>();
+
+        System.out.println("Please choose the number of your pokemon.");
+        Scanner scanner = new Scanner(System.in);
+        battleQuestions.add(scanner.nextLine());
+
+        System.out.println("Use battle items?  y/n");
+        if(scanner.nextLine().equals("y")){
+            System.out.println("Use attack/defence item?   a/d");
+            if(scanner.nextLine().equals("a")){
+                battleQuestions.add("a");
+            }else{
+                battleQuestions.add("d");
+            }
+        }else{
+            battleQuestions.add("n");
+        }
+
+        System.out.println("Use Pokeball?  y/n");
+        if(scanner.nextLine().equals("y")){
+            System.out.println("Use normal/great pokeball?   n/g");
+            if(scanner.nextLine().equals("n")){
+                battleQuestions.add("b");
+            }else{
+                battleQuestions.add("g");
+            }
+        }else{
+            battleQuestions.add("n");
+        }
+
+        System.out.println("Use Potion?  y/n");
+        if(scanner.nextLine().equals("y")){
+           battleQuestions.add("y");
+        }else{
+            battleQuestions.add("n");
+        }
+
+        return battleQuestions;
+    }
+
+    /**
+     * Private method to interact with game elements and move the player on the game map.
+     *
+     * @author Yusen Nian, Yiming Lu
+     * @param dx The change in the player's horizontal position (x-direction).
+     * @param dy The change in the player's vertical position (y-direction).
+     */
     private static void interactAndMove(int dx, int dy) {
         int newRow = playerMapCursor.getRow() + dy;
         int newCol = playerMapCursor.getCol() + dx;
@@ -147,6 +216,46 @@ public class MapTest {
 
             }
 
+            //If there's a enemy at the new position, start a battle.
+            if(entity instanceof Enemy){
+                Pokemon enemy = ((Enemy) entity).open();
+                BattleItem battleItem = null;
+                PokeBall pokeball = null;
+                Potion potion = null;
+                //Just for test,will be updated after finishing inventory.
+                Pokemon pokemon = new Pokemon(100, 50, 50);
+                List<String> questionsList = battleQuestions();
+
+                if(questionsList.get(1).equals("a")){
+                    battleItem = new BattleItem(1, BattleItemType.SPECIALATTACK);
+                    //corresponding items quantity should minus 1.
+                } else if (questionsList.get(1).equals("d")) {
+                    battleItem = new BattleItem(1, BattleItemType.SPECIALDEFENCE);
+                }
+
+                if(questionsList.get(2).equals("b")){
+                    pokeball = new PokeBall("normalball", 1, PokeBallType.NORMALBALL);
+                } else if (questionsList.get(2).equals("g")) {
+                    pokeball = new PokeBall("greatball", 1, PokeBallType.GREATBALL);
+                }
+
+                if(questionsList.get(3).equals("y")){
+                    potion = new Potion(1);
+                }
+
+                Battle battle = new Battle(pokemon, enemy, battleItem, pokeball, potion);
+                ActionResult battleResult = battle.battleResult();
+                if(battleResult.equals(ActionResult.CAPTURE)){
+                    System.out.println("You catch a new pokemon!");
+                    //add new pokemon into inventory.
+                } else if (battleResult.equals(ActionResult.VICTORY)) {
+                    System.out.println("Victory");
+                }else{
+                    System.out.println("Defeat");
+                }
+
+                tableData[newRow][newCol] = null;  // Remove the enemy from the map
+            }
 
 
 
