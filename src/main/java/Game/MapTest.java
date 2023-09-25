@@ -12,6 +12,7 @@ import GameObject.MapEntity.Obstacle.Rock;
 import GameObject.MapEntity.Obstacle.Tree;
 import GameObject.MapEntity.Obstacle.Water;
 import GameObject.Player.Player;
+import GameObject.Text.BattleResultTextBox;
 import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -52,10 +53,17 @@ public class MapTest {
     static int toolTipBoxY = 0;
     static int toolTipWidth = 30;
     static int toolTipHeight = 20;
+    static int battleBoxX = 20;
+    static int battleBoxY = 3;
+    static int battleBoxWidth = 30;
+    static int battleBoxHeight = 3;
 
     // Create instance of the TextBox class
     static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
     static TextBox toolTipBox = new TextBox(toolTipBoxX,toolTipBoxY,toolTipWidth,toolTipHeight);
+
+    // Create an instance of the BattleResultTextBox
+    static BattleResultTextBox battleResultTextBox = new BattleResultTextBox(battleBoxX, battleBoxY, battleBoxWidth, battleBoxHeight);
 
     // Set the text for the textBox
     static String titleBoxText = "****Welcome to PokiTermi****";
@@ -111,6 +119,22 @@ public class MapTest {
             clearScreen();
             displayMap();
             showItemAround();
+
+// the trigger of battle result need to be updated
+//-----------------------------------------------------------------------------------------------------------//
+            if (true) {
+                battleResultTextBox.setResultText("You win the last battle!");
+            } else {
+                battleResultTextBox.setResultText("You lost the last battle!");
+            }
+
+            try {
+                battleResultTextBox.render(terminal);
+                terminal.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//----------------------------------------------------------------------------------------------------------//
 
 
             // set the text box
