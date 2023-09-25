@@ -1,3 +1,8 @@
+/**
+ * Used for battle between the player and enemy.
+ *
+ * @author Yusen Nian
+ */
 package GameObject.Pokemon;
 
 import GameObject.Item.BattleItem.BattleItem;
@@ -139,10 +144,9 @@ public class Battle {
     /**
      * Executes a battle and returns the result.
      *
-     * @param battle  The battle object.
      * @return        The battle result, which can be Victory, Defeat, or Capture.
      */
-    public ActionResult battleResult(Battle battle){
+    public ActionResult battleResult(){
         if(pokeBall != null && pokeBall.getType() == PokeBallType.GREATBALL){
             return ActionResult.CAPTURE;//if greatball, 100% catched.
         }
@@ -155,7 +159,7 @@ public class Battle {
         if(battleItem != null){
             applyBattleItem(pokemon, battleItem);
         }
-        if(battle.potion != null){
+        if(potion != null){
             applyPotion(pokemon, potion);
         }
 
