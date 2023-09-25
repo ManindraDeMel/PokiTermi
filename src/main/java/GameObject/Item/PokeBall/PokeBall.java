@@ -7,8 +7,9 @@ package GameObject.Item.PokeBall;
 
 
 import GameObject.Item.Item;
+import GameObject.Player.Inventory.InventoryItem;
 
-public class PokeBall extends Item {
+public class PokeBall extends Item implements InventoryItem {
     private int quantity;
     private PokeBallType type;
 
@@ -17,10 +18,6 @@ public class PokeBall extends Item {
         super.setName(name);
         this.quantity = quantity;
         this.type = type;
-    }
-
-    public int getQuantity() {
-        return quantity;
     }
 
     public void setQuantity(int quantity) {
@@ -33,5 +30,20 @@ public class PokeBall extends Item {
 
     public void setType(PokeBallType type) {
         this.type = type;
+    }
+
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public int getQuantity() {
+        return this.quantity;
     }
 }

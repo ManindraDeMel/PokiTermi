@@ -6,8 +6,9 @@
 package GameObject.Item.Potion;
 
 import GameObject.Item.Item;
+import GameObject.Player.Inventory.InventoryItem;
 
-public class Potion extends Item {
+public class Potion extends Item implements InventoryItem {
     private int healAmount;
     private int quantity;
 
@@ -33,11 +34,23 @@ public class Potion extends Item {
         this.healAmount = healAmount;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public int getQuantity() {
+        return this.quantity;
     }
 }

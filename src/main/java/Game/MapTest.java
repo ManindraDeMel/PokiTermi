@@ -74,8 +74,7 @@ public class MapTest {
             "go to next level by white'D'";
 
 
-
-    //where cursor print explaination text
+    // where cursor print explaination text
 
     static {
         try {
@@ -103,8 +102,6 @@ public class MapTest {
         levelMaps.add(new LevelMap(3).getMap());
         tableData = levelMaps.get(0);
         addPlayer();
-
-
 
 
         while (true){
