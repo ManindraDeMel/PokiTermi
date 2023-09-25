@@ -40,6 +40,9 @@ public class MapTest {
 
     public static Player player=new Player();
 
+    public static int currentLevel=1;
+    public static int previousLevel=1;
+    public static ArrayList<Coordinate[][]> levelMaps=new ArrayList<>();
     // Define the position (x, y) and dimensions (width, height) of the title box
     static int titleBoxX = 20;        // X-coordinate
     static int titleBoxY = 0;        // Y-coordinate
@@ -73,8 +76,7 @@ public class MapTest {
 
 
     //where cursor print explaination text
-    public static int textPositionRow = tableRows+1;
-    public static int textPositionCol = 1;
+
     static {
         try {
             terminal = terminalFactory.createTerminal();
@@ -95,7 +97,7 @@ public class MapTest {
 
         //lanterna
 
-        ArrayList<Coordinate[][]> levelMaps=new ArrayList<>();
+
         levelMaps.add(new LevelMap(1).getMap());
         levelMaps.add(new LevelMap(2).getMap());
         levelMaps.add(new LevelMap(3).getMap());
@@ -146,7 +148,7 @@ public class MapTest {
 
     }
 
-    private static void interactAndMove(int dx, int dy) {
+    private static void interactAndMove(int dx, int dy) throws IOException {
         int newRow = playerMapCursor.getRow() + dy;
         int newCol = playerMapCursor.getCol() + dx;
 
@@ -170,7 +172,17 @@ public class MapTest {
             }
 
 
+            if(entity instanceof Door ){
 
+                int tempCol=playerMapCursor.getCol();
+                int tempRow=playerMapCursor.getRow();
+                tableData[tempRow][tempCol]=null;
+                previousLevel = currentLevel;
+                currentLevel=((Door) entity).getDestinationLevel();
+                tableData = levelMaps.get(currentLevel-1);
+                putPlayer();
+
+            }
 
 
             // Check if the new position is accessible
@@ -240,6 +252,37 @@ public class MapTest {
         playerMapCursor = new PlayerMapCursor(row,col);
         tableData[playerMapCursor.getRow()][playerMapCursor.getCol()]= playerMapCursor;
     }
+
+    public static void putPlayer() throws IOException {
+        //find the door
+        for (int i = 0; i < tableRows; i++) {
+            for (int j = 0; j < tableColumns; j++) {
+                if (tableData[i][j] !=null&&tableData[i][j] instanceof Door&& ((Door) tableData[i][j]).getDestinationLevel()==previousLevel){
+                    if(tableData[i-1][j]==null){
+                        playerMapCursor = new PlayerMapCursor(i-1,j);
+                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i-1][j].display();
+                    }else if(tableData[i+1][j]==null){
+                        playerMapCursor = new PlayerMapCursor(i+1,j);
+                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i+1][j].display();
+                    }else if(tableData[i][j-1]==null){
+                        playerMapCursor = new PlayerMapCursor(i,j-1);
+                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i][j-1].display();
+                    }else {
+                        playerMapCursor = new PlayerMapCursor(i,j+1);
+                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i][j+1].display();
+                    }
+                }
+            }
+        }
+        terminal.flush();
+    }
+
+
+
 
     public static void clearScreen() throws IOException {
         terminal.clearScreen();
