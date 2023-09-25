@@ -144,6 +144,7 @@ public class MapTest {
                 currentLevel=((Door) entity).getDestinationLevel();
                 tableData = levelMaps.get(currentLevel-1);
                 putPlayer();
+
             }
 
 
@@ -222,12 +223,20 @@ public class MapTest {
                 if (tableData[i][j] !=null&&tableData[i][j] instanceof Door&& ((Door) tableData[i][j]).getDestinationLevel()==previousLevel){
                     if(tableData[i-1][j]==null){
                         playerMapCursor = new PlayerMapCursor(i-1,j);
+                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i-1][j].display();
                     }else if(tableData[i+1][j]==null){
                         playerMapCursor = new PlayerMapCursor(i+1,j);
+                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i+1][j].display();
                     }else if(tableData[i][j-1]==null){
                         playerMapCursor = new PlayerMapCursor(i,j-1);
+                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i][j-1].display();
                     }else {
                         playerMapCursor = new PlayerMapCursor(i,j+1);
+                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i][j+1].display();
                     }
                 }
             }
