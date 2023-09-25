@@ -12,6 +12,7 @@ import GameObject.MapEntity.Obstacle.Rock;
 import GameObject.MapEntity.Obstacle.Tree;
 import GameObject.MapEntity.Obstacle.Water;
 import GameObject.Player.Player;
+import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -32,8 +33,8 @@ public class MapTest {
 
     public static PlayerMapCursor playerMapCursor ;
 
-    public static SwingTerminalFontConfiguration fontConfig = SwingTerminalFontConfiguration.getDefaultOfSize(20);
-    public static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setTerminalEmulatorFontConfiguration(fontConfig);;
+    public static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
+
     public static Terminal terminal;
     private static Random random = new Random();
 
@@ -42,6 +43,36 @@ public class MapTest {
     public static int currentLevel=1;
     public static int previousLevel=1;
     public static ArrayList<Coordinate[][]> levelMaps=new ArrayList<>();
+    // Define the position (x, y) and dimensions (width, height) of the title box
+    static int titleBoxX = 20;        // X-coordinate
+    static int titleBoxY = 0;        // Y-coordinate
+    static int titleBoxWidth = 30;   // Width of the title text box
+    static int titleBoxHeight = 3;  // Height of the title text box
+    static int toolTipBoxX = 50;
+    static int toolTipBoxY = 0;
+    static int toolTipWidth = 30;
+    static int toolTipHeight = 20;
+
+    // Create instance of the TextBox class
+    static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
+    static TextBox toolTipBox = new TextBox(toolTipBoxX,toolTipBoxY,toolTipWidth,toolTipHeight);
+
+    // Set the text for the textBox
+    static String titleBoxText = "****Welcome to PokiTermi****";
+    static String toolTipBoxText = "Ohayo,Professor Oak. You got drunk last night and forgot how to move. Don't worry,  here are some tips to move  around.                     " +
+            "go north by click 'w'       " +
+            "go south by click 's'       " +
+            "go west by click 'a'        " +
+            "go east by click 'd'        " +
+            "----------------------------" +
+            "In PokiTermi world, you are " +
+            "pink '@', you can find white" +
+            " 'O' as rock,green 'F' as   tree, cyan '~' as   water.  " +
+            "u can talk with npc blue '@'" +
+            "fight with enemy red '@'    " +
+            "get item from chest yellow'?" +
+            "go to next level by white'D'";
+
 
 
     //where cursor print explaination text
@@ -76,12 +107,18 @@ public class MapTest {
 
 
 
-
         while (true){
             clearScreen();
             displayMap();
             showItemAround();
 
+
+            // set the text box
+            titleBox.setText(titleBoxText);
+            toolTipBox.setText(toolTipBoxText);
+            // Render the textBox
+            titleBox.render(terminal);
+            toolTipBox.render(terminal);
 
             KeyStroke keyStroke = terminal.readInput();
             if(keyStroke != null){
@@ -306,7 +343,6 @@ public class MapTest {
         terminal.setForegroundColor(TextColor.ANSI.DEFAULT); // Reset color
         return "";
     }
-
 
 
 

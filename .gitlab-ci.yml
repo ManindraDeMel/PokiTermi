@@ -1,12 +1,29 @@
+image: docker:20.10.7
+
 stages:
   - build
+  - push
+
+variables:
+  DOCKER_HOST: unix:///var/run/docker.sock
 
 build:
-  image: docker:latest
-  tags:
-    - comp2120
-  services:
-    - docker:dind
+  stage: build
   script:
-    - docker build -t comp2120-assignment .
-    - docker run comp2120-assignment
+    - docker build -t $IMAGE_NAME:latest .
+  only:
+    - main
+    - CI-CD
+  tags:
+    - private-runner
+
+push:
+  stage: push
+  script:
+    - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+    - docker push $IMAGE_NAME:latest
+  only:
+    - main
+    - CI-CD
+  tags:
+    - private-runner
