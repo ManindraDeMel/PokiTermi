@@ -264,15 +264,15 @@ public class MapTest {
                         tableData[i-1][j].display();
                     }else if(tableData[i+1][j]==null){
                         playerMapCursor = new PlayerMapCursor(i+1,j);
-                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i+1][j]=playerMapCursor;
                         tableData[i+1][j].display();
                     }else if(tableData[i][j-1]==null){
                         playerMapCursor = new PlayerMapCursor(i,j-1);
-                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i][j-1]=playerMapCursor;
                         tableData[i][j-1].display();
                     }else {
                         playerMapCursor = new PlayerMapCursor(i,j+1);
-                        tableData[i-1][j]=playerMapCursor;
+                        tableData[i][j+1]=playerMapCursor;
                         tableData[i][j+1].display();
                     }
                 }
