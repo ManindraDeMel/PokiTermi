@@ -118,7 +118,7 @@ public class MapTest {
             toolTipBox.render(terminal);
 
             KeyStroke keyStroke = terminal.readInput();
-            if(keyStroke != null){
+            if(keyStroke.getCharacter() != null){
                 switch (keyStroke.getCharacter()) {
                     case 'W':
                     case 'w':
