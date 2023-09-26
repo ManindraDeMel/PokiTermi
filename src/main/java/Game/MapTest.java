@@ -101,6 +101,8 @@ public class MapTest {
         levelMaps.add(new LevelMap(2).getMap());
         levelMaps.add(new LevelMap(3).getMap());
         tableData = levelMaps.get(0);
+
+
         addPlayer();
 
 
@@ -109,13 +111,14 @@ public class MapTest {
             displayMap();
             showItemAround();
 
-
             // set the text box
             titleBox.setText(titleBoxText);
             toolTipBox.setText(toolTipBoxText);
             // Render the textBox
             titleBox.render(terminal);
             toolTipBox.render(terminal);
+
+
 
             KeyStroke keyStroke = terminal.readInput();
             if(keyStroke.getCharacter() != null){
