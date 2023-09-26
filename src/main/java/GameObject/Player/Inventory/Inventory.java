@@ -1,6 +1,8 @@
 package GameObject.Player.Inventory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import GameObject.Pokemon.Pokemon;
 
@@ -10,14 +12,14 @@ import GameObject.Pokemon.Pokemon;
  * @author Manindra de Mel
  */
 public class Inventory {
-    private Map<Pokemon, Integer> pokemons;
+    private List<Pokemon> pokemons;
     private Map<InventoryItem, Integer> items;
 
     /**
      * Constructor initializes the inventory.
      */
     public Inventory() {
-        pokemons = new HashMap<>();
+        pokemons = new ArrayList<>();
         items = new HashMap<>();
     }
 
@@ -25,11 +27,9 @@ public class Inventory {
      * Add a Pokémon to the inventory.
      *
      * @param pokemon the Pokémon object.
-     * @param quantity the quantity of the Pokémon.
      */
-    public void addPokemon(Pokemon pokemon, int quantity) {
-        int currentQuantity = pokemons.getOrDefault(pokemon, 0);
-        pokemons.put(pokemon, currentQuantity + quantity);
+    public void addPokemon(Pokemon pokemon) {
+        pokemons.add(pokemon);
     }
 
     /**
@@ -43,30 +43,24 @@ public class Inventory {
     }
 
     /**
-     * Remove a specific quantity of Pokémon from the inventory.
+     * Remove a Pokémon by index.
      *
-     * @param pokemon the Pokémon object.
-     * @param quantity the quantity to remove.
+     * @param index the index of the Pokémon to remove.
      */
-    public void removePokemon(Pokemon pokemon, int quantity) {
-        if (pokemons.containsKey(pokemon)) {
-            int currentQuantity = pokemons.get(pokemon);
-            int newQuantity = Math.max(0, currentQuantity - quantity);
-            if (newQuantity == 0) {
-                pokemons.remove(pokemon);
-            } else {
-                pokemons.put(pokemon, newQuantity);
-            }
+    public void removePokemon(int index) {
+        if (index >= 0 && index < pokemons.size()) {
+            pokemons.remove(index);
         }
     }
 
     /**
-     * Use an inventory item, decrementing its quantity.
+     * Use an inventory item, decrementing its quantity. Returns false if item not available.
      *
      * @param item the InventoryItem to use.
+     * @return true if item used successfully, false otherwise.
      */
-    public void useInventoryItem(InventoryItem item) {
-        if (items.containsKey(item)) {
+    public boolean useInventoryItem(InventoryItem item) {
+        if (items.containsKey(item) && items.get(item) > 0) {
             int currentQuantity = items.get(item);
             int newQuantity = Math.max(0, currentQuantity - 1);
             if (newQuantity == 0) {
@@ -74,7 +68,18 @@ public class Inventory {
             } else {
                 items.put(item, newQuantity);
             }
+            return true;
         }
+        return false;
+    }
+    /**
+     * Get the quantity of a specific inventory item.
+     *
+     * @param item the InventoryItem to check.
+     * @return the quantity of the item, or 0 if the item is not in the inventory.
+     */
+    public int getQuantity(InventoryItem item) {
+        return items.getOrDefault(item, 0);
     }
 
     /**
@@ -87,8 +92,8 @@ public class Inventory {
         StringBuilder sb = new StringBuilder();
 
         sb.append("Pokemons: \n");
-        for (Map.Entry<Pokemon, Integer> entry : pokemons.entrySet()) {
-            sb.append(entry.getKey().getClass().getSimpleName()).append(": ").append(entry.getValue()).append("\n");
+        for (int i = 0; i < pokemons.size(); i++) {
+            sb.append(i + 1).append(". ").append(pokemons.get(i).getClass().getSimpleName()).append("\n");
         }
 
         sb.append("\nItems: \n");
