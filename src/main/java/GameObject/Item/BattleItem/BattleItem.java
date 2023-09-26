@@ -6,8 +6,9 @@
 package GameObject.Item.BattleItem;
 
 import GameObject.Item.Item;
+import GameObject.Player.Inventory.InventoryItem;
 
-public class BattleItem extends Item {
+public class BattleItem extends Item implements InventoryItem {
     private int boostAmount;
     private int quantity;
     private BattleItemType type;
@@ -36,10 +37,6 @@ public class BattleItem extends Item {
         this.boostAmount = boostAmount;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
@@ -50,5 +47,21 @@ public class BattleItem extends Item {
 
     public void setType(BattleItemType type) {
         this.type = type;
+    }
+
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public int getQuantity() {
+        return this.quantity;
     }
 }
