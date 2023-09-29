@@ -3,6 +3,8 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .idea/
+!**/src/main/java/comp2120-assignment-3-workshop-xx-group-x
+
 
 ### Eclipse ###
 .apt_generated

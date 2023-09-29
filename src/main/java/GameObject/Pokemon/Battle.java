@@ -87,7 +87,7 @@ public class Battle {
      * @param battleItem  The battle item to be used.
      */
     private void applyBattleItem(Pokemon pokemon, BattleItem battleItem){
-        if(battleItem.getType() == BattleItemType.SPECIALATTACK){
+        if(battleItem.getType() == BattleItemType.XSpecialAttack){
             pokemon.setAttackValue(pokemon.getAttackValue() + battleItem.getBoostAmount());
         }else{
             pokemon.setDefenseValue(pokemon.getDefenseValue() + battleItem.getBoostAmount());
