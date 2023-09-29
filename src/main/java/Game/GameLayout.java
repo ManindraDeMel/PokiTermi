@@ -123,20 +123,14 @@ public class GameLayout {
 
     public static void displayInventory() throws IOException {
         // Compute the position for the inventory box
-        int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth() + 2; // +2 for a small margin
+        int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth();
         int inventoryBoxY = toolTipBox.getY();
 
          // Initialize the inventory box
         TextBox inventoryBox = new TextBox(inventoryBoxX, inventoryBoxY, inventoryWidth, inventoryHeight);
         inventoryBox.setText("Inventory\n\n\n" + GameLogic.getPlayer().getInventory().toString());
-        System.out.println(GameLogic.getPlayer().getInventory().toString());
         inventoryBox.render(terminal);
-        terminal.flush();
     }
-
-
-
-
     /**
      * Describes the environment around the player and displays it on the terminal.
      *
