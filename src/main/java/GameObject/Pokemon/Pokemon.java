@@ -9,7 +9,7 @@ import java.util.List;
 public class Pokemon {
     private PokemonData data;
 
-    public static final String POKEMON_DATA_FILE_PATH = "src/main/java/GameObject/Pokemon/data/pokemon.json";
+    public static final String POKEMON_DATA_FILE_PATH = "/GameObject/Pokemon/data/pokemon.json";
 
     public Pokemon(PokemonData data) {
         this.data = data;
