@@ -5,6 +5,10 @@
  */
 package GameObject.Item.BattleItem;
 
+/**
+ * @author Manindra de Mel
+ * @author Yusen Nian
+ */
 public enum BattleItemType {
     XAttack, XDefense, XSpecialAttack, XSpecialDefence, XSpeed
 }

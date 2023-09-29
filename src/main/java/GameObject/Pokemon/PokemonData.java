@@ -2,7 +2,12 @@ package GameObject.Pokemon;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-
+/**
+ * Represents the detailed data attributes of a Pokemon.
+ * Includes properties such as ID, name, type, stats, and abilities.
+ *
+ * @author Manindra de Mel
+ */
 public class PokemonData {
     @JsonProperty("id")
     private int id;
@@ -22,7 +27,15 @@ public class PokemonData {
     // Default constructor
     public PokemonData() {}
 
-    // Parametrized constructor
+    /**
+     * Parametrized constructor
+     *
+     * @param id ID of the Pokemon.
+     * @param name Name of the Pokemon.
+     * @param type List of types of the Pokemon.
+     * @param stats Stats associated with the Pokemon.
+     * @param abilities List of abilities of the Pokemon.
+     */
     public PokemonData(int id, String name, List<String> type, Stats stats, List<String> abilities) {
         this.id = id;
         this.name = name;
@@ -46,7 +59,12 @@ public class PokemonData {
     public List<String> getAbilities() { return abilities; }
     public void setAbilities(List<String> abilities) { this.abilities = abilities; }
 }
-
+/**
+ * Represents the stats attributes of a Pokemon.
+ * Includes properties such as attack, defense, and health values.
+ *
+ * @author Manindra de Mel
+ */
 class Stats {
     @JsonProperty("atk")
     private int attack;
@@ -62,7 +80,13 @@ class Stats {
     // Default constructor
     public Stats() {}
 
-    // Parametrized constructor
+    /**
+     * Parametrized constructor
+     *
+     * @param attack Attack value of the Pokemon.
+     * @param defense Defense value of the Pokemon.
+     * @param health Health value of the Pokemon.
+     */
     public Stats(int attack, int defense, int health) {
         this.attack = attack;
         this.defense = defense;
@@ -82,6 +106,12 @@ class Stats {
     public TypeEffectiveness getTypeEffectiveness() { return typeEffectiveness; }
     public void setTypeEffectiveness(TypeEffectiveness typeEffectiveness) { this.typeEffectiveness = typeEffectiveness; }
 }
+/**
+ * Represents the type effectiveness attributes of a Pokemon.
+ * Indicates which types a Pokemon is super effective against, not very effective against, or has no effect on.
+ *
+ * @author Manindra de Mel
+ */
 class TypeEffectiveness {
     @JsonProperty("super_effective")
     private List<String> superEffective;
@@ -95,7 +125,13 @@ class TypeEffectiveness {
     // Default constructor
     public TypeEffectiveness() {}
 
-    // Parametrized constructor
+    /**
+     * Parametrized constructor
+     *
+     * @param superEffective List of types the Pokemon is super effective against.
+     * @param notVeryEffective List of types the Pokemon is not very effective against.
+     * @param noEffect List of types the Pokemon has no effect on.
+     */
     public TypeEffectiveness(List<String> superEffective, List<String> notVeryEffective, List<String> noEffect) {
         this.superEffective = superEffective;
         this.notVeryEffective = notVeryEffective;
