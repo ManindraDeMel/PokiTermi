@@ -77,7 +77,7 @@ public class GameLogic {
             GameLayout.describeEnvironment();
 
             GameLayout.updateTitleBox();
-            GameLayout.updateToolTipBox();
+//            GameLayout.updateToolTipBox();
             GameLayout.displayInventory();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);

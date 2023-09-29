@@ -133,10 +133,6 @@ public class GameLayout {
         inventoryBox.render(terminal);
         terminal.flush();
     }
-
-
-
-
     /**
      * Describes the environment around the player and displays it on the terminal.
      *
