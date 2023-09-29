@@ -21,6 +21,18 @@ public class Inventory {
     public Inventory() {
         pokemons = new ArrayList<>();
         items = new HashMap<>();
+        initializeWithRandomPokemons(3);
+    }
+    /**
+     * Initializes the inventory with a set number of random Pokémon.
+     *
+     * @param count Number of random Pokémon to add to the inventory.
+     */
+    public void initializeWithRandomPokemons(int count) {
+        List<Pokemon> randomPokemons = Pokemon.getRandomPokemons(count);
+        for (Pokemon pokemon : randomPokemons) {
+            addPokemon(pokemon);
+        }
     }
 
     /**
@@ -52,7 +64,6 @@ public class Inventory {
         }
         items.put(item, item.getQuantity());
     }
-
 
     /**
      * Remove a Pokémon by index.
