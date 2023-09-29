@@ -123,7 +123,7 @@ public class GameLayout {
 
     public static void displayInventory() throws IOException {
         // Compute the position for the inventory box
-        int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth() + 10; // +2 for a small margin
+        int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth();
         int inventoryBoxY = toolTipBox.getY();
 
          // Initialize the inventory box
