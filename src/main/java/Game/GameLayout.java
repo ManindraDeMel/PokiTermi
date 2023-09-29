@@ -7,7 +7,13 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
-
+/**
+ * GameLayout manages the visual representation of the game, controlling the display of the game map, title, and tooltips.
+ *
+ * @author Zhangheng Xu
+ * @author Manindra de Mel
+ * @author Yiming Lu
+ */
 public class GameLayout {
 
     private static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
@@ -28,6 +34,9 @@ public class GameLayout {
 
     // Set the text for the textBox
     static String titleBoxText = "****Welcome to PokiTermi****";
+    /**
+     * @author Zhangheng Xu
+     */
     static String toolTipBoxText = "Ohayo,Professor Oak. You got drunk last night and forgot how to move. Don't worry,  here are some tips to move  around.                     " +
             "go north by click 'w'       " +
             "go south by click 's'       " +
@@ -50,11 +59,22 @@ public class GameLayout {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Returns the terminal used for displaying game elements.
+     *
+     * @return The game terminal.
+     * @author Yiming Lu
+     */
     public static Terminal getTerminal() {
         return terminal;
     }
-
+    /**
+     * Renders the game map on the terminal.
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Yiming Lu
+     * @author Manindra de Mel
+     */
     public static void displayMap() throws IOException {
         for (int row = 0; row < GameLogic.tableRows; row++) {
             for (int col = 0; col < GameLogic.tableColumns; col++) {
@@ -70,21 +90,41 @@ public class GameLayout {
             }
         }
     }
-
+    /**
+     * Updates the title box and renders it on the terminal.
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Manindra de Mel
+     */
     public static void updateTitleBox() throws IOException {
         titleBox.setText(titleBoxText);
         titleBox.render(terminal);
     }
-
+    /**
+     * Updates the tooltip box and renders it on the terminal.
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Manindra de Mel
+     */
     public static void updateToolTipBox() throws IOException {
         toolTipBox.setText(toolTipBoxText);
         toolTipBox.render(terminal);
     }
-
+    /**
+     * Clears the terminal screen.
+     *
+     * @throws IOException if there's an error clearing the screen.
+     * @author Manindra de Mel
+     */
     public static void clearScreen() throws IOException {
         terminal.clearScreen();
     }
-
+    /**
+     * Describes the environment around the player and displays it on the terminal.
+     *
+     * @throws IOException if there's an error during display.
+     * @author Yiming Lu
+     */
     public static void describeEnvironment() throws IOException {
         String explanation = GameLogic.describeEnvironment();
         // Here, you'll need to update the terminal or any GUI element
