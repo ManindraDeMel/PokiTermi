@@ -8,13 +8,13 @@ import java.util.List;
  * @author Manindra de Mel
  */
 public class PokedexWrapper {
-    private List<PokemonData> pokedex;
+    private PokemonData[] pokedex;
 
-    public List<PokemonData> getPokedex() {
+    public PokemonData[] getPokedex() {
         return pokedex;
     }
 
-    public void setPokedex(List<PokemonData> pokedex) {
+    public void setPokedex(PokemonData[] pokedex) {
         this.pokedex = pokedex;
     }
 }

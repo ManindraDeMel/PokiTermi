@@ -3,9 +3,10 @@ package GameObject.Pokemon.data;
 import GameObject.Pokemon.PokemonData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 /**
@@ -14,12 +15,17 @@ import java.util.Random;
 public class PokemonDataLoader {
     private static final Random RANDOM = new Random();
 
-    public static List<PokemonData> loadPokemonDataFromFile(String filePath) throws IOException {
-        byte[] jsonData = Files.readAllBytes(Paths.get(filePath));
-        ObjectMapper objectMapper = new ObjectMapper();
-        PokedexWrapper pokedexWrapper = objectMapper.readValue(jsonData, PokedexWrapper.class);
-        return pokedexWrapper.getPokedex();
+    public static List<PokemonData> loadPokemonDataFromFile(String resourcePath) throws IOException {
+        try (InputStream is = PokemonDataLoader.class.getResourceAsStream(resourcePath)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource not found: " + resourcePath);
+            }
+            ObjectMapper objectMapper = new ObjectMapper();
+            PokedexWrapper wrapper = objectMapper.readValue(is, PokedexWrapper.class);
+            return Arrays.asList(wrapper.getPokedex());
+        }
     }
+
 
     public static PokemonData getRandomPokemonData(String filePath) throws IOException {
         List<PokemonData> allPokemons = loadPokemonDataFromFile(filePath);
