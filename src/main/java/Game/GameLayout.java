@@ -18,8 +18,8 @@ import static Game.GameLogic.player;
 public class GameLayout {
     public static int TERMINALX = 130;
     public static int TERMINALY = 30;
-    private static final DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
-    private static final Terminal terminal;
+    private static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
+    private static Terminal terminal;
     static int titleBoxX = 20;        // X-coordinate
     static int titleBoxY = 0;        // Y-coordinate
     static int titleBoxWidth = 30;   // Width of the title text box
@@ -111,8 +111,6 @@ public class GameLayout {
         toolTipBox.setText(toolTipBoxText);
         toolTipBox.render(terminal);
     }
-
-
     /**
      * Clears the terminal screen.
      *
