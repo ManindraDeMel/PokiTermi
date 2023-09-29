@@ -1,8 +1,7 @@
 package GameObject.MapEntity.Coordinate;
+import Game.GameLayout;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.terminal.Terminal;
-
-import Game.MapTest;
 
 import java.io.IOException;
 
@@ -62,7 +61,7 @@ public class Coordinate implements CoordinateInterface{
     }
 
     public void display() {
-        Terminal terminal = MapTest.getTerminal(); // Assuming you have a static getter for the terminal in Game.MapTest
+        Terminal terminal = GameLayout.getTerminal(); // Assuming you have a static getter for the terminal in Game.MapTest
         if (this.color == null) {
             this.color = TextColor.ANSI.DEFAULT;
         }
