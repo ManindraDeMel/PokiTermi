@@ -1,4 +1,6 @@
 package Game;
+import GameObject.Battle.BattleUI.NPCUI;
+
 import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -6,8 +8,7 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
+
 
 
 /**
@@ -19,8 +20,8 @@ import java.util.Random;
 public class GameLayout {
     public static int TERMINALX = 130;
     public static int TERMINALY = 30;
-    private static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
-    private static Terminal terminal;
+    private static final DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
+    private static final Terminal terminal;
     static int titleBoxX = 20;        // X-coordinate
     static int titleBoxY = 0;        // Y-coordinate
     static int titleBoxWidth = 30;   // Width of the title text box
@@ -35,6 +36,11 @@ public class GameLayout {
     static int battleY = 5;
     static int battleWidth = 30;
     static int battleHeight = 15;
+    static int battleResultX = 20;
+    static int battleResultY = 2;
+    static int battleResultWidth = 30;
+    static int battleResultHeight = 3;
+    static TextBox resultTextBox = new TextBox(battleResultX, battleResultY, battleResultWidth, battleResultHeight);
     static TextBox battleBox = new TextBox(battleX,battleY,battleWidth,battleHeight);
     static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
     static TextBox toolTipBox = new TextBox(toolTipBoxX,toolTipBoxY,toolTipWidth,toolTipHeight);
@@ -99,29 +105,25 @@ public class GameLayout {
     }
 
     /**
+     * display text result text box
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Zhangheng Xu
+     */
+    public static void displayTextResult() throws IOException{
+        resultTextBox.setText("---------HelloWorld---------");
+        resultTextBox.render(terminal);
+    }
+
+
+    /**
      * chose random dialogue when talk to NPC
      *
      * @throws IOException if there's an error during rendering.
      * @author Zhangheng Xu
      */
     public static void startTalk() throws IOException {
-        // create an array list of dialogues
-        ArrayList<String> dialogueChoices= new ArrayList<>();
-        dialogueChoices.add("Ohayo, professor Oak!");
-        dialogueChoices.add("Ah ha!");
-        dialogueChoices.add("Nice weather today.");
-        dialogueChoices.add("Where is the best chest?");
-        dialogueChoices.add("Nice to see a fellow adventurer.");
-        dialogueChoices.add("Have you visited the nearby village yet?");
-        dialogueChoices.add("I've heard rumors of a powerful enemy lurking nearby.");
-        dialogueChoices.add("The weather in this land is quite unpredictable, isn't it?");
-
-        // random choice one of dialogues
-        Random random = new Random();
-        int randomIndex = random.nextInt(dialogueChoices.size());
-        String dialogue = dialogueChoices.get(randomIndex);
-
-        battleBox.setText(dialogue);
+        battleBox.setText(NPCUI.NPCTalk());
         battleBox.render(terminal);
     }
     /**

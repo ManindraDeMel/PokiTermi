@@ -18,9 +18,7 @@ import GameObject.MapEntity.Obstacle.Water;
 import GameObject.Player.Inventory.InventoryItem;
 import GameObject.Player.Player;
 import GameObject.Pokemon.ActionResult;
-import GameObject.Pokemon.Battle;
 import GameObject.Pokemon.Pokemon;
-import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
@@ -87,6 +85,7 @@ public class GameLogic {
             GameLayout.updateToolTipBox();
             GameLayout.displayInventory();
             GameLayout.updateBattleBox();
+            GameLayout.displayTextResult();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);
             if (keyStroke.getCharacter() == 'Q') return;
@@ -211,8 +210,8 @@ public class GameLogic {
 
         List<String> questionsList = collectBattleQuestions(keyStroke);
         Pokemon pokemon = null;
-        Battle battle = new Battle(pokemon, enemy, battleItem, pokeball, potion);
-        ActionResult battleResult = battle.battleResult();
+      //  Battle battle = new Battle(pokemon, enemy, battleItem, pokeball, potion);
+     //   ActionResult battleResult = battle.battleResult();
     }
 
     /**
