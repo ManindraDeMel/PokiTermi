@@ -6,6 +6,7 @@
 package GameObject.Item.BattleItem;
 
 import GameObject.Item.Item;
+import GameObject.Item.Potion.Potion;
 import GameObject.Player.Inventory.InventoryItem;
 
 public class BattleItem extends Item implements InventoryItem {
@@ -63,5 +64,21 @@ public class BattleItem extends Item implements InventoryItem {
     @Override
     public int getQuantity() {
         return this.quantity;
+    }
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public String toString() {
+        return getType().toString() + " (+" + getBoostAmount() + ")";
+    }
+    /**
+     * @author Manindra de Mel
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        BattleItem battleitem = (BattleItem) obj;
+        return (battleitem.getType() == this.getType());
     }
 }

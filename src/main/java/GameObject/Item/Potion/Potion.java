@@ -53,4 +53,20 @@ public class Potion extends Item implements InventoryItem {
     public int getQuantity() {
         return this.quantity;
     }
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public String toString() {
+        return getName() + " (+" + getHealAmount() + ")";
+    }
+    /**
+     * @author Manindra de Mel
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Potion potion = (Potion) obj;
+        return (potion.getName() + getHealAmount() == this.getName() + this.getHealAmount());
+    }
 }
