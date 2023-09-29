@@ -6,6 +6,5 @@
 package GameObject.Item.BattleItem;
 
 public enum BattleItemType {
-    SPECIALATTACK,
-    SPECIALDEFENCE;
+    XAttack, XDefense, XSpecialAttack, XSpecialDefence, XSpeed
 }

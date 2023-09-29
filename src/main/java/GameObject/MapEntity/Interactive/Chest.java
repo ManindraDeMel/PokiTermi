@@ -1,13 +1,19 @@
 package GameObject.MapEntity.Interactive;
 
+import GameObject.Item.BattleItem.BattleItem;
+import GameObject.Item.BattleItem.BattleItemType;
 import GameObject.Item.Item;
 import GameObject.Item.PokeBall.PokeBall;
 import GameObject.Item.PokeBall.PokeBallType;
+import GameObject.Item.Potion.Potion;
 import GameObject.MapEntity.Coordinate.Coordinate;
 import com.googlecode.lanterna.TextColor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import static Game.GameLayout.displayMessage;
 
 public class Chest extends Coordinate {
 
@@ -41,18 +47,51 @@ public class Chest extends Coordinate {
 
     }
 
-    public Item open(){
+    public Item open() throws IOException {
 
         Random random = new Random();
         int randomIndex = random.nextInt(itemList.size());
         ItemType selectedItemType = (ItemType) itemList.get(randomIndex);
 
-        // Create an instance of Item based on the selected ItemType
-        Item foundItem = new PokeBall("GreatBall", 1, PokeBallType.GREATBALL); // Assuming you have a constructor in Item class that takes ItemType
+        Item foundItem;
 
-        // Add information at the same position with lookAround text
-        String message = "You opened the chest and found a/an " + selectedItemType.name() + "!";
-        // Assuming you have a method to display messages in your game
+        // Create an instance of Item based on the selected ItemType
+        switch (selectedItemType) {
+            case Potion:
+                foundItem = new Potion(1);
+                break;
+            case SuperPotion:
+                foundItem = new Potion(1, 100); // Assuming SuperPotion heals 100 HP
+                break;
+            case NormalBall:
+                foundItem = new PokeBall("NormalBall", 1, PokeBallType.NORMALBALL);
+                break;
+            case GreatBall:
+                foundItem = new PokeBall("GreatBall", 1, PokeBallType.GREATBALL);
+                break;
+            case XAttack:
+                foundItem = new BattleItem(1, BattleItemType.XAttack);
+                break;
+            case XDefense:
+                foundItem = new BattleItem(1, BattleItemType.XDefense);
+                break;
+            case XSpecialAttack:
+                foundItem = new BattleItem(1, BattleItemType.XSpecialAttack);
+                break;
+            case XSpecialDefence:
+                foundItem = new BattleItem(1, BattleItemType.XSpecialDefence);
+                break;
+            case XSpeed:
+                foundItem = new BattleItem(1, BattleItemType.XSpeed);
+                break;
+            default:
+                foundItem = new PokeBall("NormalBall", 1, PokeBallType.NORMALBALL);
+                break;
+        }
+
+        String message = "You found an item";
+        // Assuming you have a method to display messages in your game, you can call it here
+        displayMessage(message);
         return foundItem;
     }
 }

@@ -130,8 +130,12 @@ public class GameLayout {
         // Here, you'll need to update the terminal or any GUI element
         // with the description from the game logic.
         // For the sake of simplicity, just printing to terminal.
-        terminal.setCursorPosition(0, GameLogic.tableRows + 1); // Assuming this positions the cursor below the map
-        for (char ch : explanation.toCharArray()) {
+        displayMessage(explanation);
+    }
+
+    public static void displayMessage(String s) throws IOException {
+        terminal.setCursorPosition(0, GameLogic.tableRows + 1);
+        for (char ch : s.toCharArray()) {
             terminal.putCharacter(ch);
         }
         terminal.flush();

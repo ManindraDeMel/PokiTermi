@@ -11,6 +11,7 @@ import GameObject.MapEntity.Obstacle.Border;
 import GameObject.MapEntity.Obstacle.Rock;
 import GameObject.MapEntity.Obstacle.Tree;
 import GameObject.MapEntity.Obstacle.Water;
+import GameObject.Player.Inventory.InventoryItem;
 import GameObject.Player.Player;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -131,15 +132,8 @@ public class GameLogic {
             if (entity instanceof Chest) {
                 Chest chest = (Chest) entity;
                 Item item = chest.open();
-                player.addItem(item);  // Assuming you have a player instance available
+                player.getInventory().addInventoryItem((InventoryItem) item);  // Assuming you have a player instance available
                 tableData[newRow][newCol] = null;  // Remove the chest from the map
-
-
-                //debug
-                for(var v:player.getInventory()){
-                    System.out.println(v.getName());
-                }
-
             }
 
 
