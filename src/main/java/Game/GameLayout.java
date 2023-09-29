@@ -1,6 +1,4 @@
 package Game;
-
-import GameObject.Player.Inventory.Inventory;
 import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -8,6 +6,9 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
+
+import static Game.GameLogic.player;
+
 /**
  * GameLayout manages the visual representation of the game, controlling the display of the game map, title, and tooltips.
  * @author Zhangheng Xu
@@ -15,11 +16,10 @@ import java.io.IOException;
  * @author Yiming Lu
  */
 public class GameLayout {
-    public static int TERMINALX = 120;
+    public static int TERMINALX = 130;
     public static int TERMINALY = 30;
     private static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
     private static Terminal terminal;
-
     static int titleBoxX = 20;        // X-coordinate
     static int titleBoxY = 0;        // Y-coordinate
     static int titleBoxWidth = 30;   // Width of the title text box
@@ -29,14 +29,9 @@ public class GameLayout {
     static int toolTipWidth = 30;
     static int toolTipHeight = 20;
     static int inventoryHeight = 20;
-    static int inventoryWidth = 20;
-
-    // Create instance of the TextBox class
+    static int inventoryWidth = 40;
     static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
     static TextBox toolTipBox = new TextBox(toolTipBoxX,toolTipBoxY,toolTipWidth,toolTipHeight);
-
-    private static Inventory playerInventory;
-
     // Set the text for the textBox
     static String titleBoxText = "****Welcome to PokiTermi****";
     /**
@@ -61,7 +56,6 @@ public class GameLayout {
             System.out.println("Initializing terminal..."); // Add this line
             terminalFactory.setInitialTerminalSize(new TerminalSize(TERMINALX, TERMINALY));
             terminal = terminalFactory.createTerminal();
-            playerInventory = new Inventory();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -134,7 +128,8 @@ public class GameLayout {
 
          // Initialize the inventory box
         TextBox inventoryBox = new TextBox(inventoryBoxX, inventoryBoxY, inventoryWidth, inventoryHeight);
-        inventoryBox.setText("Inventory\n\n\n" + playerInventory.toString());
+        inventoryBox.setText("Inventory\n\n\n" + GameLogic.getPlayer().getInventory().toString());
+        System.out.println(GameLogic.getPlayer().getInventory().toString());
         inventoryBox.render(terminal);
         terminal.flush();
     }

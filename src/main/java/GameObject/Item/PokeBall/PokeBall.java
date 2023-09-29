@@ -46,4 +46,18 @@ public class PokeBall extends Item implements InventoryItem {
     public int getQuantity() {
         return this.quantity;
     }
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public String toString() {
+        return getType() == PokeBallType.NORMALBALL ? "Poke ball" : "Great ball";
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        PokeBall pokeball = (PokeBall) obj;
+        return (pokeball.getType() == this.getType());
+    }
 }

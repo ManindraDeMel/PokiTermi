@@ -44,9 +44,15 @@ public class Inventory {
      * @param item the InventoryItem object.
      */
     public void addInventoryItem(InventoryItem item) {
-        int currentQuantity = items.getOrDefault(item, 0);
-        items.put(item, currentQuantity + item.getQuantity());
+        for (Map.Entry<InventoryItem, Integer> entry : items.entrySet()) {
+            if (entry.getKey().equals(item)) {
+                items.put(entry.getKey(), entry.getValue() + item.getQuantity());
+                return;
+            }
+        }
+        items.put(item, item.getQuantity());
     }
+
 
     /**
      * Remove a Pokémon by index.
@@ -97,16 +103,20 @@ public class Inventory {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
+        // Display Pokemons
         sb.append("Pokemons: \n");
         for (int i = 0; i < pokemons.size(); i++) {
-            sb.append(i + 1).append(". ").append(pokemons.get(i).getClass().getSimpleName()).append("\n");
+            sb.append(i + 1).append(". ").append(pokemons.get(i).toString()).append("\n"); // Call Pokemon's toString
         }
 
+        // Display Items
         sb.append("\nItems: \n");
         for (Map.Entry<InventoryItem, Integer> entry : items.entrySet()) {
-            sb.append(entry.getKey().getName()).append(": ").append(entry.getValue()).append("\n");
+            sb.append(entry.getKey().toString()) // Call InventoryItem's toString
+                    .append(": ").append(entry.getValue()).append("\n");
         }
 
         return sb.toString();
     }
+
 }

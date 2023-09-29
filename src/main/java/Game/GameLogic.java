@@ -43,7 +43,6 @@ public class GameLogic {
     public static PlayerMapCursor playerMapCursor;
     private static Random random = new Random();
     public static Player player = new Player();
-
     public static int currentLevel = 1;
     public static int previousLevel = 1;
     public static ArrayList<Coordinate[][]> levelMaps = new ArrayList<>();
@@ -82,7 +81,7 @@ public class GameLogic {
             GameLayout.displayInventory();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);
-
+//            System.out.println(player.getInventory().toString());
             if (keyStroke.getCharacter() == 'Q') return;
         }
     }
@@ -256,6 +255,11 @@ public class GameLogic {
             }
         }
     }
+
+    public static Player getPlayer() {
+        return player;
+    }
+
     /**
      * Provides a description of the environment surrounding the player.
      *
