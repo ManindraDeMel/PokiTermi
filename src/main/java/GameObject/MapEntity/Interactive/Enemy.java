@@ -36,21 +36,21 @@ public class Enemy extends Coordinate {
      * @authot Yusen Nian
      * @return A randomly generated enemy Pokemon.
      */
-    public Pokemon open(){
-
-        Random random = new Random();
-        int health = random.nextInt(Pokemon.MAX_HEALTH - Pokemon.MIN_HEALTH + 1) + Pokemon.MIN_HEALTH;
-        int attack = random.nextInt(Pokemon.MAX_ATTACK - Pokemon.MIN_ATTACK + 1) + Pokemon.MIN_ATTACK;
-        int defence = random.nextInt(Pokemon.MAX_DEFENCE - Pokemon.MIN_DEFENCE + 1) + Pokemon.MIN_DEFENCE;
-        // Create an instance of enemy pokemon.
-        Pokemon pokemon = new Pokemon(health, attack, defence);
-
-
-        // Add information at the same position with lookAround text
-        String message = "You  found an enemy!";
-
-        return pokemon;
-    }
+//    public Pokemon open(){
+//
+//        Random random = new Random();
+//        int health = random.nextInt(Pokemon.MAX_HEALTH - Pokemon.MIN_HEALTH + 1) + Pokemon.MIN_HEALTH;
+//        int attack = random.nextInt(Pokemon.MAX_ATTACK - Pokemon.MIN_ATTACK + 1) + Pokemon.MIN_ATTACK;
+//        int defence = random.nextInt(Pokemon.MAX_DEFENCE - Pokemon.MIN_DEFENCE + 1) + Pokemon.MIN_DEFENCE;
+//        // Create an instance of enemy pokemon.
+////        Pokemon pokemon = new Pokemon(health, attack, defence);
+//
+//
+//        // Add information at the same position with lookAround text
+//        String message = "You  found an enemy!";
+//
+//        return pokemon;
+//    }
 
 
 }
