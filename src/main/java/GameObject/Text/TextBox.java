@@ -15,6 +15,23 @@ public class TextBox {
     private final int height;  // The height of the text box.
     private String text;       // The text content to display within the text box.
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+
     /**
      * Constructs a new TextBox with the specified position and dimensions.
      *

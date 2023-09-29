@@ -1,21 +1,22 @@
 package Game;
 
+import GameObject.Player.Inventory.Inventory;
 import GameObject.Text.TextBox;
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
 /**
  * GameLayout manages the visual representation of the game, controlling the display of the game map, title, and tooltips.
- *
  * @author Zhangheng Xu
  * @author Manindra de Mel
  * @author Yiming Lu
  */
 public class GameLayout {
-
+    public static int TERMINALX = 120;
+    public static int TERMINALY = 30;
     private static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
     private static Terminal terminal;
 
@@ -27,10 +28,14 @@ public class GameLayout {
     static int toolTipBoxY = 0;
     static int toolTipWidth = 30;
     static int toolTipHeight = 20;
+    static int inventoryHeight = 20;
+    static int inventoryWidth = 20;
 
     // Create instance of the TextBox class
     static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
     static TextBox toolTipBox = new TextBox(toolTipBoxX,toolTipBoxY,toolTipWidth,toolTipHeight);
+
+    private static Inventory playerInventory;
 
     // Set the text for the textBox
     static String titleBoxText = "****Welcome to PokiTermi****";
@@ -54,7 +59,9 @@ public class GameLayout {
     static {
         try {
             System.out.println("Initializing terminal..."); // Add this line
+            terminalFactory.setInitialTerminalSize(new TerminalSize(TERMINALX, TERMINALY));
             terminal = terminalFactory.createTerminal();
+            playerInventory = new Inventory();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -119,6 +126,22 @@ public class GameLayout {
     public static void clearScreen() throws IOException {
         terminal.clearScreen();
     }
+
+    public static void displayInventory() throws IOException {
+        // Compute the position for the inventory box
+        int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth() + 2; // +2 for a small margin
+        int inventoryBoxY = toolTipBox.getY();
+
+         // Initialize the inventory box
+        TextBox inventoryBox = new TextBox(inventoryBoxX, inventoryBoxY, inventoryWidth, inventoryHeight);
+        inventoryBox.setText("Inventory\n\n\n" + playerInventory.toString());
+        inventoryBox.render(terminal);
+        terminal.flush();
+    }
+
+
+
+
     /**
      * Describes the environment around the player and displays it on the terminal.
      *
@@ -127,9 +150,6 @@ public class GameLayout {
      */
     public static void describeEnvironment() throws IOException {
         String explanation = GameLogic.describeEnvironment();
-        // Here, you'll need to update the terminal or any GUI element
-        // with the description from the game logic.
-        // For the sake of simplicity, just printing to terminal.
         displayMessage(explanation);
     }
 

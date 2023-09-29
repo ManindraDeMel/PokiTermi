@@ -31,6 +31,12 @@ public class Inventory {
     public void addPokemon(Pokemon pokemon) {
         pokemons.add(pokemon);
     }
+    /**
+     * Gets the player's pokemons
+     */
+    public List<Pokemon> getPokemons() {
+        return pokemons;
+    }
 
     /**
      * Add an inventory item (could be Potion, PokeBall, BattleItem).

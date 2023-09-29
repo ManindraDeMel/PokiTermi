@@ -15,6 +15,7 @@ import GameObject.Player.Inventory.InventoryItem;
 import GameObject.Player.Player;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.BufferedReader;
@@ -22,6 +23,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import static Game.GameLayout.displayInventory;
+
 /**
  * GameLogic is the primary class responsible for running and managing the state of the game.
  * It initializes game elements, handles user inputs, and manages game progression.
@@ -75,7 +79,7 @@ public class GameLogic {
 
             GameLayout.updateTitleBox();
             GameLayout.updateToolTipBox();
-
+            GameLayout.displayInventory();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);
 
@@ -94,6 +98,11 @@ public class GameLogic {
 
         // Quit Game
         if (keyStroke.getCharacter() != null && keyStroke.getCharacter() == 'Q') return;
+
+        if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'i') {
+            System.out.println("Attempting to display inventory...");  // Debug statement
+            displayInventory();
+        }
 
         // Movement
         if (keyStroke.getCharacter() != null) {
