@@ -75,13 +75,11 @@ public class GameLogic {
             GameLayout.clearScreen();
             GameLayout.displayMap();
             GameLayout.describeEnvironment();
-
             GameLayout.updateTitleBox();
-//            GameLayout.updateToolTipBox();
+            GameLayout.updateToolTipBox();
             GameLayout.displayInventory();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);
-//            System.out.println(player.getInventory().toString());
             if (keyStroke.getCharacter() == 'Q') return;
         }
     }

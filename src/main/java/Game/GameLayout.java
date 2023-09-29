@@ -129,9 +129,7 @@ public class GameLayout {
          // Initialize the inventory box
         TextBox inventoryBox = new TextBox(inventoryBoxX, inventoryBoxY, inventoryWidth, inventoryHeight);
         inventoryBox.setText("Inventory\n\n\n" + GameLogic.getPlayer().getInventory().toString());
-        System.out.println(GameLogic.getPlayer().getInventory().toString());
         inventoryBox.render(terminal);
-        terminal.flush();
     }
     /**
      * Describes the environment around the player and displays it on the terminal.
