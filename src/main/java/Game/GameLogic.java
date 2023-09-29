@@ -53,11 +53,6 @@ public class GameLogic {
     public static Player player = new Player();
     public static int currentLevel = 1;
     public static int previousLevel = 1;
-    static int battleX = 20;
-    static int battleY = 5;
-    static int battleWidth = 30;
-    static int battleHeight = 15;
-    static TextBox battleBox = new TextBox(battleX,battleY,battleWidth,battleHeight);
     public static ArrayList<Coordinate[][]> levelMaps = new ArrayList<>();
 
     /**
@@ -91,7 +86,7 @@ public class GameLogic {
             GameLayout.updateTitleBox();
             GameLayout.updateToolTipBox();
             GameLayout.displayInventory();
-            updateBattleBox();
+            GameLayout.updateBattleBox();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);
             if (keyStroke.getCharacter() == 'Q') return;
@@ -159,14 +154,17 @@ public class GameLogic {
 
             //If there's an enemy at the new position, start a battle.
             if(entity instanceof Enemy){
-                Pokemon enemy = ((Enemy) entity).open();
-                startBattle(enemy,keyStroke);
-                tableData[newRow][newCol] = null;  // Remove the enemy from the map
+//                startBattle((Pokemon)entity, keyStroke);
+                GameLayout.updateBattleBox();
+//               Pokemon enemy = ((Enemy) entity).open();
+//
+               tableData[newRow][newCol] = null;  // Remove the enemy from the map
             }
 
             //if there is NPC, start to talk
             if(entity instanceof NPC){
-                startTalk();
+                GameLayout.startTalk();
+                GameLayout.updateBattleBox();
                 tableData[newRow][newCol] = null;  // Remove the enemy from the map
             }
 
@@ -191,50 +189,30 @@ public class GameLogic {
             }
         }
     }
-    /**
-     * Updates the battle box and renders it on the terminal.
-     *
-     * @throws IOException if there's an error during rendering.
-     * @author Zhangheng Xu
-     */
-    public static void updateBattleBox() throws IOException {
-        battleBox.setText("adada");
-        battleBox.render(terminal);
 
-    }
-    public static void startTalk() throws IOException {
-        // Display NPC's introduction text in the battleBox
-            battleBox.setText("good morning");
-            battleBox.render(terminal);
 
-    }
+
+    // need to be updated ---------------------------------------------------------------------
+
     public static void startBattle(Pokemon enemy, KeyStroke keyStroke) throws IOException {
         // initialization
         BattleItem battleItem = null;
         PokeBall pokeball = null;
         Potion potion = null;
         // test
-        Pokemon pokemon = new Pokemon(100, 50, 50);
+      // Pokemon pokemon = new Pokemon(100, 50, 50);
         battleItem = new BattleItem(1, BattleItemType.XAttack);  // Initialize battleItem
         pokeball = new PokeBall("helloWorld", 1, PokeBallType.NORMALBALL);  // Initialize pokeball
         potion = new Potion(1);  // Initialize potion
 
         // Update the battleBox text to indicate the start of the battle
-        battleBox.setText("You meet an enemy!");
-        battleBox.render(terminal);
+        GameLayout.battleBox.setText("You meet an enemy!");
+        GameLayout.battleBox.render(terminal);
 
         List<String> questionsList = collectBattleQuestions(keyStroke);
+        Pokemon pokemon = null;
         Battle battle = new Battle(pokemon, enemy, battleItem, pokeball, potion);
         ActionResult battleResult = battle.battleResult();
-
-        if (battleResult.equals(ActionResult.CAPTURE)) {
-            battleBox.setText("You caught a new pokemon!");
-            // Add the new pokemon into the player's inventory.
-        } else if (battleResult.equals(ActionResult.VICTORY)) {
-            battleBox.setText("Victory");
-        } else {
-            battleBox.setText("Defeat");
-        }
     }
 
     /**
@@ -261,7 +239,7 @@ public class GameLogic {
         return questions;
     }
 
-
+//--------------------------------------------------------------------------------------
 
         /**
          * Moves the player character in the given direction.

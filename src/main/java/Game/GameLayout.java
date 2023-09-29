@@ -6,8 +6,9 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
-import static Game.GameLogic.player;
 
 /**
  * GameLayout manages the visual representation of the game, controlling the display of the game map, title, and tooltips.
@@ -30,6 +31,11 @@ public class GameLayout {
     static int toolTipHeight = 20;
     static int inventoryHeight = 20;
     static int inventoryWidth = 40;
+    static int battleX = 20;
+    static int battleY = 5;
+    static int battleWidth = 30;
+    static int battleHeight = 15;
+    static TextBox battleBox = new TextBox(battleX,battleY,battleWidth,battleHeight);
     static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
     static TextBox toolTipBox = new TextBox(toolTipBoxX,toolTipBoxY,toolTipWidth,toolTipHeight);
     // Set the text for the textBox
@@ -91,6 +97,33 @@ public class GameLayout {
             }
         }
     }
+
+    /**
+     * chose random dialogue when talk to NPC
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Zhangheng Xu
+     */
+    public static void startTalk() throws IOException {
+        // create an array list of dialogues
+        ArrayList<String> dialogueChoices= new ArrayList<>();
+        dialogueChoices.add("Ohayo, professor Oak!");
+        dialogueChoices.add("Ah ha!");
+        dialogueChoices.add("Nice weather today.");
+        dialogueChoices.add("Where is the best chest?");
+        dialogueChoices.add("Nice to see a fellow adventurer.");
+        dialogueChoices.add("Have you visited the nearby village yet?");
+        dialogueChoices.add("I've heard rumors of a powerful enemy lurking nearby.");
+        dialogueChoices.add("The weather in this land is quite unpredictable, isn't it?");
+
+        // random choice one of dialogues
+        Random random = new Random();
+        int randomIndex = random.nextInt(dialogueChoices.size());
+        String dialogue = dialogueChoices.get(randomIndex);
+
+        battleBox.setText(dialogue);
+        battleBox.render(terminal);
+    }
     /**
      * Updates the title box and renders it on the terminal.
      *
@@ -100,6 +133,15 @@ public class GameLayout {
     public static void updateTitleBox() throws IOException {
         titleBox.setText(titleBoxText);
         titleBox.render(terminal);
+    }
+    /**
+     * Updates the battle box and renders it on the terminal.
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Zhangheng Xu
+     */
+    public static void updateBattleBox() throws IOException {
+        battleBox.render(terminal);
     }
     /**
      * Updates the tooltip box and renders it on the terminal.
