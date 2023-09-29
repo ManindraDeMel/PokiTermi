@@ -11,7 +11,11 @@ import GameObject.MapEntity.Obstacle.Tree;
 import GameObject.MapEntity.Obstacle.Water;
 
 import java.util.Random;
-
+/**
+ * Represents the LevelMap which contains data about objects in the game.
+ *
+ * @author Yiming Lu
+ */
 public class LevelMap {
 
     private Coordinate[][] tableData = new Coordinate[Coordinate.tableRows][Coordinate.tableColumns];
@@ -23,12 +27,20 @@ public class LevelMap {
     private int waterNumber = 10;
     private int currentLevel = 0;
     private Random random = new Random();
-
+    /**
+     * Constructs a new LevelMap for the given level and seeds it with entities.
+     *
+     * @param level the game level for this map.
+     */
     public LevelMap(int level) {
         currentLevel = level;
         Seeding(level);
     }
-
+    /**
+     * Seeds the game map with entities based on the level.
+     *
+     * @param level the game level to seed the map for.
+     */
     public void Seeding(int level) {
         // Generate borders
         for (int i = 0; i < Coordinate.tableRows; i++) {
@@ -81,7 +93,12 @@ public class LevelMap {
                 break;
         }
     }
-
+    /**
+     * Places a given entity at a random location within the game map.
+     * The method ensures the entity is placed at an empty spot.
+     *
+     * @param entity the entity to be placed.
+     */
     private void placeEntityRandomly(Coordinate entity) {
         int row, col;
         do {
@@ -93,7 +110,11 @@ public class LevelMap {
         entity.setCol(col);
         tableData[row][col] = entity;
     }
-
+    /**
+     * Returns the game map with all its entities.
+     *
+     * @return the game map as a 2D array of Coordinates.
+     */
     public Coordinate[][] getMap() {
         return tableData;
     }
