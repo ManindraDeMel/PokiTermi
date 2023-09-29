@@ -72,7 +72,9 @@ public class BattleItem extends Item implements InventoryItem {
     public String toString() {
         return getType().toString() + " (+" + getBoostAmount() + ")";
     }
-
+    /**
+     * @author Manindra de Mel
+     */
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
