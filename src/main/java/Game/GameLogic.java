@@ -1,28 +1,36 @@
 package Game;
 
+import GameObject.Item.BattleItem.BattleItem;
+import GameObject.Item.BattleItem.BattleItemType;
 import GameObject.Item.Item;
+import GameObject.Item.PokeBall.PokeBall;
+import GameObject.Item.PokeBall.PokeBallType;
+import GameObject.Item.Potion.Potion;
 import GameObject.MapEntity.Coordinate.Coordinate;
 import GameObject.MapEntity.Interactive.Door;
 import GameObject.MapEntity.PlayerMapCursor;
 import GameObject.MapEntity.Interactive.Chest;
 import GameObject.MapEntity.Interactive.Enemy;
 import GameObject.MapEntity.Interactive.NPC;
-import GameObject.MapEntity.Obstacle.Border;
 import GameObject.MapEntity.Obstacle.Rock;
 import GameObject.MapEntity.Obstacle.Tree;
 import GameObject.MapEntity.Obstacle.Water;
 import GameObject.Player.Inventory.InventoryItem;
 import GameObject.Player.Player;
+import GameObject.Pokemon.ActionResult;
+import GameObject.Pokemon.Battle;
+import GameObject.Pokemon.Pokemon;
+import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
 
 import static Game.GameLayout.displayInventory;
 
@@ -45,6 +53,11 @@ public class GameLogic {
     public static Player player = new Player();
     public static int currentLevel = 1;
     public static int previousLevel = 1;
+    static int battleX = 20;
+    static int battleY = 5;
+    static int battleWidth = 30;
+    static int battleHeight = 15;
+    static TextBox battleBox = new TextBox(battleX,battleY,battleWidth,battleHeight);
     public static ArrayList<Coordinate[][]> levelMaps = new ArrayList<>();
 
     /**
@@ -78,6 +91,7 @@ public class GameLogic {
             GameLayout.updateTitleBox();
             GameLayout.updateToolTipBox();
             GameLayout.displayInventory();
+            updateBattleBox();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);
             if (keyStroke.getCharacter() == 'Q') return;
@@ -95,7 +109,7 @@ public class GameLogic {
 
         // Quit Game
         if (keyStroke.getCharacter() != null && keyStroke.getCharacter() == 'Q') return;
-
+        // inventory
         if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'i') {
             System.out.println("Attempting to display inventory...");  // Debug statement
             displayInventory();
@@ -125,8 +139,9 @@ public class GameLogic {
      * @param dy The y-direction movement (-1 for up, 1 for down).
      * @throws IOException if any I/O error occurs.
      * @author Yiming Lu
+     * @author Zhangheng Xu
      */
-    private static void interactAndMove(int dx, int dy) throws IOException {
+    private static void interactAndMove(int dx, int dy,KeyStroke keyStroke) throws IOException {
         int newRow = playerMapCursor.getRow() + dy;
         int newCol = playerMapCursor.getCol() + dx;
 
@@ -142,8 +157,21 @@ public class GameLogic {
                 tableData[newRow][newCol] = null;  // Remove the chest from the map
             }
 
+            //If there's an enemy at the new position, start a battle.
+            if(entity instanceof Enemy){
+                Pokemon enemy = ((Enemy) entity).open();
+                startBattle(enemy,keyStroke);
+                tableData[newRow][newCol] = null;  // Remove the enemy from the map
+            }
 
-            if(entity instanceof Door ){
+            //if there is NPC, start to talk
+            if(entity instanceof NPC){
+                startTalk();
+                tableData[newRow][newCol] = null;  // Remove the enemy from the map
+            }
+
+
+            if(entity instanceof Door){
 
                 int tempCol=playerMapCursor.getCol();
                 int tempRow=playerMapCursor.getRow();
@@ -164,29 +192,101 @@ public class GameLogic {
         }
     }
     /**
-     * Moves the player character in the given direction.
+     * Updates the battle box and renders it on the terminal.
      *
-     * @param direction A character representing the direction to move ('W' for up, 'A' for left, etc.).
-     * @throws IOException if any I/O error occurs.
-     * @author Yiming Lu
+     * @throws IOException if there's an error during rendering.
+     * @author Zhangheng Xu
      */
+    public static void updateBattleBox() throws IOException {
+        battleBox.setText("adada");
+        battleBox.render(terminal);
+
+    }
+    public static void startTalk() throws IOException {
+        // Display NPC's introduction text in the battleBox
+            battleBox.setText("good morning");
+            battleBox.render(terminal);
+
+    }
+    public static void startBattle(Pokemon enemy, KeyStroke keyStroke) throws IOException {
+        // initialization
+        BattleItem battleItem = null;
+        PokeBall pokeball = null;
+        Potion potion = null;
+        // test
+        Pokemon pokemon = new Pokemon(100, 50, 50);
+        battleItem = new BattleItem(1, BattleItemType.XAttack);  // Initialize battleItem
+        pokeball = new PokeBall("helloWorld", 1, PokeBallType.NORMALBALL);  // Initialize pokeball
+        potion = new Potion(1);  // Initialize potion
+
+        // Update the battleBox text to indicate the start of the battle
+        battleBox.setText("You meet an enemy!");
+        battleBox.render(terminal);
+
+        List<String> questionsList = collectBattleQuestions(keyStroke);
+        Battle battle = new Battle(pokemon, enemy, battleItem, pokeball, potion);
+        ActionResult battleResult = battle.battleResult();
+
+        if (battleResult.equals(ActionResult.CAPTURE)) {
+            battleBox.setText("You caught a new pokemon!");
+            // Add the new pokemon into the player's inventory.
+        } else if (battleResult.equals(ActionResult.VICTORY)) {
+            battleBox.setText("Victory");
+        } else {
+            battleBox.setText("Defeat");
+        }
+    }
+
+    /**
+     * Private method to collect battle-related questions from the user and return them as a List of Strings.
+     *
+     *
+     * @return A List containing battle-related questions:
+     *         - Element 0: Pokemon index
+     *         - Element 1: Battle item ('a' for attack, 'd' for defense, 'n' for none)
+     *         - Element 2: Pokeball ('b' for normal, 'g' for great, 'n' for none)
+     *         - Element 3: Potion ('y' for yes, 'n' for no)
+     * @author Zhangheng Xu
+     */
+
+    private static List<String> collectBattleQuestions(KeyStroke keyStroke) {
+        List<String> questions = new ArrayList<>();
+
+        // Collecting user input for each question
+        if (keyStroke != null && keyStroke.getCharacter() == '1') {
+            questions.add(0, "1");
+        }
+        // Add more logic to collect other questions based on user input
+
+        return questions;
+    }
+
+
+
+        /**
+         * Moves the player character in the given direction.
+         *
+         * @param direction A character representing the direction to move ('W' for up, 'A' for left, etc.).
+         * @throws IOException if any I/O error occurs.
+         * @author Yiming Lu
+         */
     public static void movePlayer(char direction) throws IOException {
         switch (direction) {
             case 'W':
             case 'w':
-                interactAndMove(0, -1); // Move Up
+                interactAndMove(0, -1,null); // Move Up
                 break;
             case 'S':
             case 's':
-                interactAndMove(0, 1);  // Move Down
+                interactAndMove(0, 1,null);  // Move Down
                 break;
             case 'A':
             case 'a':
-                interactAndMove(-1, 0); // Move Left
+                interactAndMove(-1, 0,null); // Move Left
                 break;
             case 'D':
             case 'd':
-                interactAndMove(1, 0);  // Move Right
+                interactAndMove(1, 0,null);  // Move Right
                 break;
         }
     }
