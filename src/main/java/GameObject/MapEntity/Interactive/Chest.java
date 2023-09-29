@@ -15,9 +15,14 @@ import java.util.Random;
 
 import static Game.GameLayout.displayMessage;
 
+/**
+ * Represents a Chest in the game layout which can contain items that players can acquire.
+ *
+ * @author Yiming Lu
+ */
 public class Chest extends Coordinate {
 
-    public static ArrayList<Enum> itemList = new ArrayList<>() ;//finish this add Potion SuperPotion NormalBall GreatBall XAttack XDefense XSpecialAttack XSpecialDefence XSpeed
+    public static ArrayList<Enum> itemList = new ArrayList<>();
 
     public enum ItemType {
         Potion, SuperPotion, NormalBall, GreatBall, XAttack, XDefense, XSpecialAttack, XSpecialDefence, XSpeed
@@ -35,6 +40,13 @@ public class Chest extends Coordinate {
         itemList.add(ItemType.XSpecialDefence);
         itemList.add(ItemType.XSpeed);
     }
+
+    /**
+     * Constructs a new Chest with the specified row and column positions.
+     *
+     * @param row the row position of the Chest.
+     * @param col the column position of the Chest.
+     */
     public Chest(int row, int col) {
         super(row, col);
         setSymbol('?');
@@ -44,9 +56,16 @@ public class Chest extends Coordinate {
     @Override
     public void display() {
         super.display();
-
     }
 
+    /**
+     * Opens the chest and provides a random item to the player.
+     *
+     * @return the Item that the player acquired from the chest.
+     * @throws IOException if there's an issue with I/O operations.
+     *
+     * @author Manindra de Mel
+     */
     public Item open() throws IOException {
 
         Random random = new Random();
@@ -90,7 +109,6 @@ public class Chest extends Coordinate {
         }
 
         String message = "You found an item";
-        // Assuming you have a method to display messages in your game, you can call it here
         displayMessage(message);
         return foundItem;
     }
