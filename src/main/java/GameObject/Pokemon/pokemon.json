@@ -1,0 +1,334 @@
+{
+  "pokedex": [
+    {
+      "id": 1,
+      "name": "Bulbasaur",
+      "type": ["Grass", "Poison"],
+      "stats": {
+        "atk": 49,
+        "def": 49,
+        "health": 45
+      },
+      "abilities": ["Overgrow", "Chlorophyll"]
+    },
+    {
+      "id": 2,
+      "name": "Flareon",
+      "type": ["Fire"],
+      "stats": {
+        "atk": 63,
+        "def": 58,
+        "health": 65
+      },
+      "abilities": ["Blaze", "Magma Armor"]
+    },
+    {
+      "id": 3,
+      "name": "Aquamist",
+      "type": ["Water"],
+      "stats": {
+        "atk": 52,
+        "def": 52,
+        "health": 60
+      },
+      "abilities": ["Torrent", "Rain Dish"]
+    },
+    {
+      "id": 4,
+      "name": "Electron",
+      "type": ["Electric"],
+      "stats": {
+        "atk": 58,
+        "def": 48,
+        "health": 55
+      },
+      "abilities": ["Static", "Lightning Rod"]
+    },
+    {
+      "id": 5,
+      "name": "Rockslide",
+      "type": ["Rock"],
+      "stats": {
+        "atk": 55,
+        "def": 65,
+        "health": 50
+      },
+      "abilities": ["Sturdy", "Solid Rock"]
+    },
+    {
+      "id": 6,
+      "name": "Aerowind",
+      "type": ["Flying"],
+      "stats": {
+        "atk": 54,
+        "def": 50,
+        "health": 58
+      },
+      "abilities": ["Keen Eye", "Aerilate"]
+    },
+    {
+      "id": 7,
+      "name": "Psychmind",
+      "type": ["Psychic"],
+      "stats": {
+        "atk": 60,
+        "def": 55,
+        "health": 57
+      },
+      "abilities": ["Synchronize", "Inner Focus"]
+    },
+    {
+      "id": 8,
+      "name": "Shadowraith",
+      "type": ["Ghost"],
+      "stats": {
+        "atk": 56,
+        "def": 56,
+        "health": 60
+      },
+      "abilities": ["Cursed Body", "Shadow Tag"]
+    },
+    {
+      "id": 9,
+      "name": "Ironclad",
+      "type": ["Steel"],
+      "stats": {
+        "atk": 62,
+        "def": 62,
+        "health": 58
+      },
+      "abilities": ["Clear Body", "Iron Barbs"]
+    },
+    {
+      "id": 10,
+      "name": "Mystwing",
+      "type": ["Dragon"],
+      "stats": {
+        "atk": 65,
+        "def": 60,
+        "health": 67
+      },
+      "abilities": ["Multiscale", "Dragon's Might"]
+    },
+    {
+      "id": 11,
+      "name": "Blizzardbeast",
+      "type": ["Ice"],
+      "stats": {
+        "atk": 59,
+        "def": 54,
+        "health": 56
+      },
+      "abilities": ["Ice Body", "Snow Cloak"]
+    },
+    {
+      "id": 12,
+      "name": "Toxifang",
+      "type": ["Poison"],
+      "stats": {
+        "atk": 58,
+        "def": 57,
+        "health": 55
+      },
+      "abilities": ["Poison Point", "Corrosion"]
+    },
+    {
+      "id": 13,
+      "name": "Landquake",
+      "type": ["Ground"],
+      "stats": {
+        "atk": 61,
+        "def": 62,
+        "health": 59
+      },
+      "abilities": ["Arena Trap", "Mold Breaker"]
+    },
+    {
+      "id": 14,
+      "name": "Venomwing",
+      "type": ["Bug", "Flying"],
+      "stats": {
+        "atk": 53,
+        "def": 50,
+        "health": 52
+      },
+      "abilities": ["Compound Eyes", "Swarm"]
+    },
+    {
+      "id": 15,
+      "name": "Lunarcrest",
+      "type": ["Dark"],
+      "stats": {
+        "atk": 64,
+        "def": 56,
+        "health": 61
+      },
+      "abilities": ["Prankster", "Moxie"]
+    },
+    {
+      "id": 16,
+      "name": "Angelicwing",
+      "type": ["Fairy", "Flying"],
+      "stats": {
+        "atk": 52,
+        "def": 53,
+        "health": 54
+      },
+      "abilities": ["Magic Guard", "Pixilate"]
+    },
+    {
+      "id": 17,
+      "name": "Stonewall",
+      "type": ["Rock", "Ground"],
+      "stats": {
+        "atk": 60,
+        "def": 65,
+        "health": 58
+      },
+      "abilities": ["Rock Head", "Sturdy"]
+    },
+    {
+      "id": 18,
+      "name": "Stormcast",
+      "type": ["Electric", "Flying"],
+      "stats": {
+        "atk": 62,
+        "def": 57,
+        "health": 60
+      },
+      "abilities": ["Gale Wings", "Motor Drive"]
+    },
+    {
+      "id": 19,
+      "name": "Florabelle",
+      "type": ["Grass", "Fairy"],
+      "stats": {
+        "atk": 55,
+        "def": 55,
+        "health": 57
+      },
+      "abilities": ["Natural Cure", "Leaf Guard"]
+    },
+    {
+      "id": 20,
+      "name": "Magmafist",
+      "type": ["Fire", "Fighting"],
+      "stats": {
+        "atk": 65,
+        "def": 61,
+        "health": 62
+      },
+      "abilities": ["Blaze", "Sheer Force"]
+    },
+    {
+      "id": 21,
+      "name": "Cyclonix",
+      "type": ["Flying"],
+      "stats": {
+        "atk": 60,
+        "def": 58,
+        "health": 62
+      },
+      "abilities": ["Drizzle", "Gale Wings"]
+    },
+    {
+      "id": 22,
+      "name": "Thermaconda",
+      "type": ["Fire", "Poison"],
+      "stats": {
+        "atk": 63,
+        "def": 59,
+        "health": 64
+      },
+      "abilities": ["Corrosive Gas", "Flame Body"]
+    },
+    {
+      "id": 23,
+      "name": "Coraluxe",
+      "type": ["Water", "Rock"],
+      "stats": {
+        "atk": 61,
+        "def": 62,
+        "health": 63
+      },
+      "abilities": ["Water Veil", "Swift Swim"]
+    },
+    {
+      "id": 24,
+      "name": "Terrashell",
+      "type": ["Ground", "Grass"],
+      "stats": {
+        "atk": 59,
+        "def": 65,
+        "health": 60
+      },
+      "abilities": ["Overgrow", "Battle Armor"]
+    },
+    {
+      "id": 25,
+      "name": "Crystalfrost",
+      "type": ["Ice", "Psychic"],
+      "stats": {
+        "atk": 64,
+        "def": 57,
+        "health": 62
+      },
+      "abilities": ["Ice Body", "Magic Guard"]
+    },
+    {
+      "id": 26,
+      "name": "Spectralight",
+      "type": ["Ghost", "Fairy"],
+      "stats": {
+        "atk": 62,
+        "def": 58,
+        "health": 60
+      },
+      "abilities": ["Cursed Body", "Misty Surge"]
+    },
+    {
+      "id": 27,
+      "name": "Vulcarmor",
+      "type": ["Fire", "Steel"],
+      "stats": {
+        "atk": 65,
+        "def": 65,
+        "health": 64
+      },
+      "abilities": ["Flash Fire", "Heatproof"]
+    },
+    {
+      "id": 28,
+      "name": "Luminara",
+      "type": ["Bug", "Electric"],
+      "stats": {
+        "atk": 58,
+        "def": 57,
+        "health": 61
+      },
+      "abilities": ["Compound Eyes", "Volt Absorb"]
+    },
+    {
+      "id": 29,
+      "name": "Sirenade",
+      "type": ["Water", "Psychic"],
+      "stats": {
+        "atk": 59,
+        "def": 60,
+        "health": 63
+      },
+      "abilities": ["Hydration", "Telepathy"]
+    },
+    {
+      "id": 30,
+      "name": "Blastiger",
+      "type": ["Grass", "Fighting"],
+      "stats": {
+        "atk": 65,
+        "def": 62,
+        "health": 65
+      },
+      "abilities": ["Grassy Surge", "Iron Fist"]
+    }
+  ]
+}

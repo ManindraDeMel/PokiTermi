@@ -20,9 +20,9 @@ public class GameLayout {
     public static int TERMINALY = 30;
     private static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
     private static Terminal terminal;
-    static int titleBoxX = 20;        // X-coordinate
-    static int titleBoxY = 0;        // Y-coordinate
-    static int titleBoxWidth = 30;   // Width of the title text box
+    static int titleBoxX = 20;      // X-coordinate
+    static int titleBoxY = 0;       // Y-coordinate
+    static int titleBoxWidth = 30;  // Width of the title text box
     static int titleBoxHeight = 3;  // Height of the title text box
     static int toolTipBoxX = 50;
     static int toolTipBoxY = 0;
