@@ -21,6 +21,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+/**
+ * GameLogic is the primary class responsible for running and managing the state of the game.
+ * It initializes game elements, handles user inputs, and manages game progression.
+ *
+ * @author Manindra de Mel (refactored class structure)
+ * @author Yiming Lu (wrote methods)
+ */
 public class GameLogic {
 
     public static int tableRows = Coordinate.tableRows;
@@ -36,6 +43,11 @@ public class GameLogic {
     public static int previousLevel = 1;
     public static ArrayList<Coordinate[][]> levelMaps = new ArrayList<>();
 
+    /**
+     * Initializes the game by setting up the player, loading level maps, and placing the player on the map.
+     *
+     * @author Yiming Lu
+     */
     public static void initialize() {
         player.setName("Tester");
         levelMaps.add(new LevelMap(1).getMap());
@@ -45,6 +57,13 @@ public class GameLogic {
         addPlayer();
     }
 
+    /**
+     * Main game loop which continually updates and displays the game state until the player decides to quit.
+     *
+     * @throws IOException if any I/O error occurs.
+     * @author Yiming Lu
+     * @author Manindra de Mel
+     */
     public static void runGame() throws IOException {
         initialize();
 
@@ -62,38 +81,13 @@ public class GameLogic {
             if (keyStroke.getCharacter() == 'Q') return;
         }
     }
-
-    public static Coordinate[][] tableLoader(){
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Map.conf"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(" ");
-                String type = parts[0];
-
-                for (int i = 1; i < parts.length; i++) {
-                    String[] coordinates = parts[i].split(",");
-                    int row = Integer.parseInt(coordinates[0]);
-                    int col = Integer.parseInt(coordinates[1]);
-
-                    switch (type) {
-                        case "Border" -> tableData[row][col] = new Border(row, col);
-                        case "Rock" -> tableData[row][col] = new Rock(row, col);
-                        case "Tree" -> tableData[row][col] = new Tree(row, col);
-                        case "Water" -> tableData[row][col] = new Water(row, col);
-                        case "NPC" -> tableData[row][col] = new NPC(row, col);
-                        case "Chest" -> tableData[row][col] = new Chest(row, col);
-                        case "Enemy" -> tableData[row][col] = new Enemy(row, col);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return tableData;
-
-    }
-
+    /**
+     * Handles player input to control the game.
+     *
+     * @param keyStroke The keystroke input from the player.
+     * @throws IOException if any I/O error occurs.
+     * @author Yiming Lu
+     */
     public static void handleInput(KeyStroke keyStroke) throws IOException {
         if (keyStroke == null) return; // Ignore null key strokes.
 
@@ -117,8 +111,14 @@ public class GameLogic {
             }
         }
     }
-
-
+    /**
+     * Processes player movement and interaction based on direction.
+     *
+     * @param dx The x-direction movement (-1 for left, 1 for right).
+     * @param dy The y-direction movement (-1 for up, 1 for down).
+     * @throws IOException if any I/O error occurs.
+     * @author Yiming Lu
+     */
     private static void interactAndMove(int dx, int dy) throws IOException {
         int newRow = playerMapCursor.getRow() + dy;
         int newCol = playerMapCursor.getCol() + dx;
@@ -163,7 +163,13 @@ public class GameLogic {
             }
         }
     }
-
+    /**
+     * Moves the player character in the given direction.
+     *
+     * @param direction A character representing the direction to move ('W' for up, 'A' for left, etc.).
+     * @throws IOException if any I/O error occurs.
+     * @author Yiming Lu
+     */
     public static void movePlayer(char direction) throws IOException {
         switch (direction) {
             case 'W':
@@ -184,7 +190,11 @@ public class GameLogic {
                 break;
         }
     }
-
+    /**
+     * Randomly places the player on the map where no object or entity exists.
+     *
+     * @author Yiming Lu
+     */
     public static void addPlayer(){
         int row, col;
         do {
@@ -194,6 +204,12 @@ public class GameLogic {
         playerMapCursor = new PlayerMapCursor(row,col);
         tableData[playerMapCursor.getRow()][playerMapCursor.getCol()]= playerMapCursor;
     }
+    /**
+     * Places the player near a door that matches the previous level.
+     *
+     * @throws IOException if any I/O error occurs.
+     * @author Yiming Lu
+     */
     public static void putPlayer() throws IOException {
         // Find the door
         for (int i = 0; i < tableRows; i++) {
@@ -237,8 +253,13 @@ public class GameLogic {
             }
         }
     }
-
-
+    /**
+     * Provides a description of the environment surrounding the player.
+     *
+     * @return A string describing objects/entities in the four cardinal directions from the player.
+     * @throws IOException if any I/O error occurs.
+     * @author Yiming Lu
+     */
     public static String describeEnvironment() throws IOException {
         // Combine showItemAround() and getDirectionalDescription()
         StringBuilder explanation = new StringBuilder();
@@ -252,7 +273,15 @@ public class GameLogic {
                 tableData[playerMapCursor.getRow()][playerMapCursor.getCol() + 1], "east"));
         return explanation.toString();
     }
-
+    /**
+     * Generates a description for a given Coordinate in a specific direction.
+     *
+     * @param coord The Coordinate being described.
+     * @param direction The direction (e.g., "north", "south") in which the Coordinate is located relative to the player.
+     * @return A string description of the Coordinate.
+     * @throws IOException if any I/O error occurs.
+     * @author Yiming Lu
+     */
     private static String getDirectionalDescription(Coordinate coord, String direction) throws IOException {
         if (coord != null) {
             if (coord instanceof Rock) {
