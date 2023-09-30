@@ -1,4 +1,6 @@
 package Game;
+
+import GameObject.MapEntity.Interactive.NPC;
 import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -7,7 +9,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
 
-import static Game.GameLogic.player;
+
 
 /**
  * GameLayout manages the visual representation of the game, controlling the display of the game map, title, and tooltips.
@@ -18,11 +20,11 @@ import static Game.GameLogic.player;
 public class GameLayout {
     public static int TERMINALX = 130;
     public static int TERMINALY = 30;
-    private static DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
-    private static Terminal terminal;
-    static int titleBoxX = 20;      // X-coordinate
-    static int titleBoxY = 0;       // Y-coordinate
-    static int titleBoxWidth = 30;  // Width of the title text box
+    private static final DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
+    private static final Terminal terminal;
+    static int titleBoxX = 20;        // X-coordinate
+    static int titleBoxY = 0;        // Y-coordinate
+    static int titleBoxWidth = 30;   // Width of the title text box
     static int titleBoxHeight = 3;  // Height of the title text box
     static int toolTipBoxX = 50;
     static int toolTipBoxY = 0;
@@ -30,6 +32,16 @@ public class GameLayout {
     static int toolTipHeight = 20;
     static int inventoryHeight = 20;
     static int inventoryWidth = 40;
+    static int battleX = 20;
+    static int battleY = 5;
+    static int battleWidth = 30;
+    static int battleHeight = 15;
+    static int battleResultX = 20;
+    static int battleResultY = 2;
+    static int battleResultWidth = 30;
+    static int battleResultHeight = 3;
+    static TextBox resultTextBox = new TextBox(battleResultX, battleResultY, battleResultWidth, battleResultHeight);
+    static TextBox battleBox = new TextBox(battleX,battleY,battleWidth,battleHeight);
     static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
     static TextBox toolTipBox = new TextBox(toolTipBoxX,toolTipBoxY,toolTipWidth,toolTipHeight);
     // Set the text for the textBox
@@ -91,6 +103,37 @@ public class GameLayout {
             }
         }
     }
+
+    /**
+     * display text result text box
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Zhangheng Xu
+     */
+    public static void displayTextResult() throws IOException{
+        resultTextBox.setText("---------HelloWorld---------");
+        resultTextBox.render(terminal);
+    }
+    /**
+     * Updates the battle box and renders it on the terminal.
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Zhangheng Xu
+     */
+    public static void updateBattleBox() throws IOException {
+        battleBox.render(terminal);
+    }
+
+    /**
+     * chose random dialogue when talk to NPC
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Zhangheng Xu
+     */
+    public static void startTalk() throws IOException {
+        battleBox.setText(NPC.NPCTalk());
+        battleBox.render(terminal);
+    }
     /**
      * Updates the title box and renders it on the terminal.
      *
@@ -101,6 +144,7 @@ public class GameLayout {
         titleBox.setText(titleBoxText);
         titleBox.render(terminal);
     }
+
     /**
      * Updates the tooltip box and renders it on the terminal.
      *
