@@ -1,6 +1,7 @@
 package GameObject.Pokemon;
 
 import GameObject.Pokemon.data.PokemonData;
+import GameObject.Pokemon.data.Type.Type;
 import GameObject.Pokemon.data.loader.PokemonDataLoader;
 import GameObject.Pokemon.data.Type.TypeEffectiveness;
 
@@ -84,7 +85,7 @@ public class Pokemon {
      *
      * @return list of types of the Pokemon.
      */
-    public List<String> getType() {
+    public List<Type> getType() {
         return data.getType();
     }
 

@@ -1,9 +1,10 @@
 package GameObject.Pokemon.data.loader;
 import GameObject.Pokemon.data.PokemonData;
 import GameObject.Pokemon.data.Type.Type;
-import GameObject.Pokemon.data.Type.TypeDeserializer;
+import GameObject.Pokemon.data.Type.TypeDeserializers;
 import GameObject.Pokemon.data.Type.TypeEffectiveness;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -28,6 +29,21 @@ public class PokemonDataLoader {
     private static final Random RANDOM = new Random();
 
     /**
+     * Creates and configures an ObjectMapper for deserializing Pokémon data.
+     *
+     * @return Configured ObjectMapper.
+     */
+    private static ObjectMapper createConfiguredObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(
+                new SimpleModule()
+                        .addDeserializer(Type.class, new TypeDeserializers.TypeJsonDeserializer())
+                        .addKeyDeserializer(Type.class, new TypeDeserializers.TypeKeyDeserializer())
+        );
+        objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+        return objectMapper;
+    }
+    /**
      * Loads a list of PokemonData objects from a file resource at the provided path.
      * This function utilizes Jackson ObjectMapper to map JSON data to Java objects.
      *
@@ -40,7 +56,7 @@ public class PokemonDataLoader {
             if (is == null) {
                 throw new FileNotFoundException("Resource not found: " + resourcePath);
             }
-            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectMapper objectMapper = createConfiguredObjectMapper();
             PokedexWrapper wrapper = objectMapper.readValue(is, PokedexWrapper.class);
             return Arrays.asList(wrapper.getPokedex());
         }
@@ -58,16 +74,10 @@ public class PokemonDataLoader {
             if (is == null) {
                 throw new FileNotFoundException("Resource not found: " + resourcePath);
             }
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(
-                    new SimpleModule().addKeyDeserializer(Type.class, new TypeDeserializer())
-            );
-            return objectMapper.readValue(is, new TypeReference<>() {
-            });
+            ObjectMapper objectMapper = createConfiguredObjectMapper();
+            return objectMapper.readValue(is, new TypeReference<>() {});
         }
     }
-
-
     /**
      * Loads a list of PokemonData objects from a file resource at the provided path.
      * This function utilizes Jackson ObjectMapper to map JSON data to Java objects.
@@ -82,7 +92,7 @@ public class PokemonDataLoader {
         Map<Type, TypeEffectiveness> typeEffectivenessMap = loadTypeEffectivenessData(typeEffectivenessPath);
 
         for (PokemonData pokemon : pokemons) {
-            for (String type : pokemon.getType()) {
+            for (Type type : pokemon.getType()) {
                 if (typeEffectivenessMap.containsKey(type)) {
                     pokemon.getStats().setTypeEffectiveness(typeEffectivenessMap.get(type));
                     break; // assuming one type effectiveness is set for each Pokémon, otherwise, remove the break

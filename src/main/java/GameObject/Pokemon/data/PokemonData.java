@@ -1,5 +1,6 @@
 package GameObject.Pokemon.data;
 
+import GameObject.Pokemon.data.Type.Type;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 /**
@@ -16,7 +17,7 @@ public class PokemonData {
     private String name;
 
     @JsonProperty("type")
-    private List<String> type;
+    private List<Type> type;
 
     @JsonProperty("stats")
     private Stats stats;
@@ -36,7 +37,7 @@ public class PokemonData {
      * @param stats Stats associated with the Pokemon.
      * @param abilities List of abilities of the Pokemon.
      */
-    public PokemonData(int id, String name, List<String> type, Stats stats, List<String> abilities) {
+    public PokemonData(int id, String name, List<Type> type, Stats stats, List<String> abilities) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -51,8 +52,8 @@ public class PokemonData {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public List<String> getType() { return type; }
-    public void setType(List<String> type) { this.type = type; }
+    public List<Type> getType() { return type; }
+    public void setType(List<Type> type) { this.type = type; }
     public Stats getStats() { return stats; }
     public void setStats(Stats stats) { this.stats = stats; }
 
