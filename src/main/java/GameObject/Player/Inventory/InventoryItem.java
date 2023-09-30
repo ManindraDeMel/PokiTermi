@@ -15,9 +15,9 @@ public interface InventoryItem {
     String getName();
 
     /**
-     * Get the quantity of the item.
+     * Gets the quantity of the item.
      *
-     * @return the quantity of the item.
+     * @return quantity of the item
      */
-    int getQuantity();
+    Integer getQuantity();
 }

@@ -6,7 +6,6 @@
 package GameObject.Item.BattleItem;
 
 import GameObject.Item.Item;
-import GameObject.Item.Potion.Potion;
 import GameObject.Player.Inventory.InventoryItem;
 
 public class BattleItem extends Item implements InventoryItem {
@@ -62,7 +61,7 @@ public class BattleItem extends Item implements InventoryItem {
      * @author Manindra de Mel
      */
     @Override
-    public int getQuantity() {
+    public Integer getQuantity() {
         return this.quantity;
     }
     /**
