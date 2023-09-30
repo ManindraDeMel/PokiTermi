@@ -57,7 +57,7 @@ public class BattleCalculationsTest {
     public void testCalculateCatchChanceWithValidPokeBall() {
         System.out.println(playerInventory.toString());
         double catchChance = battleCalculations.calculateCatchChance(enemyPokemon, playerInventory, PokeBallType.GREATBALL, 1);
-        assertEquals(1.0, catchChance, "Expected a 100% catch chance with an UltraBall for a Pokémon with half health");
+        assertEquals(1.0, catchChance, "Expected a 100% catch chance with an Great ball for a Pokémon with half health");
     }
 
     @Test

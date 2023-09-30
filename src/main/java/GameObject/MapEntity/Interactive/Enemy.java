@@ -22,8 +22,6 @@ public class Enemy extends Coordinate {
         setColor(TextColor.ANSI.RED);
     }
 
-
-
     @Override
     public void display() {
         super.display();

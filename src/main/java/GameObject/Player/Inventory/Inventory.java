@@ -1,11 +1,10 @@
 package GameObject.Player.Inventory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import GameObject.Pokemon.Pokemon;
-
+import GameObject.Item.PokeBall.PokeBall;
+import GameObject.Item.PokeBall.PokeBallType;
 /**
  * Represents the player's inventory.
  *
@@ -110,7 +109,41 @@ public class Inventory {
         }
         return 0;
     }
-
+    /**
+     * Returns the default Pokémon, which is the first Pokémon in the list.
+     *
+     * @return the default Pokémon.
+     */
+    public Pokemon getDefaultPokemon() {
+        if (!pokemons.isEmpty()) {
+            return pokemons.get(0);
+        }
+        return null;  // Return null if the player doesn't have any Pokémon.
+    }
+    /**
+     * Returns the default ball, which is of type 'NORMALBALL' or 'GREATBALL'.
+     *
+     * @return the default ball of type 'NORMALBALL' or 'GREATBALL' or null if not found.
+     */
+    public PokeBall getDefaultBall() {
+        for (InventoryItem item : items) {
+            if (item instanceof PokeBall) {
+                PokeBall pokeball = (PokeBall) item;
+                if (pokeball.getType() == PokeBallType.NORMALBALL) {
+                    return pokeball;
+                }
+            }
+        }
+        for (InventoryItem item : items) { // if no normal balls, check greatballs
+            if (item instanceof PokeBall) {
+                PokeBall pokeball = (PokeBall) item;
+                if (pokeball.getType() == PokeBallType.GREATBALL) {
+                    return pokeball;
+                }
+            }
+        }
+        return null; // if player has no balls (lmao)
+    }
     /**
      * Provides a string representation of the entire inventory.
      *
