@@ -1,6 +1,6 @@
-package GameObject.Pokemon.data;
+package GameObject.Pokemon.data.loader;
 
-import GameObject.Pokemon.PokemonData;
+import GameObject.Pokemon.data.PokemonData;
 
 /**
  * Represents a wrapper for the Pokedex, which contains an array of PokemonData.
