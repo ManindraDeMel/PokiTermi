@@ -1,6 +1,7 @@
 package Game.Battle;
 
 import GameObject.Item.BattleItem.BattleItemType;
+import GameObject.Item.PokeBall.PokeBall;
 import GameObject.Item.PokeBall.PokeBallType;
 import GameObject.Item.Potion.Potion;
 import GameObject.Player.Inventory.Inventory;
@@ -133,14 +134,15 @@ public class BattleCalculations {
      *
      * @param enemyPokemon The enemy Pokémon.
      * @param inventory The player's inventory.
-     * @param pokeBall The specific Pokéball from the inventory to use.
+     * @param pokeballType The specific Pokéball from the inventory to use.
      * @param requiredQuantity The quantity of the Pokéball required.
      * @return The catch chance as a decimal (e.g., 0.65 for a 65% chance).
      * @throws IllegalArgumentException If the player doesn't have enough of the specified Pokéball.
      */
-    public double calculateCatchChance(Pokemon enemyPokemon, Inventory inventory, InventoryItem pokeBall, int requiredQuantity) {
+    public double calculateCatchChance(Pokemon enemyPokemon, Inventory inventory, PokeBallType pokeballType, int requiredQuantity) {
+        PokeBall tempBall = new PokeBall("", requiredQuantity, pokeballType);
         // Ensure the player has the required quantity of the Pokéball in their inventory
-        if (inventory.getQuantity(pokeBall) < requiredQuantity) {
+        if (inventory.getQuantity(tempBall) < requiredQuantity) {
             throw new IllegalArgumentException("Player doesn't have enough of the specified Pokéball in their inventory!");
         }
 
@@ -148,10 +150,8 @@ public class BattleCalculations {
 
         double ballModifier = 1.0;  // Regular Pokéball as default
         try {
-            switch (PokeBallType.valueOf(pokeBall.getName())) {
-                case GREATBALL:
-                    ballModifier = 2;
-                    break;
+            switch (pokeballType) {
+                case GREATBALL -> ballModifier = 2;
             }
         } catch (IllegalArgumentException e) {
             // Handle the case where a Pokéball's name doesn't match any known type.

@@ -36,7 +36,7 @@ public class BattleItem extends Item implements InventoryItem {
     public void setBoostAmount(int boostAmount) {
         this.boostAmount = boostAmount;
     }
-
+    @Override
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }

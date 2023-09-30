@@ -19,7 +19,7 @@ public class PokeBall extends Item implements InventoryItem {
         this.quantity = quantity;
         this.type = type;
     }
-
+    @Override
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
