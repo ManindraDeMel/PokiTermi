@@ -1,6 +1,8 @@
 package GameObject.Pokemon;
 
-import GameObject.Pokemon.data.PokemonDataLoader;
+import GameObject.Pokemon.data.PokemonData;
+import GameObject.Pokemon.data.loader.PokemonDataLoader;
+import GameObject.Pokemon.data.Type.TypeEffectiveness;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ public class Pokemon {
 
     /** Path to the data file containing details about various Pokemon. */
     public static final String POKEMON_DATA_FILE_PATH = "/GameObject/Pokemon/data/pokemon.json";
-
+    /** Path to the data file containing details about various Pokemon types and their effectiveness against other types. */
+    public static final String TYPE_DATA_FILE_PATH = "/GameObject/Pokemon/data/type_effectiveness.json";
     /**
      * Constructor that initializes the Pokemon with the given data.
      *
@@ -114,7 +117,7 @@ public class Pokemon {
 
         try {
             for (int i = 0; i < count; i++) {
-                PokemonData randomData = PokemonDataLoader.getRandomPokemonData(POKEMON_DATA_FILE_PATH);
+                PokemonData randomData = PokemonDataLoader.getRandomPokemonData(POKEMON_DATA_FILE_PATH, TYPE_DATA_FILE_PATH);
                 Pokemon pokemon = new Pokemon(randomData);
                 randomPokemons.add(pokemon);
             }

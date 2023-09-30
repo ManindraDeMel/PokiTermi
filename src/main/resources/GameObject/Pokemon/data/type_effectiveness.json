@@ -1,5 +1,4 @@
 {
-  "types": {
     "Grass": {
       "super_effective": ["Water", "Ground", "Rock"],
       "not_very_effective": ["Fire", "Grass", "Poison", "Flying", "Bug", "Dragon", "Steel"],
@@ -90,5 +89,4 @@
       "not_very_effective": ["Rock", "Steel"],
       "no_effect": ["Ghost"]
     }
-  }
 }
