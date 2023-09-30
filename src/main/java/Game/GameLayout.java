@@ -1,6 +1,6 @@
 package Game;
-import GameObject.Battle.BattleUI.NPCUI;
 
+import GameObject.MapEntity.Interactive.NPC;
 import GameObject.Text.TextBox;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -114,7 +114,15 @@ public class GameLayout {
         resultTextBox.setText("---------HelloWorld---------");
         resultTextBox.render(terminal);
     }
-
+    /**
+     * Updates the battle box and renders it on the terminal.
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author Zhangheng Xu
+     */
+    public static void updateBattleBox() throws IOException {
+        battleBox.render(terminal);
+    }
 
     /**
      * chose random dialogue when talk to NPC
@@ -123,7 +131,7 @@ public class GameLayout {
      * @author Zhangheng Xu
      */
     public static void startTalk() throws IOException {
-        battleBox.setText(NPCUI.NPCTalk());
+        battleBox.setText(NPC.NPCTalk());
         battleBox.render(terminal);
     }
     /**
@@ -136,15 +144,7 @@ public class GameLayout {
         titleBox.setText(titleBoxText);
         titleBox.render(terminal);
     }
-    /**
-     * Updates the battle box and renders it on the terminal.
-     *
-     * @throws IOException if there's an error during rendering.
-     * @author Zhangheng Xu
-     */
-    public static void updateBattleBox() throws IOException {
-        battleBox.render(terminal);
-    }
+
     /**
      * Updates the tooltip box and renders it on the terminal.
      *
