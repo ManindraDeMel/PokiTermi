@@ -34,10 +34,6 @@ public class Potion extends Item implements InventoryItem {
         this.healAmount = healAmount;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     /**
      * @author Manindra de Mel
      */
@@ -50,8 +46,15 @@ public class Potion extends Item implements InventoryItem {
      * @author Manindra de Mel
      */
     @Override
-    public int getQuantity() {
+    public Integer getQuantity() {
         return this.quantity;
+    }
+    /**
+     * @author Manindra de Mel
+     */
+    @Override
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
     /**
      * @author Manindra de Mel

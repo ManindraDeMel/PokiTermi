@@ -88,16 +88,19 @@ public class PokemonDataLoader {
      * @throws IOException if there are issues reading the file or parsing the data.
      */
     public static List<PokemonData> loadPokemonDataFromFile(String pokemonDataPath, String typeEffectivenessPath) throws IOException {
-        List<PokemonData> pokemons = loadRawPokemonDataFromFile(pokemonDataPath); // This can be your previous method
+        List<PokemonData> pokemons = loadRawPokemonDataFromFile(pokemonDataPath);
         Map<Type, TypeEffectiveness> typeEffectivenessMap = loadTypeEffectivenessData(typeEffectivenessPath);
 
         for (PokemonData pokemon : pokemons) {
+            TypeEffectiveness cumulativeEffectiveness = new TypeEffectiveness();
+
             for (Type type : pokemon.getType()) {
                 if (typeEffectivenessMap.containsKey(type)) {
-                    pokemon.getStats().setTypeEffectiveness(typeEffectivenessMap.get(type));
-                    break; // assuming one type effectiveness is set for each Pokémon, otherwise, remove the break
+                    cumulativeEffectiveness.mergeWith(typeEffectivenessMap.get(type));
                 }
             }
+
+            pokemon.getStats().setTypeEffectiveness(cumulativeEffectiveness);
         }
 
         return pokemons;

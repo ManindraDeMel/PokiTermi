@@ -39,11 +39,11 @@ public class Enemy extends Coordinate {
         setSymbol('@');  // Set the display symbol for the enemy.
         setColor(TextColor.ANSI.RED);  // Set the display color for the enemy.
     }
-
     /**
      * Overrides the display method from the Coordinate class.
      * This method is responsible for displaying the enemy on the map.
      */
+
     @Override
     public void display() {
         super.display();

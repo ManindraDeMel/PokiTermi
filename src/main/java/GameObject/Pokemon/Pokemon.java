@@ -26,6 +26,7 @@ public class Pokemon {
     public static final String POKEMON_DATA_FILE_PATH = "/GameObject/Pokemon/data/pokemon.json";
     /** Path to the data file containing details about various Pokemon types and their effectiveness against other types. */
     public static final String TYPE_DATA_FILE_PATH = "/GameObject/Pokemon/data/type_effectiveness.json";
+    public Pokemon() {data = new PokemonData();}; // Default constructor
     /**
      * Constructor that initializes the Pokemon with the given data.
      *

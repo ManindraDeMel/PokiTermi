@@ -6,7 +6,6 @@ package GameObject.Player.Inventory;
  * @author Manindra de Mel
  */
 public interface InventoryItem {
-
     /**
      * Get the name of the item.
      *
@@ -15,9 +14,14 @@ public interface InventoryItem {
     String getName();
 
     /**
-     * Get the quantity of the item.
+     * Gets the quantity of the item.
      *
-     * @return the quantity of the item.
+     * @return quantity of the item
      */
-    int getQuantity();
+    Integer getQuantity();
+    /**
+     * Sets the quantity of the item.
+     *
+     */
+    void setQuantity(int quantity);
 }

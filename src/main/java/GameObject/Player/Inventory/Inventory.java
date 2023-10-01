@@ -1,11 +1,10 @@
 package GameObject.Player.Inventory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import GameObject.Pokemon.Pokemon;
-
+import GameObject.Item.PokeBall.PokeBall;
+import GameObject.Item.PokeBall.PokeBallType;
 /**
  * Represents the player's inventory.
  *
@@ -13,14 +12,14 @@ import GameObject.Pokemon.Pokemon;
  */
 public class Inventory {
     private List<Pokemon> pokemons;
-    private Map<InventoryItem, Integer> items;
+    private ArrayList<InventoryItem> items;
 
     /**
      * Constructor initializes the inventory.
      */
     public Inventory() {
         pokemons = new ArrayList<>();
-        items = new HashMap<>();
+        items = new ArrayList<>();
         initializeWithRandomPokemons(3);
     }
     /**
@@ -56,14 +55,15 @@ public class Inventory {
      * @param item the InventoryItem object.
      */
     public void addInventoryItem(InventoryItem item) {
-        for (Map.Entry<InventoryItem, Integer> entry : items.entrySet()) {
-            if (entry.getKey().equals(item)) {
-                items.put(entry.getKey(), entry.getValue() + item.getQuantity());
+        for (InventoryItem entry : items) {
+            if (entry.equals(item)) {
+                entry.setQuantity(entry.getQuantity() + item.getQuantity());
                 return;
             }
         }
-        items.put(item, item.getQuantity());
+        items.add(item);
     }
+
 
     /**
      * Remove a Pokémon by index.
@@ -77,24 +77,24 @@ public class Inventory {
     }
 
     /**
-     * Use an inventory item, decrementing its quantity. Returns false if item not available.
+     * Use an inventory item, decrementing its quantity. Returns false if the item is not available.
      *
      * @param item the InventoryItem to use.
-     * @return true if item used successfully, false otherwise.
+     * @return true if the item was used successfully, false otherwise.
      */
     public boolean useInventoryItem(InventoryItem item) {
-        if (items.containsKey(item) && items.get(item) > 0) {
-            int currentQuantity = items.get(item);
-            int newQuantity = Math.max(0, currentQuantity - 1);
-            if (newQuantity == 0) {
-                items.remove(item);
-            } else {
-                items.put(item, newQuantity);
+        for (InventoryItem i : items) {
+            if (i.equals(item) && i.getQuantity() > 0) {
+                i.setQuantity(i.getQuantity() - 1);
+                if (i.getQuantity() == 0) {
+                    items.remove(i);
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }
+
     /**
      * Get the quantity of a specific inventory item.
      *
@@ -102,9 +102,48 @@ public class Inventory {
      * @return the quantity of the item, or 0 if the item is not in the inventory.
      */
     public int getQuantity(InventoryItem item) {
-        return items.getOrDefault(item, 0);
+        for (InventoryItem i : items) {
+            if (i.equals(item)) {
+                return i.getQuantity();
+            }
+        }
+        return 0;
     }
-
+    /**
+     * Returns the default Pokémon, which is the first Pokémon in the list.
+     *
+     * @return the default Pokémon.
+     */
+    public Pokemon getDefaultPokemon() {
+        if (!pokemons.isEmpty()) {
+            return pokemons.get(0);
+        }
+        return null;  // Return null if the player doesn't have any Pokémon.
+    }
+    /**
+     * Returns the default ball, which is of type 'NORMALBALL' or 'GREATBALL'.
+     *
+     * @return the default ball of type 'NORMALBALL' or 'GREATBALL' or null if not found.
+     */
+    public PokeBall getDefaultBall() {
+        for (InventoryItem item : items) {
+            if (item instanceof PokeBall) {
+                PokeBall pokeball = (PokeBall) item;
+                if (pokeball.getType() == PokeBallType.NORMALBALL) {
+                    return pokeball;
+                }
+            }
+        }
+        for (InventoryItem item : items) { // if no normal balls, check greatballs
+            if (item instanceof PokeBall) {
+                PokeBall pokeball = (PokeBall) item;
+                if (pokeball.getType() == PokeBallType.GREATBALL) {
+                    return pokeball;
+                }
+            }
+        }
+        return null; // if player has no balls (lmao)
+    }
     /**
      * Provides a string representation of the entire inventory.
      *
@@ -122,9 +161,9 @@ public class Inventory {
 
         // Display Items
         sb.append("\nItems: \n");
-        for (Map.Entry<InventoryItem, Integer> entry : items.entrySet()) {
-            sb.append(entry.getKey().toString()) // Call InventoryItem's toString
-                    .append(": ").append(entry.getValue()).append("\n");
+        for (InventoryItem item : items) {
+            sb.append(item.toString()) // Call InventoryItem's toString
+                    .append(": ").append(item.getQuantity()).append("\n");
         }
 
         return sb.toString();

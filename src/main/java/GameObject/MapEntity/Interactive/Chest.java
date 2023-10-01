@@ -11,9 +11,11 @@ import com.googlecode.lanterna.TextColor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import static Game.GameLayout.displayMessage;
+import static GameObject.MapEntity.Interactive.Chest.ItemType.*;
 
 /**
  * Represents a Chest in the game layout which can contain items that players can acquire.
@@ -21,25 +23,12 @@ import static Game.GameLayout.displayMessage;
  * @author Yiming Lu
  */
 public class Chest extends Coordinate {
-
-    public static ArrayList<Enum> itemList = new ArrayList<>();
-
     public enum ItemType {
         Potion, SuperPotion, NormalBall, GreatBall, XAttack, XDefense, XSpecialAttack, XSpecialDefence, XSpeed
     }
-
-    static {
-        // Initializing the itemList
-        itemList.add(ItemType.Potion);
-        itemList.add(ItemType.SuperPotion);
-        itemList.add(ItemType.NormalBall);
-        itemList.add(ItemType.GreatBall);
-        itemList.add(ItemType.XAttack);
-        itemList.add(ItemType.XDefense);
-        itemList.add(ItemType.XSpecialAttack);
-        itemList.add(ItemType.XSpecialDefence);
-        itemList.add(ItemType.XSpeed);
-    }
+    public static ArrayList<Enum> itemList = new ArrayList<>(Arrays.asList(
+            Potion, SuperPotion, NormalBall, GreatBall, XAttack, XDefense, XSpecialAttack, XSpecialDefence, XSpeed
+    ));
 
     /**
      * Constructs a new Chest with the specified row and column positions.
@@ -109,7 +98,7 @@ public class Chest extends Coordinate {
         }
 
         String message = "You found an item";
-        displayMessage(message);
+        displayMessage(message); // doesn't work
         return foundItem;
     }
 }

@@ -49,7 +49,6 @@ public class Item {
         return name + ": " + description;
     }
 
-    // Getter and Setter methods remain unchanged.
     public String getName() {
         return name;
     }
