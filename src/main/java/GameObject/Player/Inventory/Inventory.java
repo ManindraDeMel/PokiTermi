@@ -113,6 +113,11 @@ public class Inventory {
         }
         return 0;
     }
+    /**
+     * Retrieves all BattleItems in the player's inventory.
+     *
+     * @return A list of BattleItems.
+     */
     public List<InventoryItem> getBattleItems() {
         List<InventoryItem> battleItems = new ArrayList<>();
         for (InventoryItem item : items) {
@@ -136,6 +141,12 @@ public class Inventory {
         }
         return potions;
     }
+    /**
+     * Finds the index of a specific Pokémon in the player's inventory.
+     *
+     * @param pokemon The Pokémon to find.
+     * @return The index of the Pokémon, or -1 if not found.
+     */
     public int getIndexOfPokemon(Pokemon pokemon) {
         for (int i = 0; i < pokemons.size(); i++) {
             if (pokemons.get(i).equals(pokemon)) {
@@ -168,6 +179,12 @@ public class Inventory {
         }
         return pokeBalls;
     }
+    /**
+     * Removes a specific type and quantity of Pokéball from the player's inventory.
+     *
+     * @param ball The type of Pokéball to remove.
+     * @return True if the Pokéball was successfully removed, false otherwise.
+     */
     public boolean removePokeBall(PokeBall ball) {
         List<InventoryItem> pokeBalls = getPokeBalls();
         for (InventoryItem item : pokeBalls) {

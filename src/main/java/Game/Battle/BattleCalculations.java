@@ -112,7 +112,15 @@ public class BattleCalculations {
 
         return Math.min(Math.max(catchChance, 0.0), 1.0); // Ensure it doesn't exceed 100% or go below 0%
     }
-
+    /**
+     * Attempts to catch an enemy Pokémon using a specified Pokéball from the player's inventory.
+     *
+     * @param enemyPokemon The enemy Pokémon to catch.
+     * @param inventory The player's inventory.
+     * @param pokeballType The type of Pokéball to use.
+     * @return True if the Pokémon was caught, false otherwise.
+     * @throws IllegalArgumentException If the player doesn't have the specified Pokéball in their inventory.
+     */
     public boolean attemptCatch(Pokemon enemyPokemon, Inventory inventory, PokeBallType pokeballType) {
         // Calculate the chance of catching the Pokemon with the specified Pokeball.
         double catchChance = calculateCatchChance(enemyPokemon, inventory, pokeballType, 1);

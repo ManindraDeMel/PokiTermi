@@ -6,16 +6,20 @@ import GameObject.Item.PokeBall.PokeBall;
 import GameObject.Item.Potion.Potion;
 import GameObject.Player.Inventory.InventoryItem;
 import GameObject.Pokemon.Pokemon;
-import GameObject.Player.Player; // Assuming you have a Player class that contains inventory and list of Pokémon.
+import GameObject.Player.Player;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static Game.GameLayout.*;
-
+/**
+ * Manages the battle mechanics, including the player's interactions, Pokémon attacks, and item usage.
+ * Provides a user interface for the player to make battle decisions.
+ *
+ * @author Manindra de MEl
+ */
 public class BattleManager {
     private Player player;
     private Pokemon enemyPokemon;
@@ -23,6 +27,12 @@ public class BattleManager {
     private PokeBall defaultBall;
     private Pokemon pokemonInfield;
     private boolean isBattleOver;
+    /**
+     * Initializes a new battle between the player and an enemy Pokémon.
+     *
+     * @param player The player participating in the battle.
+     * @param enemyPokemon The enemy Pokémon the player will battle against.
+     */
     public BattleManager(Player player, Pokemon enemyPokemon) {
         this.player = player;
         this.enemyPokemon = enemyPokemon;
@@ -30,7 +40,11 @@ public class BattleManager {
         pokemonInfield = player.getInventory().getDefaultPokemon();
         isBattleOver = false;
     }
-
+    /**
+     * Starts the battle loop, allowing the player to make decisions until the battle concludes.
+     *
+     * @throws IOException If there's an issue with input/output operations.
+     */
     public void startBattle() throws IOException {
         while (true) {
             if (isBattleOver) {
@@ -79,7 +93,12 @@ public class BattleManager {
             }
         }
     }
-
+    /**
+     * Handles the player's battle option selections.
+     *
+     * @param option The character representing the player's chosen option.
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private void handleBattleOptions(char option) throws IOException {
         switch (option) {
             case '0':
@@ -122,7 +141,11 @@ public class BattleManager {
                 break;
         }
     }
-
+    /**
+     * Simulates an attack between the player's Pokémon and the enemy Pokémon.
+     *
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private void attack() throws IOException {
         // Assuming 'playerPokemon' is your player's current Pokémon and 'enemyPokemon' is the current opponent
         double winChance = battleCalculator.calculateWinChance(pokemonInfield, enemyPokemon);
@@ -148,7 +171,11 @@ public class BattleManager {
         clearBattleTextBox();
         isBattleOver = true;
     }
-
+    /**
+     * Displays a GUI for the player to select a Pokémon to switch to.
+     *
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private void displayPokemonSwitchGUI() throws IOException {
         List<Pokemon> pokemons = player.getInventory().getPokemons();
         StringBuilder sb = new StringBuilder();
@@ -164,8 +191,11 @@ public class BattleManager {
         }
         clearBattleTextBox();
     }
-
-
+    /**
+     * Displays a GUI for the player to select a potion to use.
+     *
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private void displayPotionSelectGUI() throws IOException {
         List<InventoryItem> potions = player.getInventory().getPotions();
         StringBuilder sb = new StringBuilder();
@@ -182,8 +212,12 @@ public class BattleManager {
         }
         clearBattleTextBox();
     }
-
-
+    /**
+     * Uses a potion to heal the player's Pokémon.
+     *
+     * @param selectedPotion The potion to use.
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private void usePotion(InventoryItem selectedPotion) throws IOException {
         if (selectedPotion instanceof Potion) { // Ensure the item is a potion
             Potion potion = (Potion) selectedPotion;
@@ -210,7 +244,11 @@ public class BattleManager {
         }
     }
 
-
+    /**
+     * Displays a GUI for the player to select a battle item to use.
+     *
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private void displayBattleItemSelectGUI() throws IOException {
         List<InventoryItem> battleItems = player.getInventory().getBattleItems();
         StringBuilder sb = new StringBuilder();
@@ -229,9 +267,10 @@ public class BattleManager {
     }
 
     /**
-     * Uses a BattleItem on the default Pokémon, enhancing its stats.
+     * Uses a battle item to boost the player's Pokémon stats.
      *
-     * @param selectedBattleItem the BattleItem to use.
+     * @param selectedBattleItem The battle item to use.
+     * @throws IOException If there's an issue with input/output operations.
      */
     private void useBattleItem(InventoryItem selectedBattleItem) throws IOException {
         if (selectedBattleItem instanceof BattleItem) {
@@ -288,7 +327,11 @@ public class BattleManager {
     }
 
 
-
+    /**
+     * Displays a GUI for the player to select a Pokéball to use.
+     *
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private void ChoosePokeBallGui() throws IOException {
         List<InventoryItem> balls = player.getInventory().getPokeBalls();
         StringBuilder sb = new StringBuilder();
@@ -306,7 +349,12 @@ public class BattleManager {
         }
     }
 
-
+    /**
+     * Attempts to use a Pokéball to catch the enemy Pokémon.
+     *
+     * @param ballUsed The Pokéball to use.
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private void usePokeball(PokeBall ballUsed) throws IOException {
         BattleCalculations battleCalc = new BattleCalculations();
         boolean caught = battleCalc.attemptCatch(enemyPokemon, player.getInventory(), ballUsed.getType());
@@ -323,7 +371,11 @@ public class BattleManager {
     }
 
 
-    // This method assumes you can read a numeric input from the player and validates it against the max index.
+    /**
+     * Waits for the user to provide input.
+     *
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private int getNumericInput(int maxIndex) throws IOException {
         try {
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
@@ -341,7 +393,11 @@ public class BattleManager {
     private void waitForUserInput() throws IOException {
         GameLayout.getTerminal().readInput();  // Just wait for any key input from the user
     }
-
+    /**
+     * Displays the current state of the battle, including the player's Pokémon, enemy Pokémon, and chances to win or catch.
+     *
+     * @throws IOException If there's an issue with input/output operations.
+     */
     private void displayBattleState() throws IOException {
         // For simplicity, just display chances to win/catch for now
         updateBattleTextBox(pokemonInfield + " Is on field!");

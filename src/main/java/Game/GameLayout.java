@@ -134,6 +134,11 @@ public class GameLayout {
         battleTextBox.setText("");
         battleTextBox.render(terminal);
     }
+
+    /**
+     * Clears the inventory menu
+     * @throws IOException
+     */
     public static void clearBattleTextBox() throws IOException {
         battleTextBox.clear(terminal);
     }

@@ -35,7 +35,7 @@ public class Pokemon {
     public Pokemon(PokemonData data) {
         this.data = data;
     }
-
+    // Getters and setters
     public int getAttack() {
         return data.getStats().getAttack();
     }
