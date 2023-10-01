@@ -9,8 +9,8 @@ By signing your name and UID each member of the group acknowledges that all the 
 
 ---
 
-- Group Member 2 Name:
-- Group Member 2 UID:
+- Group Member 2 Name: Manindra de Mel
+- Group Member 2 UID: u7156805
 
 ---
 
@@ -24,12 +24,4 @@ By signing your name and UID each member of the group acknowledges that all the 
 
 ---
 
-- Group Member 5 Name: (Remove if not applicable)
-- Group Member 5 UID: (Remove if not applicable)
-
----
-
 # References (If any)
-
-- [1] [test.com](test.com) - Description/other info
-- [2] [test.com](test.com) - Description/other info
