@@ -3,7 +3,7 @@
  *
  * @author Yusen Nian
  */
-package GameObject.Pokemon;
+package Game.Battle;
 
 public enum ActionResult {
     VICTORY,

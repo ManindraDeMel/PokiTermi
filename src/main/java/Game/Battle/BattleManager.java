@@ -1,13 +1,19 @@
 package Game.Battle;
 
+import Game.GameLayout;
 import GameObject.Item.PokeBall.PokeBall;
 import GameObject.Player.Inventory.Inventory;
 import GameObject.Player.Inventory.InventoryItem;
 import GameObject.Pokemon.Pokemon;
 import GameObject.Player.Player; // Assuming you have a Player class that contains inventory and list of Pokémon.
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import static Game.GameLayout.updateBattleTextBox;
 
 public class BattleManager {
 
@@ -25,44 +31,90 @@ public class BattleManager {
         defaultPokemon = player.getInventory().getDefaultPokemon();
     }
 
-    public void startBattle() {
+    public void startBattle() throws IOException {
         while (true) {
             displayBattleState();
-            int option = getPlayerInput();
+            if (defaultBall != null) {
+                updateBattleTextBox("\n\n\n Choose an option \n 0. switch pokemon \n 1. attack \n 2. catch pokemon \n 3. Use Battle Item \n 4. Use Potion");
+            } else {
+                updateBattleTextBox("\n\n\n Choose an option \n 0. switch pokemon \n 1. attack \n 2. Use Battle Item \n 3. Use Potion");
+            }
 
-            switch (option) {
-                case 0:
-                    switchPokemon();
-                    break;
-                case 1:
-                    performAttack();
-                    if (battleEnded()) {
-                        displayResult();
-                        return;
-                    }
-                    break;
-                case 2:
-                    if (attemptCatch()) {
-                        displayResult();
-                        return;
-                    }
-                    break;
-                case 3:
-                    useItem();
-                    break;
-                default:
-                    System.out.println("Invalid option. Try again.");
+            KeyStroke keyStroke = GameLayout.getTerminal().readInput();
+
+            if (keyStroke.getKeyType() == KeyType.Character) {
+                char ch = keyStroke.getCharacter();
+                System.out.println(ch);
+                handleBattleOptions(ch);
             }
         }
     }
 
-    private void displayBattleState() {
+    private void handleBattleOptions(char option) throws IOException {
+        switch (option) {
+            case '0':
+                displayPokemonSwitchGUI();
+                break;
+            case '1':
+                performAttack();
+                if (battleEnded()) {
+                    displayResult();
+                    return;
+                }
+                break;
+            case '2':
+                if (defaultBall != null) {
+                    ChoosePokeBallGui();
+                } else {
+                    displayBattleItemSelectGUI();
+                }
+                break;
+            case '3':
+                if (defaultBall != null) {
+                    displayBattleItemSelectGUI();
+                } else {
+                    displayPotionSelectGUI();
+                }
+                break;
+            case '4':
+                displayPotionSelectGUI();
+                break;
+            default:
+                updateBattleTextBox("Incorrect input");
+        }
+    }
+
+    private void displayPokemonSwitchGUI() {
+        // Display GUI for switching Pokemon
+    }
+
+    private void displayPotionSelectGUI() {
+        // Display GUI for selecting a potion
+    }
+
+    private void displayBattleItemSelectGUI() {
+        // Display GUI for selecting a battle item
+    }
+
+    private void ChoosePokeBallGui() {
+        // Display GUI for choosing a Pokeball
+    }
+
+    private void usePotion() {
+    }
+
+    private void displayBattleState() throws IOException {
         // For simplicity, just display chances to win/catch for now
-        double winChance = battleCalculator.calculateWinChance(defaultPokemon, enemyPokemon);
-        System.out.println("Chance to win: " + (winChance * 100) + "%");
-        int defaultPokeBallQty = 1;
-        double catchChance = battleCalculator.calculateCatchChance(enemyPokemon, player.getInventory(), defaultBall.getType(), defaultPokeBallQty);
-        System.out.println("Chance to catch: " + (catchChance * 100) + "%");
+        if (defaultPokemon != null) {
+            double winChance = battleCalculator.calculateWinChance(defaultPokemon, enemyPokemon);
+            updateBattleTextBox("Chance to win fight: " + String.format("%.2f", (winChance * 100)) + "%");
+
+        }
+        if (defaultBall != null) {
+            int defaultPokeBallQty = 1;
+            double catchChance = battleCalculator.calculateCatchChance(enemyPokemon, player.getInventory(), defaultBall.getType(), defaultPokeBallQty);
+            updateBattleTextBox("\n\nChance to catch: " + (catchChance * 100) + "%");
+        }
     }
 
     private int getPlayerInput() {
@@ -105,7 +157,7 @@ public class BattleManager {
         return false;
     }
 
-    private void useItem() {
+    private void useBattleItem() {
         // Show available items and let the player choose one by index
         // Apply the item's effect and update stats/chances
     }
