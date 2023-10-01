@@ -162,7 +162,7 @@ public class GameLayout {
         if(!gameEnd){
             titleBox.setText(titleBoxText);
         }else {
-            titleBox.setText("---------Thank you for playing!---------");
+            titleBox.setText("---Thank you for playing!---");
         }
 
         titleBox.render(terminal);
@@ -234,10 +234,6 @@ public class GameLayout {
 
     public static void displayEnd() throws IOException {
         GameLayout.clearScreen();
-        GameLayout.displayMap();
         GameLayout.updateTitleBox();
-        GameLayout.updateToolTipBox();
-        GameLayout.displayInventory();
-        GameLayout.updateBattleBox();
     }
 }
