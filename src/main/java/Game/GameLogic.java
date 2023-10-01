@@ -1,11 +1,5 @@
 package Game;
-
-import GameObject.Item.BattleItem.BattleItem;
-import GameObject.Item.BattleItem.BattleItemType;
 import GameObject.Item.Item;
-import GameObject.Item.PokeBall.PokeBall;
-import GameObject.Item.PokeBall.PokeBallType;
-import GameObject.Item.Potion.Potion;
 import GameObject.MapEntity.Coordinate.Coordinate;
 import GameObject.MapEntity.Interactive.Door;
 import GameObject.MapEntity.PlayerMapCursor;
@@ -17,19 +11,14 @@ import GameObject.MapEntity.Obstacle.Tree;
 import GameObject.MapEntity.Obstacle.Water;
 import GameObject.Player.Inventory.InventoryItem;
 import GameObject.Player.Player;
-import GameObject.Pokemon.ActionResult;
-import GameObject.Pokemon.Pokemon;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
-
+import Game.Battle.BattleManager;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import static Game.GameLayout.displayInventory;
 
 /**
  * GameLogic is the primary class responsible for running and managing the state of the game.
@@ -88,7 +77,6 @@ public class GameLogic {
             GameLayout.displayTextResult();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);
-            if (keyStroke.getCharacter() == 'Q') break;
         }
         GameLayout.displayEnd();
 
@@ -105,11 +93,6 @@ public class GameLogic {
 
         // Quit Game
         if (keyStroke.getCharacter() != null && keyStroke.getCharacter() == 'Q') return;
-        // inventory
-        if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'i') {
-            System.out.println("Attempting to display inventory...");  // Debug statement
-            displayInventory();
-        }
 
         // Movement
         if (keyStroke.getCharacter() != null) {
@@ -137,7 +120,7 @@ public class GameLogic {
      * @author Yiming Lu
      * @author Zhangheng Xu
      */
-    private static void interactAndMove(int dx, int dy,KeyStroke keyStroke) throws IOException {
+    private static void interactAndMove(int dx, int dy) throws IOException {
         int newRow = playerMapCursor.getRow() + dy;
         int newCol = playerMapCursor.getCol() + dx;
 
@@ -155,9 +138,9 @@ public class GameLogic {
 
             //If there's an enemy at the new position, start a battle.
             if(entity instanceof Enemy){
-                //startBattle((Pokemon)entity, keyStroke);
+                BattleManager newBattle = new BattleManager(player, ((Enemy) entity).getThisPokemon());
+                newBattle.startBattle();
                 GameLayout.updateBattleBox();
-                //Pokemon enemy = ((Enemy) entity).open();
                 tableData[newRow][newCol] = null;  // Remove the enemy from the map
                 checkGameStatus();
             }
@@ -166,7 +149,6 @@ public class GameLogic {
             if(entity instanceof NPC){
                 GameLayout.startTalk();
                 GameLayout.updateBattleBox();
-                tableData[newRow][newCol] = null;  // Remove the enemy from the map
             }
 
 
@@ -191,57 +173,6 @@ public class GameLogic {
         }
     }
 
-
-
-    // need to be updated ---------------------------------------------------------------------
-
-    public static void startBattle(Pokemon enemy, KeyStroke keyStroke) throws IOException {
-        // initialization
-        BattleItem battleItem = null;
-        PokeBall pokeball = null;
-        Potion potion = null;
-        // test
-      // Pokemon pokemon = new Pokemon(100, 50, 50);
-        battleItem = new BattleItem(1, BattleItemType.XAttack);  // Initialize battleItem
-        pokeball = new PokeBall("helloWorld", 1, PokeBallType.NORMALBALL);  // Initialize pokeball
-        potion = new Potion(1);  // Initialize potion
-
-        // Update the battleBox text to indicate the start of the battle
-        GameLayout.battleBox.setText("You meet an enemy!");
-        GameLayout.battleBox.render(terminal);
-
-        List<String> questionsList = collectBattleQuestions(keyStroke);
-        Pokemon pokemon = null;
-      //  Battle battle = new Battle(pokemon, enemy, battleItem, pokeball, potion);
-     //   ActionResult battleResult = battle.battleResult();
-    }
-
-    /**
-     * Private method to collect battle-related questions from the user and return them as a List of Strings.
-     *
-     *
-     * @return A List containing battle-related questions:
-     *         - Element 0: Pokemon index
-     *         - Element 1: Battle item ('a' for attack, 'd' for defense, 'n' for none)
-     *         - Element 2: Pokeball ('b' for normal, 'g' for great, 'n' for none)
-     *         - Element 3: Potion ('y' for yes, 'n' for no)
-     * @author Zhangheng Xu
-     */
-
-    private static List<String> collectBattleQuestions(KeyStroke keyStroke) {
-        List<String> questions = new ArrayList<>();
-
-        // Collecting user input for each question
-        if (keyStroke != null && keyStroke.getCharacter() == '1') {
-            questions.add(0, "1");
-        }
-        // Add more logic to collect other questions based on user input
-
-        return questions;
-    }
-
-//--------------------------------------------------------------------------------------
-
         /**
          * Moves the player character in the given direction.
          *
@@ -253,19 +184,19 @@ public class GameLogic {
         switch (direction) {
             case 'W':
             case 'w':
-                interactAndMove(0, -1,null); // Move Up
+                interactAndMove(0, -1); // Move Up
                 break;
             case 'S':
             case 's':
-                interactAndMove(0, 1,null);  // Move Down
+                interactAndMove(0, 1);  // Move Down
                 break;
             case 'A':
             case 'a':
-                interactAndMove(-1, 0,null); // Move Left
+                interactAndMove(-1, 0); // Move Left
                 break;
             case 'D':
             case 'd':
-                interactAndMove(1, 0,null);  // Move Right
+                interactAndMove(1, 0);  // Move Right
                 break;
         }
     }
@@ -375,7 +306,7 @@ public class GameLogic {
             } else if (coord instanceof Tree) {
                 return "You find a Tree at " + direction + ".\n";
             } else if (coord instanceof Enemy) {
-                return "You find an Enemy at " + direction + ".\n";
+                return "You find an " + ((Enemy) coord).getThisPokemon().getName() + " (enemy) at " + direction + ".\n";
             } else if (coord instanceof Chest) {
                 return "You find a Chest at " + direction + ".\n";
             } else if (coord instanceof NPC) {

@@ -16,18 +16,7 @@ import java.util.Random;
  * This class extends the Coordinate class and provides functionalities specific to enemies.
  */
 public class Enemy extends Coordinate {
-
-    // List to store different types of enemy monsters available in the game.
-    private static ArrayList<String> enemyList;
-
-    /**
-     * Static method to initialize the list of enemy monsters.
-     * This method should be called at game start to populate the enemyList.
-     */
-    public static void initEnemyList(){
-        // TODO: Implementation to load enemy monsters into enemyList.
-    }
-
+    Pokemon thisPokemon; // The pokemon this enemy is
     /**
      * Constructor to create an instance of Enemy at a specific row and column.
      *
@@ -38,7 +27,17 @@ public class Enemy extends Coordinate {
         super(row, col);
         setSymbol('@');  // Set the display symbol for the enemy.
         setColor(TextColor.ANSI.RED);  // Set the display color for the enemy.
+        thisPokemon = Pokemon.getRandomPokemons(1).get(0); // init the pokemon
     }
+
+    /**
+     * @return this pokemon
+     * @author Manindra de Mel
+     */
+    public Pokemon getThisPokemon() {
+        return thisPokemon;
+    }
+
     /**
      * Overrides the display method from the Coordinate class.
      * This method is responsible for displaying the enemy on the map.
