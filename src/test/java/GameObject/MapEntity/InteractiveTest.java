@@ -45,6 +45,13 @@ public class InteractiveTest {
         assertEquals('@', enemy.getSymbol());
     }
 
+    @Test
+    public void testEnemyListInitialization() {
+        Enemy.initEnemyList();
+        assertNotNull(Enemy.enemyList);
+        assertFalse(Enemy.enemyList.isEmpty());
+    }
+
     // Test for NPC
     @Test
     public void testNPCInitialization() {
