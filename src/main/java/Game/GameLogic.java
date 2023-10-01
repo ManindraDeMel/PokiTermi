@@ -48,7 +48,7 @@ public class GameLogic {
      * @author Yiming Lu
      */
     public static void initialize() {
-        player.setName("Tester");
+        player.setName("Professor Oak");
         levelMaps.add(new LevelMap(1).getMap());
         levelMaps.add(new LevelMap(2).getMap());
         levelMaps.add(new LevelMap(3).getMap());
@@ -74,7 +74,7 @@ public class GameLogic {
             GameLayout.updateToolTipBox();
             GameLayout.displayInventory();
             GameLayout.updateBattleBox();
-            GameLayout.displayTextResult();
+            GameLayout.updateBattleTextBox();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);
         }

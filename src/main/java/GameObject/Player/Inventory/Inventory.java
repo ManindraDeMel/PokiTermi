@@ -20,7 +20,8 @@ public class Inventory {
     public Inventory() {
         pokemons = new ArrayList<>();
         items = new ArrayList<>();
-        initializeWithRandomPokemons(3);
+        initializeWithRandomPokemons(3); // add three random pokemon
+        addInventoryItem(new PokeBall("initial pokeballs", 1, PokeBallType.NORMALBALL)); // give player 1 initial pokeball
     }
     /**
      * Initializes the inventory with a set number of random Pokémon.

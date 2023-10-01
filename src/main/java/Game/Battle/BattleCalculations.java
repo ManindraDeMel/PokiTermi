@@ -123,7 +123,8 @@ public class BattleCalculations {
      */
     private double calculateBaseCatchChance(Pokemon enemyPokemon) {
         double FIXED_BIAS = 0.15;
-        double healthFactor = (enemyPokemon.getHealth() / 100) + FIXED_BIAS;
+        double result = (double) enemyPokemon.getHealth() / 100;
+        double healthFactor = result + FIXED_BIAS;
         // For this example, a Pokémon with half its health gives a base 50% catch rate.
         return 1 - healthFactor;
     }
