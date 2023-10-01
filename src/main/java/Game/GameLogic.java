@@ -65,8 +65,8 @@ public class GameLogic {
      */
     public static void runGame() throws IOException {
         initialize();
-
         while (!gameEnd) {
+            isGameOver();
             GameLayout.clearScreen();
             GameLayout.displayMap();
             GameLayout.describeEnvironment();
@@ -81,6 +81,17 @@ public class GameLogic {
         GameLayout.displayEnd();
 
     }
+
+    /**
+     * @author Manindra de MEl
+     * Checks if the game is over (player loses all pokemon)
+     */
+    private static void isGameOver() {
+        if (player.getInventory().getPokemons().isEmpty()) {
+            gameEnd = true;
+        }
+    }
+
     /**
      * Handles player input to control the game.
      *
