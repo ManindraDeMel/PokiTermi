@@ -14,8 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Game.GameLayout.clearBattleTextBox;
-import static Game.GameLayout.updateBattleTextBox;
+import static Game.GameLayout.*;
 
 public class BattleManager {
     private Player player;
@@ -40,25 +39,35 @@ public class BattleManager {
             displayBattleState();
             StringBuilder optionsText = new StringBuilder("\n\n\n\n\nChoose an option");
 
+            int optionNumber = 0; // Start with option number 0 for 'attack'
+
+            optionsText.append("\n " + optionNumber + " -> attack");
+            optionNumber++; // Increment for the next option
+
             // Check if the player has more than one Pokemon:
             if (player.getInventory().getPokemons().size() > 1) {
-                optionsText.append("\n0. switch pokemon");
+                optionsText.append("\n " + optionNumber + " -> switch pokemon");
+                optionNumber++; // Increment for the next option
             }
 
-            optionsText.append("\n1. attack");
-
-            // Check for availability of balls, battle items, and potions:
+            // Check for availability of balls:
             if (defaultBall != null) {
-                optionsText.append("\n2. catch pokemon");
+                optionsText.append("\n " + optionNumber + " -> catch pokemon");
+                optionNumber++; // Increment for the next option
             }
 
+            // Check for availability of battle items:
             if (!player.getInventory().getBattleItems().isEmpty()) {
-                optionsText.append("\n3. Use Battle Item");
+                optionsText.append("\n " + optionNumber + " -> Use Battle Item");
+                optionNumber++; // Increment for the next option
             }
 
+            // Check for availability of potions:
             if (!player.getInventory().getPotions().isEmpty()) {
-                optionsText.append("\n4. Use Potion");
+                optionsText.append("\n " + optionNumber + " -> Use Potion");
             }
+
+            updateBattleTextBox(optionsText.toString());
 
             updateBattleTextBox(optionsText.toString());
 
@@ -74,14 +83,14 @@ public class BattleManager {
     private void handleBattleOptions(char option) throws IOException {
         switch (option) {
             case '0':
+                clearBattleTextBox();
+                attack();
+                break;
+            case '1':
                 if (player.getInventory().getPokemons().size() > 1) {
                     clearBattleTextBox();
                     displayPokemonSwitchGUI();
                 }
-                break;
-            case '1':
-                clearBattleTextBox();
-                attack();
                 break;
             case '2':
                 clearBattleTextBox();
@@ -123,9 +132,7 @@ public class BattleManager {
         if (randomValue <= winChance) {
             // Player's Pokémon wins
             updateBattleTextBox(pokemonInfield.getName() + " defeated " + enemyPokemon.getName() + "!");
-            System.out.println(pokemonInfield.getHealth());
             pokemonInfield.setHealth((int) (pokemonInfield.getHealth() * 0.8)); // lose 20% of its health per battle regardless
-            System.out.println(pokemonInfield.getHealth());
         } else {
             // Enemy Pokémon wins
             updateBattleTextBox(enemyPokemon.getName() + " defeated " + pokemonInfield.getName() + "!");
@@ -190,6 +197,7 @@ public class BattleManager {
                 // Remove the potion from the inventory if there's none left
                 player.getInventory().removeItem(potion);
             }
+            clearInventoryGui();
             GameLayout.displayInventory();
             clearBattleTextBox();
             // Provide feedback to the player
@@ -236,23 +244,23 @@ public class BattleManager {
                 switch (battleItem.getType()) {
                     case XAttack:
                         pokemonInfield.setAttack(pokemonInfield.getAttack() + boostAmount);
-                        message = pokemonInfield.getName() + "'s attack increased by " + boostAmount + "!";
+                        message = pokemonInfield.getName() + "'s attack increased by " + (10 * boostAmount) + "!";
                         break;
                     case XDefense:
                         pokemonInfield.setDefense(pokemonInfield.getDefense() + boostAmount);
-                        message = pokemonInfield.getName() + "'s defense increased by " + boostAmount + "!";
+                        message = pokemonInfield.getName() + "'s defense increased by " + (10 * boostAmount) + "!";
                         break;
                     case XSpecialAttack:
-                        pokemonInfield.setAttack(pokemonInfield.getAttack() + (2 * boostAmount));
-                        message = pokemonInfield.getName() + "'s attack increased by " + (2 * boostAmount) + "!";
+                        pokemonInfield.setAttack(pokemonInfield.getAttack() + (20 * boostAmount));
+                        message = pokemonInfield.getName() + "'s attack increased by " + (20 * boostAmount) + "!";
                         break;
                     case XSpecialDefence:
-                        pokemonInfield.setDefense(pokemonInfield.getDefense() + (2 * boostAmount));
-                        message = pokemonInfield.getName() + "'s defense increased by " + (2 * boostAmount) + "!";
+                        pokemonInfield.setDefense(pokemonInfield.getDefense() + (20 * boostAmount));
+                        message = pokemonInfield.getName() + "'s defense increased by " + (20 * boostAmount) + "!";
                         break;
                     case XSpeed:
-                        pokemonInfield.setAttack((int) (pokemonInfield.getAttack() + (0.5 * boostAmount)));
-                        pokemonInfield.setDefense((int) (pokemonInfield.getDefense() + (0.5 * boostAmount)));
+                        pokemonInfield.setAttack((int) (pokemonInfield.getAttack() + (5 * boostAmount)));
+                        pokemonInfield.setDefense((int) (pokemonInfield.getDefense() + (5 * boostAmount)));
                         message = pokemonInfield.getName() + "'s attack and defense both increased by half the boost amount!";
                         break;
                     default:
@@ -261,6 +269,7 @@ public class BattleManager {
                 }
                 // Decrement the item's quantity and remove if necessary
                 player.getInventory().useInventoryItem(battleItem);
+                clearInventoryGui();
                 GameLayout.displayInventory();
                 clearBattleTextBox();
                 updateBattleTextBox(message);

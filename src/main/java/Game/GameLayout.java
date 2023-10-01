@@ -45,6 +45,12 @@ public class GameLayout {
     static int battleTextBoxWidth = npcWidth;
     static int battleTextBoxHeight = 20;
     static TextBox battleTextBox = new TextBox(battleTextBoxX, battleTextBoxY, battleTextBoxWidth, battleTextBoxHeight);
+    // Compute the position for the inventory box
+    static int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth();
+    static int inventoryBoxY = 0;
+
+    // Initialize the inventory box
+    static TextBox inventoryBox = new TextBox(inventoryBoxX, inventoryBoxY, inventoryWidth, inventoryHeight);
     // Set the text for the textBox
     static String titleBoxText = "****Welcome to PokiTermi****";
     /**
@@ -183,14 +189,11 @@ public class GameLayout {
      * @author Manindra de Mel
      */
     public static void displayInventory() throws IOException {
-        // Compute the position for the inventory box
-        int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth();
-        int inventoryBoxY = 0;
-
-         // Initialize the inventory box
-        TextBox inventoryBox = new TextBox(inventoryBoxX, inventoryBoxY, inventoryWidth, inventoryHeight);
         inventoryBox.setText("Inventory\n\n\n" + GameLogic.getPlayer().getInventory().toString());
         inventoryBox.render(terminal);
+    }
+    public static void clearInventoryGui() throws IOException {
+        inventoryBox.clear(terminal);
     }
     /**
      * Describes the environment around the player and displays it on the terminal.

@@ -98,10 +98,10 @@ public class BattleCalculations {
 
         double baseCatchChance = calculateBaseCatchChance(enemyPokemon);
 
-        double ballModifier = 1.0;  // Regular Pokéball as default
+        double ballModifier = 1.5;  // Regular Pokéball as default
         try {
             switch (pokeballType) {
-                case GREATBALL -> ballModifier = 2;
+                case GREATBALL -> ballModifier = 3;
             }
         } catch (IllegalArgumentException e) {
             // Handle the case where a Pokéball's name doesn't match any known type.
