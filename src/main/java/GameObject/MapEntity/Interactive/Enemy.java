@@ -9,6 +9,7 @@ import GameObject.Pokemon.Pokemon;
 import com.googlecode.lanterna.TextColor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -16,18 +17,6 @@ import java.util.Random;
  * This class extends the Coordinate class and provides functionalities specific to enemies.
  */
 public class Enemy extends Coordinate {
-
-    // List to store different types of enemy monsters available in the game.
-    private static ArrayList<String> enemyList;
-
-    /**
-     * Static method to initialize the list of enemy monsters.
-     * This method should be called at game start to populate the enemyList.
-     */
-    public static void initEnemyList(){
-        // TODO: Implementation to load enemy monsters into enemyList.
-    }
-
     /**
      * Constructor to create an instance of Enemy at a specific row and column.
      *
@@ -49,20 +38,4 @@ public class Enemy extends Coordinate {
         super.display();
     }
 
-    // The following method is commented out but provides a way to generate and return a random enemy Pokemon.
-    /*
-    public Pokemon open(){
-        Random random = new Random();
-        int health = random.nextInt(Pokemon.MAX_HEALTH - Pokemon.MIN_HEALTH + 1) + Pokemon.MIN_HEALTH;
-        int attack = random.nextInt(Pokemon.MAX_ATTACK - Pokemon.MIN_ATTACK + 1) + Pokemon.MIN_ATTACK;
-        int defence = random.nextInt(Pokemon.MAX_DEFENCE - Pokemon.MIN_DEFENCE + 1) + Pokemon.MIN_DEFENCE;
-
-        // Create an instance of enemy pokemon.
-        Pokemon pokemon = new Pokemon(health, attack, defence);
-
-        // Add information at the same position with lookAround text
-        String message = "You  found an enemy!";
-        return pokemon;
-    }
-    */
 }
