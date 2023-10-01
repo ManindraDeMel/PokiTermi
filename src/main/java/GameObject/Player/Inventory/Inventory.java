@@ -136,7 +136,24 @@ public class Inventory {
         }
         return potions;
     }
+    public int getIndexOfPokemon(Pokemon pokemon) {
+        for (int i = 0; i < pokemons.size(); i++) {
+            if (pokemons.get(i).equals(pokemon)) {
+                return i;
+            }
+        }
+        return -1;  // if the Pokémon was not found in the inventory
+    }
 
+    /**
+     * Completely remove an inventory item from the list, regardless of its quantity.
+     *
+     * @param item the InventoryItem to be removed.
+     * @return true if the item was successfully removed, false otherwise.
+     */
+    public boolean removeItem(InventoryItem item) {
+        return items.remove(item);
+    }
     /**
      * Get the list of PokeBalls in the inventory.
      *

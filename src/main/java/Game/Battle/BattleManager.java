@@ -1,8 +1,9 @@
 package Game.Battle;
 
 import Game.GameLayout;
+import GameObject.Item.BattleItem.BattleItem;
 import GameObject.Item.PokeBall.PokeBall;
-import GameObject.Player.Inventory.Inventory;
+import GameObject.Item.Potion.Potion;
 import GameObject.Player.Inventory.InventoryItem;
 import GameObject.Pokemon.Pokemon;
 import GameObject.Player.Player; // Assuming you have a Player class that contains inventory and list of Pokémon.
@@ -17,7 +18,6 @@ import static Game.GameLayout.clearBattleTextBox;
 import static Game.GameLayout.updateBattleTextBox;
 
 public class BattleManager {
-
     private Player player;
     private Pokemon enemyPokemon;
     private BattleCalculations battleCalculator = new BattleCalculations();
@@ -81,7 +81,7 @@ public class BattleManager {
                 break;
             case '1':
                 clearBattleTextBox();
-                showAttackGUI();
+                attack();
                 break;
             case '2':
                 clearBattleTextBox();
@@ -114,7 +114,32 @@ public class BattleManager {
         }
     }
 
-    private void showAttackGUI() {
+    private void attack() throws IOException {
+        // Assuming 'playerPokemon' is your player's current Pokémon and 'enemyPokemon' is the current opponent
+        double winChance = battleCalculator.calculateWinChance(pokemonInfield, enemyPokemon);
+
+        double randomValue = Math.random();  // Generates a value between 0.0 (inclusive) and 1.0 (exclusive)
+        clearBattleTextBox();
+        if (randomValue <= winChance) {
+            // Player's Pokémon wins
+            updateBattleTextBox(pokemonInfield.getName() + " defeated " + enemyPokemon.getName() + "!");
+            System.out.println(pokemonInfield.getHealth());
+            pokemonInfield.setHealth((int) (pokemonInfield.getHealth() * 0.8)); // lose 20% of its health per battle regardless
+            System.out.println(pokemonInfield.getHealth());
+        } else {
+            // Enemy Pokémon wins
+            updateBattleTextBox(enemyPokemon.getName() + " defeated " + pokemonInfield.getName() + "!");
+            // Handle player loss scenarios here (e.g., Pokémon faints, player returns to last checkpoint)
+            // Remove the player's Pokémon from the inventory after it's defeated
+            // Search for the index of pokemonInfield in the player's inventory and remove it
+            int index = player.getInventory().getIndexOfPokemon(pokemonInfield);
+            if (index != -1) { // assuming -1 means not found
+                player.getInventory().removePokemon(index);
+            }
+        }
+        waitForUserInput();
+        clearBattleTextBox();
+        isBattleOver = true;
     }
 
     private void displayPokemonSwitchGUI() throws IOException {
@@ -152,15 +177,38 @@ public class BattleManager {
     }
 
 
-    private void usePotion(InventoryItem selectedPotion) {
+    private void usePotion(InventoryItem selectedPotion) throws IOException {
+        if (selectedPotion instanceof Potion) { // Ensure the item is a potion
+            Potion potion = (Potion) selectedPotion;
+
+            // Heal the pokemonInfield
+            pokemonInfield.heal(potion.getHealAmount());
+
+            // Update the quantity of the potion in the player's inventory
+            potion.setQuantity(potion.getQuantity() - 1);
+            if (potion.getQuantity() <= 0) {
+                // Remove the potion from the inventory if there's none left
+                player.getInventory().removeItem(potion);
+            }
+            GameLayout.displayInventory();
+            clearBattleTextBox();
+            // Provide feedback to the player
+            updateBattleTextBox(pokemonInfield.getName() + " was healed by " + potion.getHealAmount() + " points!");
+            waitForUserInput();
+        } else {
+            clearBattleTextBox();
+            updateBattleTextBox("This item can't be used as a potion!");
+            waitForUserInput();
+        }
     }
+
 
     private void displayBattleItemSelectGUI() throws IOException {
         List<InventoryItem> battleItems = player.getInventory().getBattleItems();
         StringBuilder sb = new StringBuilder();
         sb.append("Choose a battle item to use:");
         for (int i = 0; i < battleItems.size(); i++) {
-            sb.append("\n\n").append(i).append(". ").append(battleItems.get(i).getName());
+            sb.append("\n\n").append(i).append(". ").append(battleItems.get(i).toString());
         }
         updateBattleTextBox(sb.toString());
 
@@ -172,8 +220,65 @@ public class BattleManager {
         clearBattleTextBox();
     }
 
-    private void useBattleItem(InventoryItem selectedBattleItem) {
+    /**
+     * Uses a BattleItem on the default Pokémon, enhancing its stats.
+     *
+     * @param selectedBattleItem the BattleItem to use.
+     */
+    private void useBattleItem(InventoryItem selectedBattleItem) throws IOException {
+        if (selectedBattleItem instanceof BattleItem) {
+            BattleItem battleItem = (BattleItem) selectedBattleItem;
+
+            if (pokemonInfield != null) {
+                int boostAmount = battleItem.getBoostAmount();
+                String message = "";
+
+                switch (battleItem.getType()) {
+                    case XAttack:
+                        pokemonInfield.setAttack(pokemonInfield.getAttack() + boostAmount);
+                        message = pokemonInfield.getName() + "'s attack increased by " + boostAmount + "!";
+                        break;
+                    case XDefense:
+                        pokemonInfield.setDefense(pokemonInfield.getDefense() + boostAmount);
+                        message = pokemonInfield.getName() + "'s defense increased by " + boostAmount + "!";
+                        break;
+                    case XSpecialAttack:
+                        pokemonInfield.setAttack(pokemonInfield.getAttack() + (2 * boostAmount));
+                        message = pokemonInfield.getName() + "'s attack increased by " + (2 * boostAmount) + "!";
+                        break;
+                    case XSpecialDefence:
+                        pokemonInfield.setDefense(pokemonInfield.getDefense() + (2 * boostAmount));
+                        message = pokemonInfield.getName() + "'s defense increased by " + (2 * boostAmount) + "!";
+                        break;
+                    case XSpeed:
+                        pokemonInfield.setAttack((int) (pokemonInfield.getAttack() + (0.5 * boostAmount)));
+                        pokemonInfield.setDefense((int) (pokemonInfield.getDefense() + (0.5 * boostAmount)));
+                        message = pokemonInfield.getName() + "'s attack and defense both increased by half the boost amount!";
+                        break;
+                    default:
+                        message = "This BattleItem type is not recognized.";
+                        break;
+                }
+                // Decrement the item's quantity and remove if necessary
+                player.getInventory().useInventoryItem(battleItem);
+                GameLayout.displayInventory();
+                clearBattleTextBox();
+                updateBattleTextBox(message);
+                waitForUserInput();
+                // Wait for a bit (if needed, you can use Thread.sleep() or any other mechanism)
+                clearBattleTextBox();
+
+            } else {
+                updateBattleTextBox("No Pokémon available to use the item on.");
+                clearBattleTextBox();
+            }
+        } else {
+            updateBattleTextBox("The selected item is not a BattleItem.");
+            clearBattleTextBox();
+        }
     }
+
+
 
     private void ChoosePokeBallGui() throws IOException {
         List<InventoryItem> balls = player.getInventory().getPokeBalls();
@@ -196,6 +301,7 @@ public class BattleManager {
     private void usePokeball(PokeBall ballUsed) throws IOException {
         BattleCalculations battleCalc = new BattleCalculations();
         boolean caught = battleCalc.attemptCatch(enemyPokemon, player.getInventory(), ballUsed.getType());
+        GameLayout.displayInventory();
         clearBattleTextBox();
         if (caught) {
             updateBattleTextBox("Successfully caught " + enemyPokemon.getName() + "!");

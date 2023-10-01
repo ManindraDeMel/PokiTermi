@@ -36,6 +36,22 @@ public class Pokemon {
         this.data = data;
     }
 
+    public int getAttack() {
+        return data.getStats().getAttack();
+    }
+
+    public void setAttack(int attack) {
+        this.data.getStats().setAttack(attack);
+    }
+
+    public int getDefense() {
+        return data.getStats().getDefense();
+    }
+
+    public void setDefense(int defense) {
+        data.getStats().setDefense(defense);
+    }
+
     /**
      * Gets the health value of the Pokemon.
      *
@@ -127,6 +143,10 @@ public class Pokemon {
             System.err.println("Error loading Pokemon data: " + e.getMessage());
         }
         return randomPokemons;
+    }
+
+    public void heal(int amount) {
+        setHealth(getHealth() + amount); // no max health
     }
 
     /**

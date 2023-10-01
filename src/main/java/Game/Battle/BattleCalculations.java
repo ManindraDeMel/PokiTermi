@@ -65,57 +65,6 @@ public class BattleCalculations {
         return Math.min(winChance, 1.0); // Ensure it doesn't exceed 100%
     }
     /**
-     * Calculates the chance of the player's Pokémon winning against an enemy Pokémon,
-     * taking into account the player's inventory and a specific item's effect.
-     *
-     * @param playerPokemon The player's Pokémon.
-     * @param enemyPokemon The enemy Pokémon.
-     * @param inventory The player's inventory.
-     * @param item The specific item from the inventory to account for.
-     * @param requiredQuantity The quantity of the item required for its effect.
-     * @return The win chance as a decimal (e.g., 0.85 for an 85% chance).
-     * @throws IllegalArgumentException If the player doesn't have enough of the specified item.
-     */
-    public double calculateWinChance(Pokemon playerPokemon, Pokemon enemyPokemon, Inventory inventory, InventoryItem item, int requiredQuantity) {
-        // Ensure the player has the required quantity of the item in their inventory
-        if (inventory.getQuantity(item) < requiredQuantity) {
-            throw new IllegalArgumentException("Player doesn't have enough of the specified item in their inventory!");
-        }
-
-        double winChance = calculateWinChance(playerPokemon, enemyPokemon);  // Calculate base win chance
-
-        double playerAttackMultiplier = 1.0;
-        double playerDefenseMultiplier = 1.0;
-        double playerEffectiveHealth = playerPokemon.getHealth();
-
-        if (item instanceof Potion) {
-            playerEffectiveHealth += ((Potion) item).getHealAmount() * requiredQuantity;
-        } else {
-            try {
-                switch (BattleItemType.valueOf(item.getName())) {
-                    case XAttack, XSpecialAttack, XDefense, XSpecialDefence, XSpeed:
-                        playerAttackMultiplier += 0.10 * requiredQuantity;  // Increase attack by 10% for each used item
-                        break;
-                }
-            } catch (IllegalArgumentException e) {
-                // Handle the case where an item's name doesn't match any BattleItemType.
-                throw new IllegalArgumentException("Invalid battle item provided!");
-            }
-        }
-
-        // Factor in the enhanced stats into win chance calculation
-        double playerEffectiveAttack = playerPokemon.getAttackValue() * playerAttackMultiplier;
-        double playerEffectiveDefense = playerPokemon.getDefenseValue() * playerDefenseMultiplier;
-
-        double statEffect = (playerEffectiveAttack / enemyPokemon.getAttackValue()) *
-                (playerEffectiveDefense / enemyPokemon.getDefenseValue()) *
-                (playerEffectiveHealth / enemyPokemon.getHealth());
-
-        winChance *= statEffect;
-
-        return Math.min(Math.max(winChance, 0.0), 1.0); // Ensure it doesn't exceed 100% or go below 0%
-    }
-    /**
      * Calculates the base catch chance of an enemy Pokémon based solely on its stats. (normal ball)
      *
      * @param enemyPokemon The enemy Pokémon.
