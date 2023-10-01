@@ -129,8 +129,26 @@ public class TextBox {
                 }
             }
         }
-
         terminal.flush();
+    }
+    /**
+     * Clears the text content of the text box and renders an empty box on the provided terminal.
+     *
+     * @param terminal The terminal on which to clear the text box.
+     * @throws IOException If an I/O error occurs while clearing.
+     * @author Manindra de Mel
+     */
+    public void clear(Terminal terminal) throws IOException {
+        this.text = "";  // Clear the text content
 
-}
+        // Clear the text box interior
+        for (int i = x + 1; i < x + width - 1; i++) {
+            for (int j = y + 1; j < y + height - 1; j++) {
+                terminal.setCursorPosition(i, j);
+                terminal.putCharacter(' ');  // Fill with space character to clear
+            }
+        }
+
+        terminal.flush();  // Reflect the changes to the terminal
+    }
 }

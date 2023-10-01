@@ -2,6 +2,9 @@ package GameObject.Player.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import GameObject.Item.BattleItem.BattleItem;
+import GameObject.Item.Potion.Potion;
 import GameObject.Pokemon.Pokemon;
 import GameObject.Item.PokeBall.PokeBall;
 import GameObject.Item.PokeBall.PokeBallType;
@@ -20,7 +23,8 @@ public class Inventory {
     public Inventory() {
         pokemons = new ArrayList<>();
         items = new ArrayList<>();
-        initializeWithRandomPokemons(3);
+        initializeWithRandomPokemons(3); // add three random pokemon
+        addInventoryItem(new PokeBall("initial pokeballs", 1, PokeBallType.NORMALBALL)); // give player 1 initial pokeball
     }
     /**
      * Initializes the inventory with a set number of random Pokémon.
@@ -108,6 +112,94 @@ public class Inventory {
             }
         }
         return 0;
+    }
+    /**
+     * Retrieves all BattleItems in the player's inventory.
+     *
+     * @return A list of BattleItems.
+     */
+    public List<InventoryItem> getBattleItems() {
+        List<InventoryItem> battleItems = new ArrayList<>();
+        for (InventoryItem item : items) {
+            if (item instanceof BattleItem) {  // Checking if the item is an instance of BattleItem
+                battleItems.add(item);
+            }
+        }
+        return battleItems;
+    }
+    /**
+     * Get the list of Potions in the inventory.
+     *
+     * @return List of Potions.
+     */
+    public List<InventoryItem> getPotions() {
+        List<InventoryItem> potions = new ArrayList<>();
+        for (InventoryItem item : items) {
+            if (item instanceof Potion) {  // Checking if the item is an instance of Potion
+                potions.add(item);
+            }
+        }
+        return potions;
+    }
+    /**
+     * Finds the index of a specific Pokémon in the player's inventory.
+     *
+     * @param pokemon The Pokémon to find.
+     * @return The index of the Pokémon, or -1 if not found.
+     */
+    public int getIndexOfPokemon(Pokemon pokemon) {
+        for (int i = 0; i < pokemons.size(); i++) {
+            if (pokemons.get(i).equals(pokemon)) {
+                return i;
+            }
+        }
+        return -1;  // if the Pokémon was not found in the inventory
+    }
+
+    /**
+     * Completely remove an inventory item from the list, regardless of its quantity.
+     *
+     * @param item the InventoryItem to be removed.
+     * @return true if the item was successfully removed, false otherwise.
+     */
+    public boolean removeItem(InventoryItem item) {
+        return items.remove(item);
+    }
+    /**
+     * Get the list of PokeBalls in the inventory.
+     *
+     * @return List of PokeBalls.
+     */
+    public List<InventoryItem> getPokeBalls() {
+        List<InventoryItem> pokeBalls = new ArrayList<>();
+        for (InventoryItem item : items) {
+            if (item instanceof PokeBall) {  // Checking if the item is an instance of PokeBall
+                pokeBalls.add(item);
+            }
+        }
+        return pokeBalls;
+    }
+    /**
+     * Removes a specific type and quantity of Pokéball from the player's inventory.
+     *
+     * @param ball The type of Pokéball to remove.
+     * @return True if the Pokéball was successfully removed, false otherwise.
+     */
+    public boolean removePokeBall(PokeBall ball) {
+        List<InventoryItem> pokeBalls = getPokeBalls();
+        for (InventoryItem item : pokeBalls) {
+            PokeBall currentBall = (PokeBall) item;
+            if (currentBall.getType() == ball.getType()) {
+                if (currentBall.getQuantity() >= ball.getQuantity()) {
+                    currentBall.setQuantity(currentBall.getQuantity() - ball.getQuantity());
+                    if (currentBall.getQuantity() == 0) {
+                        items.remove(currentBall);
+                    }
+                    return true; // Successfully removed the ball(s)
+                }
+            }
+        }
+        return false; // Failed to remove the ball(s)
     }
     /**
      * Returns the default Pokémon, which is the first Pokémon in the list.

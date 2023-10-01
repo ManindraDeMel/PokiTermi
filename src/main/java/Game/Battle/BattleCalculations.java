@@ -65,57 +65,6 @@ public class BattleCalculations {
         return Math.min(winChance, 1.0); // Ensure it doesn't exceed 100%
     }
     /**
-     * Calculates the chance of the player's Pokémon winning against an enemy Pokémon,
-     * taking into account the player's inventory and a specific item's effect.
-     *
-     * @param playerPokemon The player's Pokémon.
-     * @param enemyPokemon The enemy Pokémon.
-     * @param inventory The player's inventory.
-     * @param item The specific item from the inventory to account for.
-     * @param requiredQuantity The quantity of the item required for its effect.
-     * @return The win chance as a decimal (e.g., 0.85 for an 85% chance).
-     * @throws IllegalArgumentException If the player doesn't have enough of the specified item.
-     */
-    public double calculateWinChance(Pokemon playerPokemon, Pokemon enemyPokemon, Inventory inventory, InventoryItem item, int requiredQuantity) {
-        // Ensure the player has the required quantity of the item in their inventory
-        if (inventory.getQuantity(item) < requiredQuantity) {
-            throw new IllegalArgumentException("Player doesn't have enough of the specified item in their inventory!");
-        }
-
-        double winChance = calculateWinChance(playerPokemon, enemyPokemon);  // Calculate base win chance
-
-        double playerAttackMultiplier = 1.0;
-        double playerDefenseMultiplier = 1.0;
-        double playerEffectiveHealth = playerPokemon.getHealth();
-
-        if (item instanceof Potion) {
-            playerEffectiveHealth += ((Potion) item).getHealAmount() * requiredQuantity;
-        } else {
-            try {
-                switch (BattleItemType.valueOf(item.getName())) {
-                    case XAttack, XSpecialAttack, XDefense, XSpecialDefence, XSpeed:
-                        playerAttackMultiplier += 0.10 * requiredQuantity;  // Increase attack by 10% for each used item
-                        break;
-                }
-            } catch (IllegalArgumentException e) {
-                // Handle the case where an item's name doesn't match any BattleItemType.
-                throw new IllegalArgumentException("Invalid battle item provided!");
-            }
-        }
-
-        // Factor in the enhanced stats into win chance calculation
-        double playerEffectiveAttack = playerPokemon.getAttackValue() * playerAttackMultiplier;
-        double playerEffectiveDefense = playerPokemon.getDefenseValue() * playerDefenseMultiplier;
-
-        double statEffect = (playerEffectiveAttack / enemyPokemon.getAttackValue()) *
-                (playerEffectiveDefense / enemyPokemon.getDefenseValue()) *
-                (playerEffectiveHealth / enemyPokemon.getHealth());
-
-        winChance *= statEffect;
-
-        return Math.min(Math.max(winChance, 0.0), 1.0); // Ensure it doesn't exceed 100% or go below 0%
-    }
-    /**
      * Calculates the base catch chance of an enemy Pokémon based solely on its stats. (normal ball)
      *
      * @param enemyPokemon The enemy Pokémon.
@@ -123,7 +72,8 @@ public class BattleCalculations {
      */
     private double calculateBaseCatchChance(Pokemon enemyPokemon) {
         double FIXED_BIAS = 0.15;
-        double healthFactor = (enemyPokemon.getHealth() / 100) + FIXED_BIAS;
+        double result = (double) enemyPokemon.getHealth() / 100;
+        double healthFactor = result + FIXED_BIAS;
         // For this example, a Pokémon with half its health gives a base 50% catch rate.
         return 1 - healthFactor;
     }
@@ -148,10 +98,10 @@ public class BattleCalculations {
 
         double baseCatchChance = calculateBaseCatchChance(enemyPokemon);
 
-        double ballModifier = 1.0;  // Regular Pokéball as default
+        double ballModifier = 1.5;  // Regular Pokéball as default
         try {
             switch (pokeballType) {
-                case GREATBALL -> ballModifier = 2;
+                case GREATBALL -> ballModifier = 3;
             }
         } catch (IllegalArgumentException e) {
             // Handle the case where a Pokéball's name doesn't match any known type.
@@ -161,6 +111,36 @@ public class BattleCalculations {
         double catchChance = baseCatchChance * ballModifier;
 
         return Math.min(Math.max(catchChance, 0.0), 1.0); // Ensure it doesn't exceed 100% or go below 0%
+    }
+    /**
+     * Attempts to catch an enemy Pokémon using a specified Pokéball from the player's inventory.
+     *
+     * @param enemyPokemon The enemy Pokémon to catch.
+     * @param inventory The player's inventory.
+     * @param pokeballType The type of Pokéball to use.
+     * @return True if the Pokémon was caught, false otherwise.
+     * @throws IllegalArgumentException If the player doesn't have the specified Pokéball in their inventory.
+     */
+    public boolean attemptCatch(Pokemon enemyPokemon, Inventory inventory, PokeBallType pokeballType) {
+        // Calculate the chance of catching the Pokemon with the specified Pokeball.
+        double catchChance = calculateCatchChance(enemyPokemon, inventory, pokeballType, 1);
+
+        // Remove one Pokeball of the specified type from the player's inventory.
+        PokeBall pokeballUsed = new PokeBall("", 1, pokeballType);
+        boolean hasBall = inventory.removePokeBall(pokeballUsed);
+
+        if (!hasBall) {
+            throw new IllegalArgumentException("Player doesn't have the specified Pokeball in their inventory!");
+        }
+
+        // Simulate catching the Pokemon.
+        double randomValue = Math.random();  // generates a value between 0.0 (inclusive) and 1.0 (exclusive)
+        if (randomValue <= catchChance) {
+            inventory.addPokemon(enemyPokemon);
+            return true;  // Pokemon was caught!
+        }
+
+        return false;  // Pokemon escaped!
     }
 
 }
