@@ -128,7 +128,9 @@ public class GameLayout {
         battleTextBox.setText("");
         battleTextBox.render(terminal);
     }
-
+    public static void clearBattleTextBox() throws IOException {
+        battleTextBox.clear(terminal);
+    }
     /**
      * chose random dialogue when talk to NPC
      *

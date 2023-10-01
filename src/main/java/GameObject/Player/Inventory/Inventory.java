@@ -2,6 +2,9 @@ package GameObject.Player.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import GameObject.Item.BattleItem.BattleItem;
+import GameObject.Item.Potion.Potion;
 import GameObject.Pokemon.Pokemon;
 import GameObject.Item.PokeBall.PokeBall;
 import GameObject.Item.PokeBall.PokeBallType;
@@ -109,6 +112,44 @@ public class Inventory {
             }
         }
         return 0;
+    }
+    public List<InventoryItem> getBattleItems() {
+        List<InventoryItem> battleItems = new ArrayList<>();
+        for (InventoryItem item : items) {
+            if (item instanceof BattleItem) {  // Checking if the item is an instance of BattleItem
+                battleItems.add(item);
+            }
+        }
+        return battleItems;
+    }
+    /**
+     * Get the list of Potions in the inventory.
+     *
+     * @return List of Potions.
+     */
+    public List<InventoryItem> getPotions() {
+        List<InventoryItem> potions = new ArrayList<>();
+        for (InventoryItem item : items) {
+            if (item instanceof Potion) {  // Checking if the item is an instance of Potion
+                potions.add(item);
+            }
+        }
+        return potions;
+    }
+
+    /**
+     * Get the list of PokeBalls in the inventory.
+     *
+     * @return List of PokeBalls.
+     */
+    public List<InventoryItem> getPokeBalls() {
+        List<InventoryItem> pokeBalls = new ArrayList<>();
+        for (InventoryItem item : items) {
+            if (item instanceof PokeBall) {  // Checking if the item is an instance of PokeBall
+                pokeBalls.add(item);
+            }
+        }
+        return pokeBalls;
     }
     /**
      * Returns the default Pokémon, which is the first Pokémon in the list.
