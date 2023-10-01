@@ -20,8 +20,8 @@ public class LevelMap {
 
     private Coordinate[][] tableData = new Coordinate[Coordinate.tableRows][Coordinate.tableColumns];
     private int chestNumber = 10;
-    private int enemyNumber = 10;
-    private int npcNumber = 10;
+    private int enemyNumber = 5;
+    private int npcNumber = 5;
     private int rockNumber = 10;
     private int treeNumber = 10;
     private int waterNumber = 10;

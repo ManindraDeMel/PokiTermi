@@ -9,6 +9,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
 
+import static Game.GameLogic.gameEnd;
 
 
 /**
@@ -111,7 +112,12 @@ public class GameLayout {
      * @author Zhangheng Xu
      */
     public static void displayTextResult() throws IOException{
-        resultTextBox.setText("---------HelloWorld---------");
+        if(!gameEnd){
+            resultTextBox.setText("---------HelloWorld---------");
+        }else {
+            resultTextBox.setText("---THANK FOR YOUR PLAYING---");
+        }
+
         resultTextBox.render(terminal);
     }
     /**
@@ -141,7 +147,12 @@ public class GameLayout {
      * @author Manindra de Mel
      */
     public static void updateTitleBox() throws IOException {
-        titleBox.setText(titleBoxText);
+        if(!gameEnd){
+            titleBox.setText(titleBoxText);
+        }else {
+            titleBox.setText("---------GAME END---------");
+        }
+
         titleBox.render(terminal);
     }
 
@@ -204,4 +215,22 @@ public class GameLayout {
         }
         terminal.flush();
     }
+
+    /**
+     * Describes the message when ends.
+     *
+     * @throws IOException if there's an error during display.
+     * @author Yiming Lu
+     */
+
+    public static void displayEnd() throws IOException {
+        GameLayout.clearScreen();
+        GameLayout.displayMap();
+        GameLayout.updateTitleBox();
+        GameLayout.updateToolTipBox();
+        GameLayout.displayInventory();
+        GameLayout.updateBattleBox();
+        GameLayout.displayTextResult();
+    }
+
 }

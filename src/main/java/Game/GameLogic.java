@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 import static Game.GameLayout.displayInventory;
 
 /**
@@ -52,6 +51,7 @@ public class GameLogic {
     public static int currentLevel = 1;
     public static int previousLevel = 1;
     public static ArrayList<Coordinate[][]> levelMaps = new ArrayList<>();
+    public static boolean gameEnd=false;
 
     /**
      * Initializes the game by setting up the player, loading level maps, and placing the player on the map.
@@ -77,7 +77,7 @@ public class GameLogic {
     public static void runGame() throws IOException {
         initialize();
 
-        while (true) {
+        while (!gameEnd) {
             GameLayout.clearScreen();
             GameLayout.displayMap();
             GameLayout.describeEnvironment();
@@ -88,8 +88,10 @@ public class GameLogic {
             GameLayout.displayTextResult();
             KeyStroke keyStroke = GameLayout.getTerminal().readInput();
             handleInput(keyStroke);
-            if (keyStroke.getCharacter() == 'Q') return;
+            if (keyStroke.getCharacter() == 'Q') break;
         }
+        GameLayout.displayEnd();
+
     }
     /**
      * Handles player input to control the game.
@@ -153,11 +155,11 @@ public class GameLogic {
 
             //If there's an enemy at the new position, start a battle.
             if(entity instanceof Enemy){
-//                startBattle((Pokemon)entity, keyStroke);
+                //startBattle((Pokemon)entity, keyStroke);
                 GameLayout.updateBattleBox();
-//               Pokemon enemy = ((Enemy) entity).open();
-//
-               tableData[newRow][newCol] = null;  // Remove the enemy from the map
+                //Pokemon enemy = ((Enemy) entity).open();
+                tableData[newRow][newCol] = null;  // Remove the enemy from the map
+                checkGameStatus();
             }
 
             //if there is NPC, start to talk
@@ -385,4 +387,27 @@ public class GameLogic {
         terminal.setForegroundColor(TextColor.ANSI.DEFAULT); // Reset color
         return "";
     }
+
+    /**
+     * Check whether the game has ended by the enemy of 3rd floor.
+     * @author Yiming Lu
+     */
+
+    private static void checkGameStatus() throws IOException {
+        int enemyCount=0;
+        for(int i=0;i<tableRows;i++){
+            for(int j=0;j<tableColumns;j++){
+                if(tableData[i][j]!=null&&tableData[i][j] instanceof Enemy){
+                    enemyCount++;
+                }
+            }
+        }
+        System.out.println("enemy left"+enemyCount);
+        if(enemyCount==0&&currentLevel==3){
+            gameEnd=true;
+        }
+
+    }
+
+
 }
