@@ -27,7 +27,17 @@ public class Enemy extends Coordinate {
         super(row, col);
         setSymbol('@');  // Set the display symbol for the enemy.
         setColor(TextColor.ANSI.RED);  // Set the display color for the enemy.
+        thisPokemon = Pokemon.getRandomPokemons(1).get(0); // init the pokemon
     }
+
+    /**
+     * @return this pokemon
+     * @author Manindra de Mel
+     */
+    public Pokemon getThisPokemon() {
+        return thisPokemon;
+    }
+
     /**
      * Overrides the display method from the Coordinate class.
      * This method is responsible for displaying the enemy on the map.

@@ -19,32 +19,38 @@ import static Game.GameLogic.gameEnd;
  * @author Yiming Lu
  */
 public class GameLayout {
-    public static int TERMINALX = 130;
+    public static int TERMINALX = 140;
     public static int TERMINALY = 30;
     private static final DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
     private static final Terminal terminal;
-    static int titleBoxX = 20;        // X-coordinate
+    static int titleBoxX = 50;        // X-coordinate
     static int titleBoxY = 0;        // Y-coordinate
     static int titleBoxWidth = 30;   // Width of the title text box
     static int titleBoxHeight = 3;  // Height of the title text box
-    static int toolTipBoxX = 50;
-    static int toolTipBoxY = 0;
     static int toolTipWidth = 30;
     static int toolTipHeight = 20;
     static int inventoryHeight = 20;
     static int inventoryWidth = 40;
-    static int battleX = 20;
-    static int battleY = 5;
-    static int battleWidth = 30;
-    static int battleHeight = 15;
-    static int battleResultX = 20;
-    static int battleResultY = 2;
-    static int battleResultWidth = 30;
-    static int battleResultHeight = 3;
-    static TextBox resultTextBox = new TextBox(battleResultX, battleResultY, battleResultWidth, battleResultHeight);
-    static TextBox battleBox = new TextBox(battleX,battleY,battleWidth,battleHeight);
+    static int npcx = 50;
+    static int npcY = 2;
+    static int npcWidth = 30;
+    static int npcHeight = 5;
+    static int toolTipBoxX = 50;
+    static int toolTipBoxY = titleBoxHeight + npcHeight - 1;
+    static TextBox npcBox = new TextBox(npcx,npcY,npcWidth,npcHeight);
     static TextBox titleBox = new TextBox(titleBoxX, titleBoxY, titleBoxWidth, titleBoxHeight);
     static TextBox toolTipBox = new TextBox(toolTipBoxX,toolTipBoxY,toolTipWidth,toolTipHeight);
+    static int battleTextBoxX = 20;
+    static int battleTextBoxY = 0;
+    static int battleTextBoxWidth = npcWidth;
+    static int battleTextBoxHeight = 20;
+    static TextBox battleTextBox = new TextBox(battleTextBoxX, battleTextBoxY, battleTextBoxWidth, battleTextBoxHeight);
+    // Compute the position for the inventory box
+    static int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth();
+    static int inventoryBoxY = 0;
+
+    // Initialize the inventory box
+    static TextBox inventoryBox = new TextBox(inventoryBoxX, inventoryBoxY, inventoryWidth, inventoryHeight);
     // Set the text for the textBox
     static String titleBoxText = "****Welcome to PokiTermi****";
     /**
@@ -104,32 +110,38 @@ public class GameLayout {
             }
         }
     }
-
     /**
-     * display text result text box
-     *
-     * @throws IOException if there's an error during rendering.
-     * @author Zhangheng Xu
-     */
-    public static void displayTextResult() throws IOException{
-        if(!gameEnd){
-            resultTextBox.setText("---------HelloWorld---------");
-        }else {
-            resultTextBox.setText("---THANK FOR YOUR PLAYING---");
-        }
-
-        resultTextBox.render(terminal);
-    }
-    /**
-     * Updates the battle box and renders it on the terminal.
+     * Updates the npc box and renders it on the terminal.
      *
      * @throws IOException if there's an error during rendering.
      * @author Zhangheng Xu
      */
     public static void updateBattleBox() throws IOException {
-        battleBox.render(terminal);
+        npcBox.render(terminal);
+    }
+    /**
+     * Updates the battle-specific text box with the given message and renders it on the terminal.
+     *
+     *
+     * @throws IOException if there's an error during rendering.
+     * @author YourNameHere
+     */
+    public static void updateBattleTextBox(String battleMessage) throws IOException {
+        battleTextBox.setText(battleMessage);
+        battleTextBox.render(terminal);
+    }
+    public static void updateBattleTextBox() throws IOException {
+        battleTextBox.setText("");
+        battleTextBox.render(terminal);
     }
 
+    /**
+     * Clears the inventory menu
+     * @throws IOException
+     */
+    public static void clearBattleTextBox() throws IOException {
+        battleTextBox.clear(terminal);
+    }
     /**
      * chose random dialogue when talk to NPC
      *
@@ -137,8 +149,8 @@ public class GameLayout {
      * @author Zhangheng Xu
      */
     public static void startTalk() throws IOException {
-        battleBox.setText(NPC.NPCTalk());
-        battleBox.render(terminal);
+        npcBox.setText(NPC.NPCTalk());
+        npcBox.render(terminal);
     }
     /**
      * Updates the title box and renders it on the terminal.
@@ -150,7 +162,7 @@ public class GameLayout {
         if(!gameEnd){
             titleBox.setText(titleBoxText);
         }else {
-            titleBox.setText("---------GAME END---------");
+            titleBox.setText("---------Thank you for playing!---------");
         }
 
         titleBox.render(terminal);
@@ -182,14 +194,11 @@ public class GameLayout {
      * @author Manindra de Mel
      */
     public static void displayInventory() throws IOException {
-        // Compute the position for the inventory box
-        int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth();
-        int inventoryBoxY = toolTipBox.getY();
-
-         // Initialize the inventory box
-        TextBox inventoryBox = new TextBox(inventoryBoxX, inventoryBoxY, inventoryWidth, inventoryHeight);
         inventoryBox.setText("Inventory\n\n\n" + GameLogic.getPlayer().getInventory().toString());
         inventoryBox.render(terminal);
+    }
+    public static void clearInventoryGui() throws IOException {
+        inventoryBox.clear(terminal);
     }
     /**
      * Describes the environment around the player and displays it on the terminal.
@@ -230,7 +239,5 @@ public class GameLayout {
         GameLayout.updateToolTipBox();
         GameLayout.displayInventory();
         GameLayout.updateBattleBox();
-        GameLayout.displayTextResult();
     }
-
 }
