@@ -164,4 +164,26 @@ public class BattleCalculations {
         return Math.min(Math.max(catchChance, 0.0), 1.0); // Ensure it doesn't exceed 100% or go below 0%
     }
 
+    public boolean attemptCatch(Pokemon enemyPokemon, Inventory inventory, PokeBallType pokeballType) {
+        // Calculate the chance of catching the Pokemon with the specified Pokeball.
+        double catchChance = calculateCatchChance(enemyPokemon, inventory, pokeballType, 1);
+
+        // Remove one Pokeball of the specified type from the player's inventory.
+        PokeBall pokeballUsed = new PokeBall("", 1, pokeballType);
+        boolean hasBall = inventory.removePokeBall(pokeballUsed);
+
+        if (!hasBall) {
+            throw new IllegalArgumentException("Player doesn't have the specified Pokeball in their inventory!");
+        }
+
+        // Simulate catching the Pokemon.
+        double randomValue = Math.random();  // generates a value between 0.0 (inclusive) and 1.0 (exclusive)
+        if (randomValue <= catchChance) {
+            inventory.addPokemon(enemyPokemon);
+            return true;  // Pokemon was caught!
+        }
+
+        return false;  // Pokemon escaped!
+    }
+
 }

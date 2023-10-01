@@ -151,6 +151,22 @@ public class Inventory {
         }
         return pokeBalls;
     }
+    public boolean removePokeBall(PokeBall ball) {
+        List<InventoryItem> pokeBalls = getPokeBalls();
+        for (InventoryItem item : pokeBalls) {
+            PokeBall currentBall = (PokeBall) item;
+            if (currentBall.getType() == ball.getType()) {
+                if (currentBall.getQuantity() >= ball.getQuantity()) {
+                    currentBall.setQuantity(currentBall.getQuantity() - ball.getQuantity());
+                    if (currentBall.getQuantity() == 0) {
+                        items.remove(currentBall);
+                    }
+                    return true; // Successfully removed the ball(s)
+                }
+            }
+        }
+        return false; // Failed to remove the ball(s)
+    }
     /**
      * Returns the default Pokémon, which is the first Pokémon in the list.
      *

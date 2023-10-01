@@ -21,21 +21,24 @@ public class BattleManager {
     private Player player;
     private Pokemon enemyPokemon;
     private BattleCalculations battleCalculator = new BattleCalculations();
-    private ArrayList<InventoryItem> itemsUsed;
     private PokeBall defaultBall;
     private Pokemon pokemonInfield;
+    private boolean isBattleOver;
     public BattleManager(Player player, Pokemon enemyPokemon) {
         this.player = player;
         this.enemyPokemon = enemyPokemon;
-        itemsUsed = new ArrayList<>();
         defaultBall = player.getInventory().getDefaultBall();
         pokemonInfield = player.getInventory().getDefaultPokemon();
+        isBattleOver = false;
     }
 
     public void startBattle() throws IOException {
         while (true) {
+            if (isBattleOver) {
+                return;
+            }
             displayBattleState();
-            StringBuilder optionsText = new StringBuilder("\n\n\nChoose an option");
+            StringBuilder optionsText = new StringBuilder("\n\n\n\n\nChoose an option");
 
             // Check if the player has more than one Pokemon:
             if (player.getInventory().getPokemons().size() > 1) {
@@ -84,6 +87,7 @@ public class BattleManager {
                 clearBattleTextBox();
                 if (defaultBall != null) {
                     ChoosePokeBallGui();
+                    return;
                 }
                 else if (!player.getInventory().getBattleItems().isEmpty()) {
                     displayBattleItemSelectGUI();
@@ -110,58 +114,99 @@ public class BattleManager {
         }
     }
 
-
     private void showAttackGUI() {
     }
 
     private void displayPokemonSwitchGUI() throws IOException {
-        // Assuming the player has a method getPokemons that returns a list of their Pokemon.
         List<Pokemon> pokemons = player.getInventory().getPokemons();
-        updateBattleTextBox("Choose a Pokemon to switch:");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Choose a Pokemon to switch:");
         for (int i = 0; i < pokemons.size(); i++) {
-            updateBattleTextBox("\n\n" + i + ". " + pokemons.get(i).getName());
+            sb.append("\n\n").append(i).append(". ").append(pokemons.get(i).getName());
         }
+        updateBattleTextBox(sb.toString());
+
         int index = getNumericInput(pokemons.size());
         if (index != -1) {
-//            player.switchPokemon(index); // Assuming this method switches the active Pokemon to the chosen one.
+            pokemonInfield = player.getInventory().getPokemons().get(index);
         }
+        clearBattleTextBox();
     }
+
 
     private void displayPotionSelectGUI() throws IOException {
         List<InventoryItem> potions = player.getInventory().getPotions();
-        updateBattleTextBox("Choose a potion to use:");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Choose a potion to use:");
         for (int i = 0; i < potions.size(); i++) {
-            updateBattleTextBox("\n\n" + i + ". " + potions.get(i).getName());
+            sb.append("\n\n").append(i).append(". ").append(potions.get(i).getName());
         }
+        updateBattleTextBox(sb.toString());
+
         int index = getNumericInput(potions.size());
         if (index != -1) {
-//            player.usePotion(index); // Assuming a method for the player to use a potion.
+            InventoryItem selectedPotion = player.getInventory().getPotions().get(index);
+            usePotion(selectedPotion);
         }
+        clearBattleTextBox();
+    }
+
+
+    private void usePotion(InventoryItem selectedPotion) {
     }
 
     private void displayBattleItemSelectGUI() throws IOException {
         List<InventoryItem> battleItems = player.getInventory().getBattleItems();
-        updateBattleTextBox("Choose a battle item to use:");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Choose a battle item to use:");
         for (int i = 0; i < battleItems.size(); i++) {
-            updateBattleTextBox(i + ". " + battleItems.get(i).getName());
+            sb.append("\n\n").append(i).append(". ").append(battleItems.get(i).getName());
         }
+        updateBattleTextBox(sb.toString());
+
         int index = getNumericInput(battleItems.size());
         if (index != -1) {
-//            player.useBattleItem(index); // Assuming a method for the player to use a battle item.
+            InventoryItem selectedBattleItem = player.getInventory().getBattleItems().get(index);
+            useBattleItem(selectedBattleItem);
         }
+        clearBattleTextBox();
+    }
+
+    private void useBattleItem(InventoryItem selectedBattleItem) {
     }
 
     private void ChoosePokeBallGui() throws IOException {
         List<InventoryItem> balls = player.getInventory().getPokeBalls();
-        updateBattleTextBox("Choose a Pokeball to use:");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Choose a Pokeball to use:");
         for (int i = 0; i < balls.size(); i++) {
-            updateBattleTextBox(i + ". " + balls.get(i).getName());
+            sb.append("\n\n").append(i).append(". ").append(balls.get(i).getName());
         }
+        updateBattleTextBox(sb.toString());
+
         int index = getNumericInput(balls.size());
         if (index != -1) {
-//            player.usePokeBall(index); // Assuming a method for the player to use a Pokeball.
+            PokeBall selectedBall = (PokeBall) player.getInventory().getPokeBalls().get(index);
+            defaultBall = selectedBall; // Set the selected ball as the default.
+            usePokeball(defaultBall);
         }
     }
+
+
+    private void usePokeball(PokeBall ballUsed) throws IOException {
+        BattleCalculations battleCalc = new BattleCalculations();
+        boolean caught = battleCalc.attemptCatch(enemyPokemon, player.getInventory(), ballUsed.getType());
+        clearBattleTextBox();
+        if (caught) {
+            updateBattleTextBox("Successfully caught " + enemyPokemon.getName() + "!");
+        } else {
+            updateBattleTextBox(enemyPokemon.getName() + " escaped!");
+        }
+        waitForUserInput(); // Wait for any key press
+        clearBattleTextBox();
+        isBattleOver = true;
+    }
+
 
     // This method assumes you can read a numeric input from the player and validates it against the max index.
     private int getNumericInput(int maxIndex) throws IOException {
@@ -178,18 +223,22 @@ public class BattleManager {
         }
         return -1; // indicates an invalid input
     }
+    private void waitForUserInput() throws IOException {
+        GameLayout.getTerminal().readInput();  // Just wait for any key input from the user
+    }
 
     private void displayBattleState() throws IOException {
         // For simplicity, just display chances to win/catch for now
+        updateBattleTextBox(pokemonInfield + " Is on field!");
         if (pokemonInfield != null) {
             double winChance = battleCalculator.calculateWinChance(pokemonInfield, enemyPokemon);
-            updateBattleTextBox("Chance to win fight: " + String.format("%.2f", (winChance * 100)) + "%");
+            updateBattleTextBox("\n\nChance to win fight: " + String.format("%.2f", (winChance * 100)) + "%");
 
         }
-        if (defaultBall != null) {
+        if (defaultBall != null && !player.getInventory().getPokeBalls().isEmpty()) {
             int defaultPokeBallQty = 1;
             double catchChance = battleCalculator.calculateCatchChance(enemyPokemon, player.getInventory(), defaultBall.getType(), defaultPokeBallQty);
-            updateBattleTextBox("\nChance to catch: " + String.format("%.2f", (catchChance * 100)) + "%\n");
+            updateBattleTextBox("\nChance to catch: " + String.format("%.2f", (catchChance * 100)) + "%\n\n");
         }
     }
 }
