@@ -20,8 +20,8 @@ public class LevelMap {
 
     private Coordinate[][] tableData = new Coordinate[Coordinate.tableRows][Coordinate.tableColumns];
     private int chestNumber = 10;
-    private int enemyNumber = 10;
-    private int npcNumber = 10;
+    private int enemyNumber = 5;
+    private int npcNumber = 5;
     private int rockNumber = 10;
     private int treeNumber = 10;
     private int waterNumber = 10;
@@ -31,6 +31,7 @@ public class LevelMap {
      * Constructs a new LevelMap for the given level and seeds it with entities.
      *
      * @param level the game level for this map.
+     * @author Yiming Lu
      */
     public LevelMap(int level) {
         currentLevel = level;
@@ -40,6 +41,7 @@ public class LevelMap {
      * Seeds the game map with entities based on the level.
      *
      * @param level the game level to seed the map for.
+     * @author Yiming Lu
      */
     public void Seeding(int level) {
         // Generate borders
@@ -98,6 +100,7 @@ public class LevelMap {
      * The method ensures the entity is placed at an empty spot.
      *
      * @param entity the entity to be placed.
+     * @author Yiming Lu
      */
     private void placeEntityRandomly(Coordinate entity) {
         int row, col;
@@ -114,6 +117,7 @@ public class LevelMap {
      * Returns the game map with all its entities.
      *
      * @return the game map as a 2D array of Coordinates.
+     * @author Yiming Lu
      */
     public Coordinate[][] getMap() {
         return tableData;

@@ -3,33 +3,43 @@ package GameObject.Pokemon.data;
 import GameObject.Pokemon.data.Type.Type;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+
 /**
  * Represents the detailed data attributes of a Pokemon.
  * Includes properties such as ID, name, type, stats, and abilities.
+ * This class is designed to map the JSON properties of a Pokemon's data to Java object attributes.
  *
  * @author Manindra de Mel
  */
 public class PokemonData {
+
+    // ID of the Pokemon
     @JsonProperty("id")
     private int id;
 
+    // Name of the Pokemon
     @JsonProperty("name")
     private String name;
 
+    // List of types associated with the Pokemon
     @JsonProperty("type")
     private List<Type> type;
 
+    // Stats of the Pokemon
     @JsonProperty("stats")
     private Stats stats;
 
+    // List of abilities of the Pokemon
     @JsonProperty("abilities")
     private List<String> abilities;
 
-    // Default constructor
+    /**
+     * Default constructor.
+     */
     public PokemonData() {}
 
     /**
-     * Parametrized constructor
+     * Parametrized constructor to initialize all attributes of the PokemonData.
      *
      * @param id ID of the Pokemon.
      * @param name Name of the Pokemon.
@@ -45,7 +55,8 @@ public class PokemonData {
         this.abilities = abilities;
     }
 
-    // Getters and setters
+    // Getters and setters for the attributes
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -54,6 +65,7 @@ public class PokemonData {
 
     public List<Type> getType() { return type; }
     public void setType(List<Type> type) { this.type = type; }
+
     public Stats getStats() { return stats; }
     public void setStats(Stats stats) { this.stats = stats; }
 

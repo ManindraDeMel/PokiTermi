@@ -11,44 +11,58 @@ import com.googlecode.lanterna.TextColor;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Represents an enemy entity on the map.
+ * This class extends the Coordinate class and provides functionalities specific to enemies.
+ */
 public class Enemy extends Coordinate {
-    private static ArrayList<String> enemyList;//load all kinds of enemy monsters at game start
-    public static void initEnemyList(){
 
+    // List to store different types of enemy monsters available in the game.
+    private static ArrayList<String> enemyList;
+
+    /**
+     * Static method to initialize the list of enemy monsters.
+     * This method should be called at game start to populate the enemyList.
+     */
+    public static void initEnemyList(){
+        // TODO: Implementation to load enemy monsters into enemyList.
     }
+
+    /**
+     * Constructor to create an instance of Enemy at a specific row and column.
+     *
+     * @param row The row position of the enemy on the map.
+     * @param col The column position of the enemy on the map.
+     */
     public Enemy(int row, int col) {
         super(row, col);
-        setSymbol('@');
-        setColor(TextColor.ANSI.RED);
+        setSymbol('@');  // Set the display symbol for the enemy.
+        setColor(TextColor.ANSI.RED);  // Set the display color for the enemy.
     }
+    /**
+     * Overrides the display method from the Coordinate class.
+     * This method is responsible for displaying the enemy on the map.
+     */
 
     @Override
     public void display() {
         super.display();
-
     }
 
-    /**
-     * Public method to generate and return an enemy Pokemon.
-     *
-     * @authot Yusen Nian
-     * @return A randomly generated enemy Pokemon.
-     */
-//    public Pokemon open(){
-//
-//        Random random = new Random();
-//        int health = random.nextInt(Pokemon.MAX_HEALTH - Pokemon.MIN_HEALTH + 1) + Pokemon.MIN_HEALTH;
-//        int attack = random.nextInt(Pokemon.MAX_ATTACK - Pokemon.MIN_ATTACK + 1) + Pokemon.MIN_ATTACK;
-//        int defence = random.nextInt(Pokemon.MAX_DEFENCE - Pokemon.MIN_DEFENCE + 1) + Pokemon.MIN_DEFENCE;
-//        // Create an instance of enemy pokemon.
-////        Pokemon pokemon = new Pokemon(health, attack, defence);
-//
-//
-//        // Add information at the same position with lookAround text
-//        String message = "You  found an enemy!";
-//
-//        return pokemon;
-//    }
+    // The following method is commented out but provides a way to generate and return a random enemy Pokemon.
+    /*
+    public Pokemon open(){
+        Random random = new Random();
+        int health = random.nextInt(Pokemon.MAX_HEALTH - Pokemon.MIN_HEALTH + 1) + Pokemon.MIN_HEALTH;
+        int attack = random.nextInt(Pokemon.MAX_ATTACK - Pokemon.MIN_ATTACK + 1) + Pokemon.MIN_ATTACK;
+        int defence = random.nextInt(Pokemon.MAX_DEFENCE - Pokemon.MIN_DEFENCE + 1) + Pokemon.MIN_DEFENCE;
 
+        // Create an instance of enemy pokemon.
+        Pokemon pokemon = new Pokemon(health, attack, defence);
 
+        // Add information at the same position with lookAround text
+        String message = "You  found an enemy!";
+        return pokemon;
+    }
+    */
 }

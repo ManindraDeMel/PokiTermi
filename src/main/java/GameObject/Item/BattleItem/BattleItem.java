@@ -13,6 +13,14 @@ public class BattleItem extends Item implements InventoryItem {
     private int quantity;
     private BattleItemType type;
 
+    /**
+     * Places a given entity at a random location within the game map.
+     * The method ensures the entity is placed at an empty spot.
+     *
+     * @param quantity the numbers of item
+     * @param type the type of item
+     * @author Yusen Nian
+     */
     public BattleItem(int quantity, BattleItemType type) {
         super();
         super.setName("BattleItem");
