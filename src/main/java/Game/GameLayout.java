@@ -164,7 +164,12 @@ public class GameLayout {
     public static void clearScreen() throws IOException {
         terminal.clearScreen();
     }
-
+    /**
+     * display items in inventory.
+     *
+     * @throws IOException if there's an error clearing the screen.
+     * @author Manindra de Mel
+     */
     public static void displayInventory() throws IOException {
         // Compute the position for the inventory box
         int inventoryBoxX = toolTipBox.getX() + toolTipBox.getWidth();
@@ -185,6 +190,12 @@ public class GameLayout {
         String explanation = GameLogic.describeEnvironment();
         displayMessage(explanation);
     }
+    /**
+     * Describes the message when interacting.
+     *
+     * @throws IOException if there's an error during display.
+     * @author Manindra de Mel
+     */
 
     public static void displayMessage(String s) throws IOException {
         terminal.setCursorPosition(0, GameLogic.tableRows + 1);
